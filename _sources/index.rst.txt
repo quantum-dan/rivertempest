@@ -3,12 +3,28 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to RiverTempest.org's documentation!
+TempEst Modeling
 ============================================
+
+The TempEst (stream TEMPerature ESTimation) models are a suite of river temperature models focused on sites without local monitoring data (ungaged modeling). At one-kilometer resolution, TempEst models provide the fastest available estimates of historical stream temperatures at daily (including mean and maximum) and monthly timesteps. This website includes documentation and references for the TempEst models and related projects. A notable spinoff is libSCHEMA, a Python package which provides a generic implementation of the SCHEMA modeling framework (see TempEst 2 reference) - you provide the model logic, libSCHEMA handles all the computation details (including a Basic Model Interface implementation for use with the NextGen National Water Model Framework).
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   LibSCHEMA <libschema/libschema>
+
+Links and References
+====================
+
+TempEst 1 (monthly temperature estimation): https://github.com/mines-ciroh/tempest1 - Philippus, D., A. Sytsma, A. Rust, and T. S. Hogue. 2024. “A machine learning model for estimating the temperature of small rivers using satellite-based spatial data.” Remote Sensing of Environment, 311: 114271. https://doi.org/10.1016/j.rse.2024.114271.
+
+TempEst 2 (daily temperature estimation): https://github.com/mines-ciroh/tempest2 - Philippus, D., C. R. Corona, K. Schneider, A. Rust, and T. S. Hogue. 2025. “Satellite-based spatial-statistical modeling of daily stream water temperatures at the CONUS scale.” Journal of Hydrology, 661: 133321. https://doi.org/10.1016/j.jhydrol.2025.133321.
+
+LibSCHEMA (generic SCHEMA library): https://pypi.org/project/libschema/ - cite TempEst 2.
+
+Three-sine river temperature seasonality: https://pypi.org/project/rtseason/ - Philippus, D., C. R. Corona, and T. S. Hogue. 2024. “Improved Annual Temperature Cycle Function for Stream Seasonal Thermal Regimes.” Journal of the American Water Resources Association, 60 (6). https://doi.org/10.1111/1752-1688.13228.
+
 
 
 

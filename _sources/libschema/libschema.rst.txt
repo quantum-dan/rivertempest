@@ -1,0 +1,45 @@
+libschema package
+=================
+
+Submodules
+----------
+
+libschema.analysis module
+-------------------------
+
+.. automodule:: libschema.analysis
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+libschema.bmi module
+--------------------
+
+.. automodule:: libschema.bmi
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+libschema.classes module
+------------------------
+
+.. automodule:: libschema.classes
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+libschema.model module
+----------------------
+
+.. automodule:: libschema.model
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: libschema
+   :members:
+   :show-inheritance:
+   :undoc-members:

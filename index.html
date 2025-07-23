@@ -1,31 +1,36 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to RiverTempest.org’s documentation! &#8212; RiverTempest.org 20250723 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    <title>TempEst Modeling &#8212; RiverTempest.org 20250723 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=2bf1fcf8" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <script src="_static/documentation_options.js?v=80ac9ba2"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="libschema package" href="libschema/libschema.html" /> 
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="libschema/libschema.html" title="libschema package"
+             accesskey="N">next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">RiverTempest.org 20250723 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Welcome to RiverTempest.org’s documentation!</a></li> 
+        <li class="nav-item nav-item-this"><a href="">TempEst Modeling</a></li> 
       </ul>
     </div>  
 
@@ -34,13 +39,33 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="welcome-to-rivertempest-org-s-documentation">
-<h1>Welcome to RiverTempest.org’s documentation!<a class="headerlink" href="#welcome-to-rivertempest-org-s-documentation" title="Permalink to this headline">¶</a></h1>
+  <section id="tempest-modeling">
+<h1>TempEst Modeling<a class="headerlink" href="#tempest-modeling" title="Link to this heading">¶</a></h1>
+<p>The TempEst (stream TEMPerature ESTimation) models are a suite of river temperature models focused on sites without local monitoring data (ungaged modeling). At one-kilometer resolution, TempEst models provide the fastest available estimates of historical stream temperatures at daily (including mean and maximum) and monthly timesteps. This website includes documentation and references for the TempEst models and related projects. A notable spinoff is libSCHEMA, a Python package which provides a generic implementation of the SCHEMA modeling framework (see TempEst 2 reference) - you provide the model logic, libSCHEMA handles all the computation details (including a Basic Model Interface implementation for use with the NextGen National Water Model Framework).</p>
 <div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libschema/libschema.html">LibSCHEMA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libschema/libschema.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libschema/libschema.html#module-libschema.analysis">libschema.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libschema/libschema.html#module-libschema.bmi">libschema.bmi module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libschema/libschema.html#module-libschema.classes">libschema.classes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libschema/libschema.html#module-libschema.model">libschema.model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libschema/libschema.html#module-libschema">Module contents</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </section>
+<section id="links-and-references">
+<h1>Links and References<a class="headerlink" href="#links-and-references" title="Link to this heading">¶</a></h1>
+<p>TempEst 1 (monthly temperature estimation): <a class="reference external" href="https://github.com/mines-ciroh/tempest1">https://github.com/mines-ciroh/tempest1</a> - Philippus, D., A. Sytsma, A. Rust, and T. S. Hogue. 2024. “A machine learning model for estimating the temperature of small rivers using satellite-based spatial data.” Remote Sensing of Environment, 311: 114271. <a class="reference external" href="https://doi.org/10.1016/j.rse.2024.114271">https://doi.org/10.1016/j.rse.2024.114271</a>.</p>
+<p>TempEst 2 (daily temperature estimation): <a class="reference external" href="https://github.com/mines-ciroh/tempest2">https://github.com/mines-ciroh/tempest2</a> - Philippus, D., C. R. Corona, K. Schneider, A. Rust, and T. S. Hogue. 2025. “Satellite-based spatial-statistical modeling of daily stream water temperatures at the CONUS scale.” Journal of Hydrology, 661: 133321. <a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.133321">https://doi.org/10.1016/j.jhydrol.2025.133321</a>.</p>
+<p>LibSCHEMA (generic SCHEMA library): <a class="reference external" href="https://pypi.org/project/libschema/">https://pypi.org/project/libschema/</a> - cite TempEst 2.</p>
+<p>Three-sine river temperature seasonality: <a class="reference external" href="https://pypi.org/project/rtseason/">https://pypi.org/project/rtseason/</a> - Philippus, D., C. R. Corona, and T. S. Hogue. 2024. “Improved Annual Temperature Cycle Function for Stream Seasonal Thermal Regimes.” Journal of the American Water Resources Association, 60 (6). <a class="reference external" href="https://doi.org/10.1111/1752-1688.13228">https://doi.org/10.1111/1752-1688.13228</a>.</p>
+</section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
@@ -53,14 +78,22 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to RiverTempest.org’s documentation!</a></li>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TempEst Modeling</a></li>
+<li><a class="reference internal" href="#links-and-references">Links and References</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="libschema/libschema.html"
+                          title="next chapter">libschema package</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -68,7 +101,7 @@
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -76,25 +109,31 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="libschema/libschema.html" title="libschema package"
+             >next</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">RiverTempest.org 20250723 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Welcome to RiverTempest.org’s documentation!</a></li> 
+        <li class="nav-item nav-item-this"><a href="">TempEst Modeling</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2025, Daniel Philippus.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    &#169; Copyright 2025, Daniel Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>

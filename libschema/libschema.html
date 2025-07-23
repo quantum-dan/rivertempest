@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>libschema package &#8212; RiverTempest.org 20250723 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=80ac9ba2"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org 20250723 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">libschema package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="libschema-package">
+<h1>libschema package<a class="headerlink" href="#libschema-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-libschema.analysis">
+<span id="libschema-analysis-module"></span><h2>libschema.analysis module<a class="headerlink" href="#module-libschema.analysis" title="Link to this heading">¶</a></h2>
+<p>Created on Fri Jul 19 14:03:02 2024</p>
+<p>&#64;author: dphilippus</p>
+<p>This file contains analysis helpers.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="libschema.analysis.anomilize">
+<span class="sig-prename descclassname"><span class="pre">libschema.analysis.</span></span><span class="sig-name descname"><span class="pre">anomilize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#libschema.analysis.anomilize" title="Link to this definition">¶</a></dt>
+<dd><p>Convert a timeseries to an anomaly timeseries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – Data to be processed</p></li>
+<li><p><strong>timestep</strong> (<em>str</em>) – Column identifying the main timestep, e.g., date.</p></li>
+<li><p><strong>by</strong> (<em>str</em>) – Column identifying the recurring timestep, e.g., day-of-year.</p></li>
+<li><p><strong>variables</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Columns to analyze.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame indexed on <cite>timestep</cite> and <cite>by</cite>, with <cite>variables</cite> anomalies</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="libschema.analysis.kfold">
+<span class="sig-prename descclassname"><span class="pre">libschema.analysis.</span></span><span class="sig-name descname"><span class="pre">kfold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modbuilder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.analysis.kfold" title="Link to this definition">¶</a></dt>
+<dd><p>Run a k-fold cross-validation over the given data.  If k=1, run leave-one-
+out instead.  Return and save the results.</p>
+<p>This can run over an arbitrary grouping variable, e.g. for regional
+cross-validation.  It’s also designed to cache results for repeated use
+in a validation notebook or similar: if <cite>output</cite> exists and <cite>redo</cite> is False,
+it will just load the previous run from <cite>output</cite> and return that.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dataframe</em>) – Contains id, date, (observed) temperature, any predictor columns, and
+[by] - the grouping variable.  Must not contain a GroupNo column.</p></li>
+<li><p><strong>by</strong> (<em>str</em>) – Name of the grouping variable over which to cross-validate.</p></li>
+<li><p><strong>modbuilder</strong> (<em>function: dataframe -&gt;</em><em> (</em><em>dataframe -&gt; Watershed model</em><em>)</em>) – Function which prepares a coefficient model.  Accepts data, then
+returns a function which itself accepts predictor data and returns a
+prediction data frame.</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – Number of “folds”.  k=1 will cause leave-one-out validation instead.</p></li>
+<li><p><strong>output</strong> (<em>str</em><em>, </em><em>filename</em>) – File name for where to store raw results.</p></li>
+<li><p><strong>redo</strong> (<em>Bool</em>) – If True, will rerun cross-validation regardless of whether it has
+already been done.  If False, will check if results already exist
+and just return those if that is the case.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataframe of raw cross-validation results.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="libschema.analysis.nse">
+<span class="sig-prename descclassname"><span class="pre">libschema.analysis.</span></span><span class="sig-name descname"><span class="pre">nse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.analysis.nse" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="libschema.analysis.perf_summary">
+<span class="sig-prename descclassname"><span class="pre">libschema.analysis.</span></span><span class="sig-name descname"><span class="pre">perf_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs='temperature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod='prediction'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep='date'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period='day'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_timestep=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statlag=1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.analysis.perf_summary" title="Link to this definition">¶</a></dt>
+<dd><p>Summarize the performance of a modeled column in data compared to an
+observed column.</p>
+<dl>
+<dt>Goodness-of-fit metrics computed:</dt><dd><p>R2, coefficient of determination
+RMSE, root mean square error
+NSE, Nash-Sutcliffe Efficiency, with comparison points:</p>
+<blockquote>
+<div><p>StationaryNSE, NSE of “same as N days ago” (using statlag)
+ClimatologyNSE, NSE of “day-of-year mean”
+Note that neither comparison is entirely fair for an ungaged model.</p>
+</div></blockquote>
+<p>AnomalyNSE: NSE of the anomaly component only
+Pbias: percent bias (positive equals overestimation)
+Bias: absolute bias, or mean error (positive equals overestimation)
+MaxMiss: mean absolute error of annual maximum temperature</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas DataFrame</em>) – DataFrame containing the timeseries data to be analyzed.  This should
+just be for the group of interest, e.g. applied to a grouped DF.</p></li>
+<li><p><strong>obs</strong> (<em>str</em>) – Column containing observations.</p></li>
+<li><p><strong>mod</strong> (<em>str</em>) – Column containing predictions.</p></li>
+<li><p><strong>timestep</strong> (<em>str</em>) – Column containing the timestep, e.g., date.</p></li>
+<li><p><strong>period</strong> (<em>str</em>) – Column containing the period, e.g., day-of-year.</p></li>
+<li><p><strong>long_timestep</strong> (<em>function</em>) – Column for extracting a long grouping period (e.g., year) from the data frame.</p></li>
+<li><p><strong>statlag</strong> (<em>integer</em>) – How many days of lag to use for stationary NSE. Useful for evaluating
+forecast lead time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Single-row data frame containing performance statistics.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-libschema.bmi">
+<span id="libschema-bmi-module"></span><h2>libschema.bmi module<a class="headerlink" href="#module-libschema.bmi" title="Link to this heading">¶</a></h2>
+<p>Author: Daniel Philippus
+Date: 2025-02-05</p>
+<p>BMI implementation of SCHEMA.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.bmi.</span></span><span class="sig-name descname"><span class="pre">SchemaBmi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Bmi</span></code></p>
+<p>BMI implementation for SCHEMA.
+Example: <a class="reference external" href="https://github.com/csdms/bmi-example-python/blob/master/heat/bmi_heat.py">https://github.com/csdms/bmi-example-python/blob/master/heat/bmi_heat.py</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.finalize">
+<span class="sig-name descname"><span class="pre">finalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.finalize" title="Link to this definition">¶</a></dt>
+<dd><p>Perform tear-down tasks for the model.</p>
+<p>Perform all tasks that take place after exiting the model’s time
+loop. This typically includes deallocating memory, closing files and
+printing reports.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_component_name">
+<span class="sig-name descname"><span class="pre">get_component_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_component_name" title="Link to this definition">¶</a></dt>
+<dd><p>Name of the component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The name of the component.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_current_time">
+<span class="sig-name descname"><span class="pre">get_current_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_current_time" title="Link to this definition">¶</a></dt>
+<dd><p>Return the current time of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current model time.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_end_time">
+<span class="sig-name descname"><span class="pre">get_end_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_end_time" title="Link to this definition">¶</a></dt>
+<dd><p>End time of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The maximum model time.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_edge_count">
+<span class="sig-name descname"><span class="pre">get_grid_edge_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_edge_count" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of edges in the grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total number of grid edges.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_edge_nodes">
+<span class="sig-name descname"><span class="pre">get_grid_edge_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_edge_nodes" title="Link to this definition">¶</a></dt>
+<dd><p>Get the edge-node connectivity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>edge_nodes</strong> (ndarray of int, shape <em>(2 x nnodes,)</em>) – A numpy array to place the edge-node connectivity. For each edge,
+connectivity is given as node at edge tail, followed by node at
+edge head.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the edge-node connectivity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_face_count">
+<span class="sig-name descname"><span class="pre">get_grid_face_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_face_count" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of faces in the grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total number of grid faces.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_face_edges">
+<span class="sig-name descname"><span class="pre">get_grid_face_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_edges</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_face_edges" title="Link to this definition">¶</a></dt>
+<dd><p>Get the face-edge connectivity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>face_edges</strong> (<em>ndarray</em><em> of </em><em>int</em>) – A numpy array to place the face-edge connectivity.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the face-edge connectivity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_face_nodes">
+<span class="sig-name descname"><span class="pre">get_grid_face_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_face_nodes" title="Link to this definition">¶</a></dt>
+<dd><p>Get the face-node connectivity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>face_nodes</strong> (<em>ndarray</em><em> of </em><em>int</em>) – A numpy array to place the face-node connectivity. For each face,
+the nodes (listed in a counter-clockwise direction) that form the
+boundary of the face.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the face-node connectivity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_node_count">
+<span class="sig-name descname"><span class="pre">get_grid_node_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_node_count" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of nodes in the grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total number of grid nodes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_nodes_per_face">
+<span class="sig-name descname"><span class="pre">get_grid_nodes_per_face</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_per_face</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_nodes_per_face" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of nodes for each face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>nodes_per_face</strong> (ndarray of int, shape <em>(nfaces,)</em>) – A numpy array to place the number of nodes per face.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the number of nodes per face.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_origin">
+<span class="sig-name descname"><span class="pre">get_grid_origin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_origin" title="Link to this definition">¶</a></dt>
+<dd><p>Get coordinates for the lower-left corner of the computational grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>origin</strong> (ndarray of float, shape <em>(ndim,)</em>) – A numpy array to hold the coordinates of the lower-left corner of
+the grid.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the coordinates of the grid’s
+lower-left corner.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_rank">
+<span class="sig-name descname"><span class="pre">get_grid_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_rank" title="Link to this definition">¶</a></dt>
+<dd><p>Get number of dimensions of the computational grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rank of the grid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_shape">
+<span class="sig-name descname"><span class="pre">get_grid_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_shape" title="Link to this definition">¶</a></dt>
+<dd><p>Get dimensions of the computational grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>shape</strong> (ndarray of int, shape <em>(ndim,)</em>) – A numpy array into which to place the shape of the grid.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the grid’s shape.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_size">
+<span class="sig-name descname"><span class="pre">get_grid_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_size" title="Link to this definition">¶</a></dt>
+<dd><p>Get the total number of elements in the computational grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Size of the grid.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_spacing">
+<span class="sig-name descname"><span class="pre">get_grid_spacing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_spacing" title="Link to this definition">¶</a></dt>
+<dd><p>Get distance between nodes of the computational grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>spacing</strong> (ndarray of float, shape <em>(ndim,)</em>) – A numpy array to hold the spacing between grid rows and columns.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the grid’s spacing.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_type">
+<span class="sig-name descname"><span class="pre">get_grid_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_type" title="Link to this definition">¶</a></dt>
+<dd><p>Get the grid type as a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Type of grid as a string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_x">
+<span class="sig-name descname"><span class="pre">get_grid_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_x" title="Link to this definition">¶</a></dt>
+<dd><p>Get coordinates of grid nodes in the x direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>x</strong> (ndarray of float, shape <em>(nrows,)</em>) – A numpy array to hold the x-coordinates of the grid node columns.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the grid’s column x-coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_y">
+<span class="sig-name descname"><span class="pre">get_grid_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_y" title="Link to this definition">¶</a></dt>
+<dd><p>Get coordinates of grid nodes in the y direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>y</strong> (ndarray of float, shape <em>(ncols,)</em>) – A numpy array to hold the y-coordinates of the grid node rows.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the grid’s row y-coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_grid_z">
+<span class="sig-name descname"><span class="pre">get_grid_z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_grid_z" title="Link to this definition">¶</a></dt>
+<dd><p>Get coordinates of grid nodes in the z direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>int</em>) – A grid identifier.</p></li>
+<li><p><strong>z</strong> (ndarray of float, shape <em>(nlayers,)</em>) – A numpy array to hold the z-coordinates of the grid nodes layers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input numpy array that holds the grid’s layer z-coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_input_item_count">
+<span class="sig-name descname"><span class="pre">get_input_item_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_input_item_count" title="Link to this definition">¶</a></dt>
+<dd><p>Count of a model’s input variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of input variables.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_input_var_names">
+<span class="sig-name descname"><span class="pre">get_input_var_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_input_var_names" title="Link to this definition">¶</a></dt>
+<dd><p>List of a model’s input variables.</p>
+<p>Input variable names must be CSDMS Standard Names, also known
+as <em>long variable names</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The input variables for the model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Standard Names enable the CSDMS framework to determine whether
+an input variable in one model is equivalent to, or compatible
+with, an output variable in another model. This allows the
+framework to automatically connect components.</p>
+<p>Standard Names do not have to be used within the model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_output_item_count">
+<span class="sig-name descname"><span class="pre">get_output_item_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_output_item_count" title="Link to this definition">¶</a></dt>
+<dd><p>Count of a model’s output variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of output variables.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_output_var_names">
+<span class="sig-name descname"><span class="pre">get_output_var_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_output_var_names" title="Link to this definition">¶</a></dt>
+<dd><p>List of a model’s output variables.</p>
+<p>Output variable names must be CSDMS Standard Names, also known
+as <em>long variable names</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The output variables for the model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_start_time">
+<span class="sig-name descname"><span class="pre">get_start_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_start_time" title="Link to this definition">¶</a></dt>
+<dd><p>Start time of the model.</p>
+<p>Model times should be of type float.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The model start time.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_time_step">
+<span class="sig-name descname"><span class="pre">get_time_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_time_step" title="Link to this definition">¶</a></dt>
+<dd><p>Return the current time step of the model.</p>
+<p>The model time step should be of type float.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The time step used in model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_time_units">
+<span class="sig-name descname"><span class="pre">get_time_units</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_time_units" title="Link to this definition">¶</a></dt>
+<dd><p>Time units of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The model time unit; e.g., <cite>days</cite> or <cite>s</cite>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>CSDMS uses the UDUNITS standard from Unidata.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_value" title="Link to this definition">¶</a></dt>
+<dd><p>Get a copy of values of the given variable.</p>
+<p>This is a getter for the model, used to access the model’s
+current state. It returns a <em>copy</em> of a model variable, with
+the return type, size and rank dependent on the variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p></li>
+<li><p><strong>dest</strong> (<em>ndarray</em>) – A numpy array into which to place the values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same numpy array that was passed as an input buffer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_value_at_indices">
+<span class="sig-name descname"><span class="pre">get_value_at_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_value_at_indices" title="Link to this definition">¶</a></dt>
+<dd><p>Get values at particular indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p></li>
+<li><p><strong>dest</strong> (<em>ndarray</em>) – A numpy array into which to place the values.</p></li>
+<li><p><strong>inds</strong> (<em>array_like</em>) – The indices into the variable array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Value of the model variable at the given location.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_value_ptr">
+<span class="sig-name descname"><span class="pre">get_value_ptr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_value_ptr" title="Link to this definition">¶</a></dt>
+<dd><p>Get a reference to values of the given variable.</p>
+<p>This is a getter for the model, used to access the model’s
+current state. It returns a reference to a model variable,
+with the return type, size and rank dependent on the variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A reference to a model variable.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_var_grid">
+<span class="sig-name descname"><span class="pre">get_var_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_var_grid" title="Link to this definition">¶</a></dt>
+<dd><p>Get grid identifier for the given variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The grid identifier.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_var_itemsize">
+<span class="sig-name descname"><span class="pre">get_var_itemsize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_var_itemsize" title="Link to this definition">¶</a></dt>
+<dd><p>Get memory use for each array element in bytes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Item size in bytes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_var_location">
+<span class="sig-name descname"><span class="pre">get_var_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_var_location" title="Link to this definition">¶</a></dt>
+<dd><p>Get the grid element type that the a given variable is defined on.</p>
+<p>The grid topology can be composed of <em>nodes</em>, <em>edges</em>, and <em>faces</em>.</p>
+<dl class="simple">
+<dt><em>node</em></dt><dd><p>A point that has a coordinate pair or triplet: the most
+basic element of the topology.</p>
+</dd>
+<dt><em>edge</em></dt><dd><p>A line or curve bounded by two <em>nodes</em>.</p>
+</dd>
+<dt><em>face</em></dt><dd><p>A plane or surface enclosed by a set of edges. In a 2D
+horizontal application one may consider the word “polygon”,
+but in the hierarchy of elements the word “face” is most common.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The grid location on which the variable is defined. Must be one of
+<cite>“node”</cite>, <cite>“edge”</cite>, or <cite>“face”</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>CSDMS uses the <a class="reference external" href="http://ugrid-conventions.github.io/ugrid-conventions">ugrid conventions</a> to define unstructured grids.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_var_nbytes">
+<span class="sig-name descname"><span class="pre">get_var_nbytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_var_nbytes" title="Link to this definition">¶</a></dt>
+<dd><p>Get size, in bytes, of the given variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The size of the variable, counted in bytes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_var_type">
+<span class="sig-name descname"><span class="pre">get_var_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_var_type" title="Link to this definition">¶</a></dt>
+<dd><p>Get data type of the given variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Python variable type; e.g., <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.get_var_units">
+<span class="sig-name descname"><span class="pre">get_var_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.get_var_units" title="Link to this definition">¶</a></dt>
+<dd><p>Get units of the given variable.</p>
+<p>Standard unit names, in lower case, should be used, such as
+<code class="docutils literal notranslate"><span class="pre">meters</span></code> or <code class="docutils literal notranslate"><span class="pre">seconds</span></code>. Standard abbreviations, like <code class="docutils literal notranslate"><span class="pre">m</span></code> for
+meters, are also supported. For variables with compound units,
+each unit name is separated by a single space, with exponents
+other than 1 placed immediately after the name, as in <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">s-1</span></code>
+for velocity, <code class="docutils literal notranslate"><span class="pre">W</span> <span class="pre">m-2</span></code> for an energy flux, or <code class="docutils literal notranslate"><span class="pre">km2</span></code> for an
+area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The variable units.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>CSDMS uses the <a class="reference external" href="http://www.unidata.ucar.edu/software/udunits">UDUNITS</a> standard from Unidata.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.initialize" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the model.  Filename points to input file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.set_value">
+<span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.set_value" title="Link to this definition">¶</a></dt>
+<dd><p>Specify a new value for a model variable.</p>
+<p>This is the setter for the model, used to change the model’s
+current state. It accepts, through <em>src</em>, a new value for a
+model variable, with the type, size and rank of <em>src</em>
+dependent on the variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p></li>
+<li><p><strong>src</strong> (<em>array_like</em>) – The new value for the specified variable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.set_value_at_indices">
+<span class="sig-name descname"><span class="pre">set_value_at_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.set_value_at_indices" title="Link to this definition">¶</a></dt>
+<dd><p>Specify a new value for a model variable at particular indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – An input or output variable name, a CSDMS Standard Name.</p></li>
+<li><p><strong>inds</strong> (<em>array_like</em>) – The indices into the variable array.</p></li>
+<li><p><strong>src</strong> (<em>array_like</em>) – The new value for the specified variable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.update" title="Link to this definition">¶</a></dt>
+<dd><p>Advance model state by one time step.</p>
+<p>Perform all tasks that take place within one pass through the model’s
+time loop. This typically includes incrementing all of the model’s
+state variables. If the model’s state variables don’t change in time,
+then they can be computed by the <a class="reference internal" href="#libschema.bmi.SchemaBmi.initialize" title="libschema.bmi.SchemaBmi.initialize"><code class="xref py py-func docutils literal notranslate"><span class="pre">initialize()</span></code></a> method and this
+method can return with no action.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.bmi.SchemaBmi.update_until">
+<span class="sig-name descname"><span class="pre">update_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi.update_until" title="Link to this definition">¶</a></dt>
+<dd><p>Advance model state until the given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – A model time later than the current model time.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-libschema.classes">
+<span id="libschema-classes-module"></span><h2>libschema.classes module<a class="headerlink" href="#module-libschema.classes" title="Link to this heading">¶</a></h2>
+<p>This file defines key classes for libSCHEMA.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="libschema.classes.Anomaly">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">Anomaly</span></span><a class="headerlink" href="#libschema.classes.Anomaly" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Anomaly.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periodic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Anomaly.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Anomaly.apply_vec">
+<span class="sig-name descname"><span class="pre">apply_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periodic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Anomaly.apply_vec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Anomaly.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Anomaly.from_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Anomaly.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Anomaly.to_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="libschema.classes.ModEngine">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">ModEngine</span></span><a class="headerlink" href="#libschema.classes.ModEngine" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.ModEngine.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seasonality</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.ModEngine.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.ModEngine.coefficients">
+<span class="sig-name descname"><span class="pre">coefficients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.ModEngine.coefficients" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.ModEngine.from_data">
+<span class="sig-name descname"><span class="pre">from_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.ModEngine.from_data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.ModEngine.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.ModEngine.from_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.ModEngine.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.ModEngine.to_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="libschema.classes.Seasonality">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">Seasonality</span></span><a class="headerlink" href="#libschema.classes.Seasonality" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Seasonality.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Seasonality.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Seasonality.apply_vec">
+<span class="sig-name descname"><span class="pre">apply_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Seasonality.apply_vec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Seasonality.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Seasonality.from_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.classes.Seasonality.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.classes.Seasonality.to_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-libschema.model">
+<span id="libschema-model-module"></span><h2>libschema.model module<a class="headerlink" href="#module-libschema.model" title="Link to this heading">¶</a></h2>
+<p>Author: Daniel Philippus
+Date: 2025-02-05</p>
+<p>This file implements the core SCHEMA model class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.model.</span></span><span class="sig-name descname"><span class="pre">SCHEMA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seasonality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libschema.classes.Seasonality" title="libschema.classes.Seasonality"><span class="pre">Seasonality</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libschema.classes.Anomaly" title="libschema.classes.Anomaly"><span class="pre">Anomaly</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><span class="pre">ModEngine</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.from_data">
+<span class="sig-name descname"><span class="pre">from_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.from_data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.from_file">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.from_file" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.get_history">
+<span class="sig-name descname"><span class="pre">get_history</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#libschema.model.SCHEMA.get_history" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.initialize_run">
+<span class="sig-name descname"><span class="pre">initialize_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.initialize_run" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.log">
+<span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.log" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.run_series">
+<span class="sig-name descname"><span class="pre">run_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.run_series" title="Link to this definition">¶</a></dt>
+<dd><p>Run a full timeseries at once if modification engines are not present.
+Otherwise, reverts to run_series_incremental.
+Period_col specifies a period column if one exists.
+Returns the predicted array (if context=False) or the data with an added prediction
+column (if context=True).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.run_series_incremental">
+<span class="sig-name descname"><span class="pre">run_series_incremental</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.run_series_incremental" title="Link to this definition">¶</a></dt>
+<dd><p>Run a full timeseries at once, but internally use the stepwise approach.
+This is useful if modification engines are in use.
+Period specifies a period column if one exists.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.run_step">
+<span class="sig-name descname"><span class="pre">run_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.run_step" title="Link to this definition">¶</a></dt>
+<dd><p>Run a single step, incrementally.  Updates history and returns
+today’s prediction.</p>
+<p>inputs is a dictionary of the required inputs, unless they have been
+specified by setting values.</p>
+<p>period can be used to change the current period (e.g., skipping a few days).
+Otherwise, it increments by 1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.set_val">
+<span class="sig-name descname"><span class="pre">set_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bmiroll</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.set_val" title="Link to this definition">¶</a></dt>
+<dd><p>BMI set-value functionality. You may wish to implement custom functionality
+here, e.g., to handle specific variables differently.</p>
+<p>bmiroll allows for mismatched timesteps, such as running a daily-resolution
+model in an hourly NextGen setup. The BMI implementation can pass an
+array of values which can be handled as a single mean value here.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.to_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.to_file">
+<span class="sig-name descname"><span class="pre">to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.to_file" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="libschema.model.SCHEMA.trigger_engine">
+<span class="sig-name descname"><span class="pre">trigger_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><span class="pre">ModEngine</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.trigger_engine" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-libschema">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-libschema" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">libschema package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-libschema.analysis">libschema.analysis module</a><ul>
+<li><a class="reference internal" href="#libschema.analysis.anomilize"><code class="docutils literal notranslate"><span class="pre">anomilize()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.analysis.kfold"><code class="docutils literal notranslate"><span class="pre">kfold()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.analysis.nse"><code class="docutils literal notranslate"><span class="pre">nse()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.analysis.perf_summary"><code class="docutils literal notranslate"><span class="pre">perf_summary()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-libschema.bmi">libschema.bmi module</a><ul>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi"><code class="docutils literal notranslate"><span class="pre">SchemaBmi</span></code></a><ul>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.finalize"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.finalize()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_component_name"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_component_name()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_current_time"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_current_time()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_end_time"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_end_time()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_edge_count"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_edge_count()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_edge_nodes"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_edge_nodes()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_face_count"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_face_count()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_face_edges"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_face_edges()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_face_nodes"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_face_nodes()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_node_count"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_node_count()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_nodes_per_face"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_nodes_per_face()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_origin"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_origin()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_rank"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_rank()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_shape"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_shape()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_size"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_size()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_spacing"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_spacing()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_type"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_type()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_x"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_x()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_y"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_y()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_grid_z"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_grid_z()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_input_item_count"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_input_item_count()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_input_var_names"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_input_var_names()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_output_item_count"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_output_item_count()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_output_var_names"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_output_var_names()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_start_time"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_start_time()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_time_step"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_time_step()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_time_units"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_time_units()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_value"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_value()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_value_at_indices"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_value_at_indices()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_value_ptr"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_value_ptr()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_var_grid"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_var_grid()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_var_itemsize"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_var_itemsize()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_var_location"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_var_location()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_var_nbytes"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_var_nbytes()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_var_type"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_var_type()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.get_var_units"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.get_var_units()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.initialize"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.initialize()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.set_value"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.set_value()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.set_value_at_indices"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.set_value_at_indices()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.update"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.update()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.bmi.SchemaBmi.update_until"><code class="docutils literal notranslate"><span class="pre">SchemaBmi.update_until()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-libschema.classes">libschema.classes module</a><ul>
+<li><a class="reference internal" href="#libschema.classes.Anomaly"><code class="docutils literal notranslate"><span class="pre">Anomaly</span></code></a><ul>
+<li><a class="reference internal" href="#libschema.classes.Anomaly.apply"><code class="docutils literal notranslate"><span class="pre">Anomaly.apply()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.Anomaly.apply_vec"><code class="docutils literal notranslate"><span class="pre">Anomaly.apply_vec()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.Anomaly.from_dict"><code class="docutils literal notranslate"><span class="pre">Anomaly.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.Anomaly.to_dict"><code class="docutils literal notranslate"><span class="pre">Anomaly.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#libschema.classes.ModEngine"><code class="docutils literal notranslate"><span class="pre">ModEngine</span></code></a><ul>
+<li><a class="reference internal" href="#libschema.classes.ModEngine.apply"><code class="docutils literal notranslate"><span class="pre">ModEngine.apply()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.ModEngine.coefficients"><code class="docutils literal notranslate"><span class="pre">ModEngine.coefficients()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.ModEngine.from_data"><code class="docutils literal notranslate"><span class="pre">ModEngine.from_data()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.ModEngine.from_dict"><code class="docutils literal notranslate"><span class="pre">ModEngine.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.ModEngine.to_dict"><code class="docutils literal notranslate"><span class="pre">ModEngine.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#libschema.classes.Seasonality"><code class="docutils literal notranslate"><span class="pre">Seasonality</span></code></a><ul>
+<li><a class="reference internal" href="#libschema.classes.Seasonality.apply"><code class="docutils literal notranslate"><span class="pre">Seasonality.apply()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.Seasonality.apply_vec"><code class="docutils literal notranslate"><span class="pre">Seasonality.apply_vec()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.Seasonality.from_dict"><code class="docutils literal notranslate"><span class="pre">Seasonality.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.classes.Seasonality.to_dict"><code class="docutils literal notranslate"><span class="pre">Seasonality.to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-libschema.model">libschema.model module</a><ul>
+<li><a class="reference internal" href="#libschema.model.SCHEMA"><code class="docutils literal notranslate"><span class="pre">SCHEMA</span></code></a><ul>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.from_data"><code class="docutils literal notranslate"><span class="pre">SCHEMA.from_data()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.from_file"><code class="docutils literal notranslate"><span class="pre">SCHEMA.from_file()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.get_history"><code class="docutils literal notranslate"><span class="pre">SCHEMA.get_history()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.initialize_run"><code class="docutils literal notranslate"><span class="pre">SCHEMA.initialize_run()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.log"><code class="docutils literal notranslate"><span class="pre">SCHEMA.log()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.run_series"><code class="docutils literal notranslate"><span class="pre">SCHEMA.run_series()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.run_series_incremental"><code class="docutils literal notranslate"><span class="pre">SCHEMA.run_series_incremental()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.run_step"><code class="docutils literal notranslate"><span class="pre">SCHEMA.run_step()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.set_val"><code class="docutils literal notranslate"><span class="pre">SCHEMA.set_val()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.to_dict"><code class="docutils literal notranslate"><span class="pre">SCHEMA.to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.to_file"><code class="docutils literal notranslate"><span class="pre">SCHEMA.to_file()</span></code></a></li>
+<li><a class="reference internal" href="#libschema.model.SCHEMA.trigger_engine"><code class="docutils literal notranslate"><span class="pre">SCHEMA.trigger_engine()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-libschema">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/libschema/libschema.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org 20250723 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">libschema package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>
