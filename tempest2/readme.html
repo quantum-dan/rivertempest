@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TempEst2 &#8212; RiverTempest.org  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="libSCHEMA" href="../libschema/readme.html" />
+    <link rel="prev" title="TempEst 1" href="../tempest1/readme.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../libschema/readme.html" title="libSCHEMA"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../tempest1/readme.html" title="TempEst 1"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst2</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tempest2">
+<h1>TempEst2<a class="headerlink" href="#tempest2" title="Link to this heading">¶</a></h1>
+<p>TempEst 2/SCHEMA is “TEMPerature ESTimation, version 2, using Seasonal
+Conditions Historical Estimation with Modeled daily Anomaly”. It
+estimates stream water temperature at a point, for streams of any size,
+using a data-driven model based on satellite remote sensing data.</p>
+<p>This repository contains the model source code (<code class="docutils literal notranslate"><span class="pre">model.R</span></code>), Google
+Earth Engine data retrieval script (<code class="docutils literal notranslate"><span class="pre">eeretrieval.py</span></code>) and example data
+collection points (<code class="docutils literal notranslate"><span class="pre">datapts.py</span></code>), and R Notebooks demonstrating model
+usage (<code class="docutils literal notranslate"><span class="pre">demo.Rmd</span></code>) and a large set of model performance tests
+(<code class="docutils literal notranslate"><span class="pre">validation.Rmd</span></code>), used to make the performance claims reproducible.
+In addition, the HydroShare data (see below) includes knitted output of
+both Notebooks (<code class="docutils literal notranslate"><span class="pre">demo.pdf</span></code>, <code class="docutils literal notranslate"><span class="pre">validation.pdf</span></code>) and the full
+training/testing dataset (<code class="docutils literal notranslate"><span class="pre">AllData.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">ExtData.csv</span></code> including
+maximum temperatures).</p>
+<p>In addition to the GEE data retrieval script, there is a utility script
+in Python, <code class="docutils literal notranslate"><span class="pre">points_above.py</span></code>, for generating lists of coordinates in
+the correct format, evenly-spaced above given target site(s) - this is
+useful for quickly generating study points over rivers of interest.</p>
+<section id="quick-guide">
+<h2>Quick Guide<a class="headerlink" href="#quick-guide" title="Link to this heading">¶</a></h2>
+<p>Dependencies in R: <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code>, <code class="docutils literal notranslate"><span class="pre">fields</span></code>. Additional dependencies
+for Google Earth Engine data retrieval: Python with the GEE API
+configured.</p>
+<section id="using-a-trained-model">
+<h3>Using a Trained Model<a class="headerlink" href="#using-a-trained-model" title="Link to this heading">¶</a></h3>
+<p>A pre-trained model is available in Releases as <code class="docutils literal notranslate"><span class="pre">model.rda</span></code>.
+<code class="docutils literal notranslate"><span class="pre">load(&quot;model.rda&quot;)</span></code> will load a function called <code class="docutils literal notranslate"><span class="pre">model</span></code>. The
+argument to <code class="docutils literal notranslate"><span class="pre">model</span></code> is a data frame with columns:</p>
+<ul class="simple">
+<li><p>id (site ID; character)</p></li>
+<li><p>lon (longitude; decimal degrees East)</p></li>
+<li><p>lat (latitude; decimal degrees North)</p></li>
+<li><p>day (Julian day; integer)</p></li>
+<li><p>date (as an R Date)</p></li>
+<li><p>elevation (mean in a 500-m radius about point of interest; meters)</p></li>
+<li><p>water, shrubland, grassland, barren (land cover, abundance in a 500-m
+radius about point of interest; unitless, m2/m2)</p></li>
+<li><p>lst (land surface temperature, daily daytime mean in a 500-m radius
+about point of interest; Celsius)</p></li>
+<li><p>humidity (specific humidity, daily mean in a 500-m radius about point
+of interest; unitless, kg/kg)</p></li>
+</ul>
+<p>Using this data frame as the argument to <code class="docutils literal notranslate"><span class="pre">model</span></code>, the function will
+return the same data frame with three or five new columns:</p>
+<ul class="simple">
+<li><p>temp.mod (modeled daily mean temperature; Celsius)</p></li>
+<li><p>temp.doy (modeled day-of-year mean temperature; Celsius)</p></li>
+<li><p>temp.anom (modeled temperature anomaly relative to day-of-year mean;
+Celsius)</p></li>
+<li><p>temp.plus (modeled maximum temperature relative to day-of-year mean;
+Celsius)</p></li>
+<li><p>temp.max (modeled maximum daily temperature; Celsius)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">temp.mod</span></code> = <code class="docutils literal notranslate"><span class="pre">temp.doy</span></code> + <code class="docutils literal notranslate"><span class="pre">temp.anom</span></code>.</p>
+<p>These three (five) columns are the final output, and can be used to
+assess actual estimated temperature (<code class="docutils literal notranslate"><span class="pre">temp.mod</span></code>); typical seasonal
+conditions (<code class="docutils literal notranslate"><span class="pre">temp.doy</span></code>), such as to assess general long-term behavior;
+and departure from typical seasonal conditions (<code class="docutils literal notranslate"><span class="pre">temp.anom</span></code>), such as
+to assess heat waves or other extremes.</p>
+</section>
+<section id="retrieving-prediction-data">
+<h3>Retrieving Prediction Data<a class="headerlink" href="#retrieving-prediction-data" title="Link to this heading">¶</a></h3>
+<p>Suitable prediction data can be retrieved in any way, but a script for
+retrieving the data from Google Earth Engine is included. In
+<code class="docutils literal notranslate"><span class="pre">eeretrieval.py</span></code>, the function <code class="docutils literal notranslate"><span class="pre">getAllTimeseries</span></code> will retrieve data
+for specified points and dates to Google Drive. Points are specified
+according to the example format in <code class="docutils literal notranslate"><span class="pre">datapts.py</span></code>: a list of
+<code class="docutils literal notranslate"><span class="pre">[[[longitude,</span> <span class="pre">latitude],</span> <span class="pre">&quot;point</span> <span class="pre">id&quot;],</span> <span class="pre">...]</span></code>.</p>
+</section>
+<section id="generating-evenly-spaced-points">
+<h3>Generating Evenly-Spaced Points<a class="headerlink" href="#generating-evenly-spaced-points" title="Link to this heading">¶</a></h3>
+<p>You’ll need a list of points of interest (USGS gage IDs, COMIDs, or
+coordinates - all in the same format), your desired maximum number of
+points per river, and a corresponding list of base IDs (and can
+optionally specify the resolution; the default is 1,000).</p>
+<p>ID format:</p>
+<ul class="simple">
+<li><p>USGS gage: <code class="docutils literal notranslate"><span class="pre">&quot;USGS-&lt;ID&gt;&quot;</span></code> with <code class="docutils literal notranslate"><span class="pre">site_type=&quot;usgs&quot;</span></code></p></li>
+<li><p>COMID: just the COMID string with <code class="docutils literal notranslate"><span class="pre">site_type=&quot;comid&quot;</span></code></p></li>
+<li><p>Coordinates: (lon, lat) in decimal degrees with
+<code class="docutils literal notranslate"><span class="pre">site_type=&quot;coordinates&quot;</span></code></p></li>
+</ul>
+<p>Then, just run
+<code class="docutils literal notranslate"><span class="pre">points_above.points_above_all([&lt;site</span> <span class="pre">ids&gt;],</span> <span class="pre">&lt;site</span> <span class="pre">type&gt;,</span> <span class="pre">&lt;max</span> <span class="pre">points</span> <span class="pre">per</span> <span class="pre">river&gt;,</span> <span class="pre">&lt;resolution&gt;,</span> <span class="pre">[&lt;base</span> <span class="pre">ids&gt;])</span></code>
+to get a list in the suitable format.</p>
+<p>Example for Clear Creek and Sagehen Creek:</p>
+<p><code class="docutils literal notranslate"><span class="pre">points_above_all([&quot;USGS-10343500&quot;,</span> <span class="pre">&quot;USGS-06719505&quot;],</span> <span class="pre">&quot;usgs&quot;,</span> <span class="pre">50,</span> <span class="pre">1000,</span> <span class="pre">[&quot;Sagehen&quot;,</span> <span class="pre">&quot;ClearCreek&quot;])</span></code></p>
+</section>
+<section id="training-a-model">
+<h3>Training a Model<a class="headerlink" href="#training-a-model" title="Link to this heading">¶</a></h3>
+<p>Using all default options, <code class="docutils literal notranslate"><span class="pre">full.schema()</span></code> returns a function for
+training a model. This function’s argument is a data frame similar to
+above, but with one additional column: <code class="docutils literal notranslate"><span class="pre">temperature</span></code>, the observed
+temperature (daily mean, Celsius) for training.
+<code class="docutils literal notranslate"><span class="pre">full.schema()(training</span> <span class="pre">data)</span></code> then returns a function like <code class="docutils literal notranslate"><span class="pre">model</span></code>
+above. A typical approach to model training is for <code class="docutils literal notranslate"><span class="pre">id</span></code> to be set to
+training ga(u)ge IDs, such as the USGS stream temperature gage network,
+so that spatial observations can readily be linked to observed
+temperatures. Prediction data and observations are retrieved
+independently of the training observations, but an example for USGS
+gages is included in <code class="docutils literal notranslate"><span class="pre">demo.Rmd</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">full.schema</span></code> provides some additional options.</p>
+<p>First, by default the model is trained with the two kriging models
+included, but the <code class="docutils literal notranslate"><span class="pre">full.schema</span></code> function itself is a generic framework
+for linking a seasonality (<code class="docutils literal notranslate"><span class="pre">sche</span></code>) and anomaly (<code class="docutils literal notranslate"><span class="pre">ma</span></code>) component, and
+these can be specified separately, e.g. to test a different approach
+without changing any of the infrastructure.</p>
+<p>The third argument to <code class="docutils literal notranslate"><span class="pre">full.schema</span></code> is <code class="docutils literal notranslate"><span class="pre">rtn.model</span></code>, which is
+<code class="docutils literal notranslate"><span class="pre">FALSE</span></code> by default. If it is set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, then, instead of
+returning a prediction function,
+<code class="docutils literal notranslate"><span class="pre">full.schema(rtn.model=TRUE)(training</span> <span class="pre">data)</span></code> will return a list of
+model components. This is useful to examine model behaviors directly,
+such as extracting coefficients from the kriging models. This is shown
+in <code class="docutils literal notranslate"><span class="pre">demo.Rmd</span></code>.</p>
+<p>If the fourth argument to <code class="docutils literal notranslate"><span class="pre">full.schema</span></code>, <code class="docutils literal notranslate"><span class="pre">use.max</span></code>, is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>
+(default <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>), then the model will be trained to predict both mean
+and maximum temperature, requiring a <code class="docutils literal notranslate"><span class="pre">temperature.max</span></code> column in the
+training data.</p>
+</section>
+</section>
+<section id="citation-and-more-information">
+<h2>Citation and More Information<a class="headerlink" href="#citation-and-more-information" title="Link to this heading">¶</a></h2>
+<p>If you use this model in your research, please cite Philippus, Corona,
+Schneider, Rust, and Hogue, (2025), “Satellite-Based Spatial-Statistical
+Modeling of Daily Stream Water Temperatures at the CONUS Scale”, Journal
+of Hydrology, <a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.133321">https://doi.org/10.1016/j.jhydrol.2025.133321</a>. This paper
+also contains a detailed description of model design and performance
+characteristics.</p>
+<p>The seasonality component is based on the “three-sine” stream annual
+temperature cycle function described in: Philippus, Corona, and Hogue,
+(2024), “Improved annual temperature cycle function for stream seasonal
+thermal regimes”, JAWRA, <a class="reference external" href="https://doi.org/10.1111/1752-1688.13228">https://doi.org/10.1111/1752-1688.13228</a>.</p>
+<p>Full training datasets, pre-trained models, and a knitted model
+validation notebook PDF are available in CUAHSI HydroShare:
+<a class="reference external" href="https://doi.org/10.4211/hs.a8b243957f7946e388d10ab206990675">https://doi.org/10.4211/hs.a8b243957f7946e388d10ab206990675</a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TempEst2</a><ul>
+<li><a class="reference internal" href="#quick-guide">Quick Guide</a><ul>
+<li><a class="reference internal" href="#using-a-trained-model">Using a Trained Model</a></li>
+<li><a class="reference internal" href="#retrieving-prediction-data">Retrieving Prediction Data</a></li>
+<li><a class="reference internal" href="#generating-evenly-spaced-points">Generating Evenly-Spaced Points</a></li>
+<li><a class="reference internal" href="#training-a-model">Training a Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#citation-and-more-information">Citation and More Information</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../tempest1/readme.html"
+                          title="previous chapter">TempEst 1</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../libschema/readme.html"
+                          title="next chapter">libSCHEMA</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tempest2/readme.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../libschema/readme.html" title="libSCHEMA"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../tempest1/readme.html" title="TempEst 1"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst2</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

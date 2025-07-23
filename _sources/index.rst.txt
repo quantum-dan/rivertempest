@@ -8,11 +8,16 @@ TempEst Modeling
 
 The TempEst (stream TEMPerature ESTimation) models are a suite of river temperature models focused on sites without local monitoring data (ungaged modeling). At one-kilometer resolution, TempEst models provide the fastest available estimates of historical stream temperatures at daily (including mean and maximum) and monthly timesteps. This website includes documentation and references for the TempEst models and related projects. A notable spinoff is libSCHEMA, a Python package which provides a generic implementation of the SCHEMA modeling framework (see TempEst 2 reference) - you provide the model logic, libSCHEMA handles all the computation details (including a Basic Model Interface implementation for use with the NextGen National Water Model Framework).
 
+If you use TempEst models, software, or data in your research, please cite the appropriate reference, listed `below <#links-and-references>`__. All TempEst software is available under the terms of the GNU General Public License v3, meaning that you are free to use, modify, and redistribute the software with appropriate attribution and so long as any derivative software is made open-source under the same terms.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   LibSCHEMA <libschema/libschema>
+   TempEst 1 Overview <tempest1/readme>
+   TempEst 2 Overview <tempest2/readme>
+   LibSCHEMA Overview <libschema/readme>
+   LibSCHEMA Reference <libschema/libschema>
 
 Links and References
 ====================

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>libSCHEMA &#8212; RiverTempest.org  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="libschema package" href="libschema.html" />
+    <link rel="prev" title="TempEst2" href="../tempest2/readme.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="libschema.html" title="libschema package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2/readme.html" title="TempEst2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">libSCHEMA</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="libschema">
+<h1>libSCHEMA<a class="headerlink" href="#libschema" title="Link to this heading">¶</a></h1>
+<p>Generic Python implementation of the SCHEMA modeling framework with
+built-in BMI/ngen support.</p>
+<p>The SCHEMA (Seasonal Conditions Historical Expectation with Modeled
+Anomaly) framework for hydrologic models, a generalization of stochastic
+modeling, was introduced in TempEst 2 (Philippus et al. 2025) for the
+TempEst family of ungauged stream temperature models, but it is
+applicable to a wide range of models. This provides the opportunity to
+(1) avoid a lot of boilerplate code and (2) provide a ready-to-go
+<a class="reference external" href="https://www.weather.gov/media/owp/oh/docs/2021-OWP-NWM-NextGen-Framework.pdf">NextGen</a>-compatible
+<a class="reference external" href="https://joss.theoj.org/papers/10.21105/joss.02317">Basic Model
+Interface</a> (BMI)
+implementation, easing the development process for future models. Much
+of the SCHEMA logic is totally model-agnostic, so that portion of the
+code can be pre-written.</p>
+<p>For that reason, this is a model-agnostic Python implementation of
+SCHEMA, which specifies a general framework as well as providing
+whatever functionality doesn’t depend on model specifics. All you have
+to do for a specific implementation is define a few functions computing
+seasonality and anomaly, as well as coefficient estimation if your
+purpose is ungaged modeling.</p>
+<p>Note: in Python, it is libschema (<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">libschema</span></code>), not libSCHEMA.
+Easier to type.</p>
+<p><a class="reference external" href="https://mines-ciroh.github.io/libSCHEMA/">Documentation Website</a></p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">libschema</span></code>.</p>
+<p>An API reference is included in <code class="docutils literal notranslate"><span class="pre">api_ref.txt</span></code>, and the test
+<code class="docutils literal notranslate"><span class="pre">tests/full_model.py</span></code> serves as an example of a simple implementation.
+Some key information:</p>
+<ul class="simple">
+<li><p>The core SCHEMA implementation is <code class="docutils literal notranslate"><span class="pre">libschema.SCHEMA</span></code> (from
+<code class="docutils literal notranslate"><span class="pre">model.py</span></code>). You can directly use the SCHEMA class to implement
+models, specifying seasonality and anomaly classes and the other
+required inputs. You can also extend it to add new functionality,
+such as automatically fitting a model from data. In the full-model
+test, the actual model implementation is two simple class definitions
+(26 lines of code) and the SCHEMA initialization. This provides a
+model that handles configuration files, stepwise or full-timeseries
+model execution, etc.</p></li>
+<li><p>Templates for Anomaly, Seasonality, and ModEngine (coefficient
+modification engine) classes are in <code class="docutils literal notranslate"><span class="pre">classes.py</span></code>.</p></li>
+<li><p>The Basic Model Interface implementation for NextGen is
+<code class="docutils literal notranslate"><span class="pre">libschema.SchemaBmi</span></code>, from <code class="docutils literal notranslate"><span class="pre">bmi.py</span></code>. This should work out of the
+box, with the user just providing some metadata and a SCHEMA config
+file. I have not tested it yet, but it is derived from a known
+working implementation.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">analysis</span></code> submodule provides some helper functions for
+cross-validation and goodness-of-fit metrics.</p></li>
+</ul>
+<p>LibSCHEMA is free and open-source software and may be used, modified,
+redistributed, etc so long as any software built upon it is also
+open-source under the GNU General Public License v3. If you use
+LibSCHEMA in your research, please cite Philippus et al. 2025.</p>
+</section>
+<section id="general-concept">
+<h2>General Concept<a class="headerlink" href="#general-concept" title="Link to this heading">¶</a></h2>
+<p>A SCHEMA model has three basic components: coefficient estimation,
+seasonality, and anomaly. Coefficient estimation is too
+application-specific for a generic implementation to be useful, so
+that’s left to be handled externally. This implementation handles
+seasonality (or any periodic component) and anomaly logic.</p>
+<p>The basic approach is simple: compute the periodic component for the
+timestep of interest, then compute the anomaly and add them together.
+Why do we even need a library for that? With a simple implementation, we
+do not, but the library can handle a lot of tricky legwork to provide
+convenience features. Also, the library can provide a full-blown BMI
+implementation out of the box that’s tested with NextGen, so that’s a
+handy feature.</p>
+<p>What sort of convenience features?</p>
+<ul class="simple">
+<li><p>Smart “modification engines” that run periodically to adjust model
+components at runtime. These are great for handling things like
+climate change and drought, in the hydrologic use case.</p></li>
+<li><p>Exporting coefficients to a data frame for analysis - super useful
+for the coefficient estimation part</p></li>
+<li><p>Exporting models to, and reading them from, configuration files,
+which is a required capability for BMI/NextGen</p></li>
+<li><p>Having the logic to run the model fast as a single series if there
+are no modification engines, or step-by-step if there are</p></li>
+<li><p>And did I mention a BMI implementation?</p></li>
+</ul>
+<p>More generally, it also separates concerns: the user just writes the
+actual model mathematics without worrying about the implementation
+logic. And this is huge, because practically any lumped model can be
+implemented as SCHEMA with a little contortion. For instance, I’m fairly
+sure you could just have no seasonal component and an LSTM for anomaly,
+and you get a BMI-compatible LSTM for free. Or you could easily write a
+unit hydrograph-based hydrologic model (seasonality = baseflow, anomaly
+= unit hydrograph) with a couple of simple functions.</p>
+<p>Basically, libSCHEMA minimizes the amount of software engineering you
+have to worry about when building hydrologic models. The minimal example
+model for testing is about 50 lines of code.</p>
+<p>Using libSCHEMA also means that shared infrastructure can be developed
+for libSCHEMA models in general, like the built-in BMI implementation.
+In the future, that could be calibration utilities, parallelization
+tools, or just about anything else - and it’ll work for any libSCHEMA
+model.</p>
+</section>
+<section id="implemented-functionality">
+<h2>Implemented Functionality<a class="headerlink" href="#implemented-functionality" title="Link to this heading">¶</a></h2>
+<section id="current-status">
+<h3>Current Status<a class="headerlink" href="#current-status" title="Link to this heading">¶</a></h3>
+<p>Core functionality has been implemented and tested with both a
+full-fledged model implementation rewritten to use libSCHEMA. BMI
+support is drafted, but has not been tested. Modification engines are
+implemented in principle, but have not been tested.</p>
+</section>
+<section id="core-functionality">
+<h3>Core Functionality<a class="headerlink" href="#core-functionality" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Model initialization</p></li>
+<li><p>Running the model</p></li>
+<li><p>Exporting and importing model files</p></li>
+<li><p>BMI, e.g. for NextGen</p></li>
+</ul>
+</section>
+<section id="convenience-features">
+<h3>Convenience Features<a class="headerlink" href="#convenience-features" title="Link to this heading">¶</a></h3>
+<p>LibSCHEMA comes with a couple of utilities I built for my own use that
+might be handy more broadly:</p>
+<ul class="simple">
+<li><p>A suite of goodness-of-fit metrics (R2, RMSE, NSE, percent bias,
+max-miss/min-miss)</p></li>
+<li><p>A flexible cross-validation function</p></li>
+</ul>
+</section>
+</section>
+<section id="required-functionality">
+<h2>Required Functionality<a class="headerlink" href="#required-functionality" title="Link to this heading">¶</a></h2>
+<p>The big pieces that needs to be implemented are the actual seasonality
+and anomaly functions, which are provided as classes to make life easier
+with configuration files, coefficient exporting, etc. Templates are
+provided in <code class="docutils literal notranslate"><span class="pre">classes.py</span></code>. Additionally, the implementation needs to
+specify data requirements and the like. Seasonality and anomaly
+functions should provide a vectorized implementation if you intend to
+use <code class="docutils literal notranslate"><span class="pre">run_series</span></code> to run in a single pass.</p>
+<p>If you want the model to be able to fit itself, you also need to define
+a <code class="docutils literal notranslate"><span class="pre">from_data</span></code> method. Without that, a model can still be specified
+with set coefficients, and you could calibrate it in the traditional
+way, but it can’t automatically identify a fit.</p>
+<p>If your implementation uses any modification engines, implementation for
+those needs to be provided, and it may be useful to develop a custom
+configuration-file retriever (otherwise libSCHEMA will try to pickle
+them in the main config file).</p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<p>Here is a simple example with a toy model.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TestSeasonality</span><span class="p">(</span><span class="n">Seasonality</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">phase</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amplitude</span> <span class="o">=</span> <span class="n">amplitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">period</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">period</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="o">*</span><span class="mf">6.28</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestAnomaly</span><span class="p">(</span><span class="n">Anomaly</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensitivity</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity</span> <span class="o">=</span> <span class="n">sensitivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">window</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">periodic</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">anom_history</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+            <span class="n">anom_history</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">:])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">periodic</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">anom_history</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity</span> <span class="o">*</span> <span class="n">anom_history</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">sensitivity</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">window</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">phase</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">amplitude</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">period</span> <span class="o">=</span> <span class="mi">36</span>
+
+<span class="n">periodics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;period&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">36</span><span class="p">),</span>
+    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">36</span><span class="p">))</span>
+    <span class="p">})</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">SCHEMA</span><span class="p">(</span>
+    <span class="n">TestSeasonality</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">period</span><span class="p">),</span>
+    <span class="n">TestAnomaly</span><span class="p">(</span><span class="n">sensitivity</span><span class="p">,</span> <span class="n">window</span><span class="p">),</span>
+    <span class="n">periodics</span><span class="p">,</span>
+    <span class="p">[],</span>  <span class="c1"># no engines used</span>
+    <span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span>  <span class="c1"># input columns</span>
+    <span class="n">period</span><span class="p">,</span>
+    <span class="n">window</span>
+    <span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">run_series</span><span class="p">(</span><span class="n">some_data</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;tp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">¶</a></h2>
+<p>Philippus, Corona, Schneider, Rust, and Hogue, 2025, “Satellite-Based
+Spatial-Statistical Modeling of Daily Stream Water Temperatures at the
+CONUS Scale”, <em>Journal of Hydrology</em>,
+doi:<a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.133321">10.1016/j.jhydrol.2025.133321</a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">libSCHEMA</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#general-concept">General Concept</a></li>
+<li><a class="reference internal" href="#implemented-functionality">Implemented Functionality</a><ul>
+<li><a class="reference internal" href="#current-status">Current Status</a></li>
+<li><a class="reference internal" href="#core-functionality">Core Functionality</a></li>
+<li><a class="reference internal" href="#convenience-features">Convenience Features</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#required-functionality">Required Functionality</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#citation">Citation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../tempest2/readme.html"
+                          title="previous chapter">TempEst2</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="libschema.html"
+                          title="next chapter">libschema package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/libschema/readme.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="libschema.html" title="libschema package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2/readme.html" title="TempEst2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">libSCHEMA</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>
