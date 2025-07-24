@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>TempEst Modeling &#8212; RiverTempest.org  documentation</title>
+    <title>TempEst Modeling &#8212; RiverTempest.org</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/classic.css?v=2bf1fcf8" />
     
@@ -29,7 +29,7 @@
         <li class="right" >
           <a href="tempest1/readme.html" title="TempEst 1"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">RiverTempest.org  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">RiverTempest.org</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">TempEst Modeling</a></li> 
       </ul>
     </div>  
@@ -43,6 +43,8 @@
 <h1>TempEst Modeling<a class="headerlink" href="#tempest-modeling" title="Link to this heading">¶</a></h1>
 <p>The TempEst (stream TEMPerature ESTimation) models are a suite of river temperature models focused on sites without local monitoring data (ungaged modeling). At one-kilometer resolution, TempEst models provide the fastest available estimates of historical stream temperatures at daily (including mean and maximum) and monthly timesteps. This website includes documentation and references for the TempEst models and related projects. A notable spinoff is libSCHEMA, a Python package which provides a generic implementation of the SCHEMA modeling framework (see TempEst 2 reference) - you provide the model logic, libSCHEMA handles all the computation details (including a Basic Model Interface implementation for use with the NextGen National Water Model Framework).</p>
 <p>If you use TempEst models, software, or data in your research, please cite the appropriate reference, listed <a class="reference external" href="#links-and-references">below</a>. All TempEst software is available under the terms of the GNU General Public License v3, meaning that you are free to use, modify, and redistribute the software with appropriate attribution and so long as any derivative software is made open-source under the same terms.</p>
+<p>Any TempEst software featured on this website is usable and reasonably complete, and may or may not be under active development. All major TempEst models undergo peer review by way of the accompanying manuscript, though spinoff software with minimal new scientific content may not (for example, the SCHEMA framework is introduced in the peer-reviewed TempEst 2 paper, but LibSCHEMA, which did not exist at the time of publication, has not undergone further peer review in its own right).</p>
+<p>I am willing to consider minor feature requests via the projects’ respective Issues pages, but make no guarantees about carrying them out. I am particularly interested in hearing about modifications to the workflow that would be helpful in practical use. I am also willing to reimplement TempEst 1/2 data retrieval independently of Google Earth Engine upon request.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -79,6 +81,26 @@
 </ul>
 </div>
 </section>
+<section id="tempest-software-notes">
+<h1>TempEst Software Notes<a class="headerlink" href="#tempest-software-notes" title="Link to this heading">¶</a></h1>
+<p>Full descriptions should be sought in the Overview links above.</p>
+<p>The TempEst models differ substantially in their architecture, but a shared characteristic is that their prediction and data retrieval implementations are completely independent of the presence of a gage. They are all capable of running entirely off of coordinates, with no reference to established monitoring locations and using datasets that are available for the entire contiguous United States. They are also rigorously tested for ungaged use and extrapolation capabilities, including their performance for unseen regions (i.e., with no nearby gages to learn from), unseen time windows (testing their stability in time), and unseen elevations (evaluating their ability to extrapolate upwards).</p>
+<p>TempEst 1 and 2 are provided as R scripts with Google Earth Engine data retrieval code. LibSCHEMA is a Python package.</p>
+<section id="tempest-1">
+<h2>TempEst 1<a class="headerlink" href="#tempest-1" title="Link to this heading">¶</a></h2>
+<p>TempEst 1 is the model that started it all, and may be described as just “TempEst”. TempEst 1 is a machine learning (random forest) model that uses high-resolution, but low-frequency Landsat land surface temperature (LST) to estimate monthly mean stream temperatures, demonstrated for rivers from a few meters to a kilometer wide and for both minimally-disturbed and heavily-modified watersheds. TempEst 1 is the fastest way to get an estimate of general temperature trends.</p>
+<p>Scientifically, TempEst 1 demonstrated that “point-oriented, sitewise” models - meaning those that use data just for the point of interest, not the entire watershed (point-oriented) and do not consider the rest of the river network (sitewise) - can generate skillful stream temperature predictions with far lower computational and data requirements than watershed-oriented or network-aware models. TempEst 1’s manuscript also established the extensive and rigorous testing procedures common to all subsequent TempEst modeling work and the use of wholly gage-independent data retrieval and prediction, with the manuscript including a demonstration for 100 unmonitored locations.</p>
+</section>
+<section id="tempest-2">
+<h2>TempEst 2<a class="headerlink" href="#tempest-2" title="Link to this heading">¶</a></h2>
+<p>TempEst 2’s primary objective was to extend TempEst 1 to daily-resolution predictions. In the process, it established an entirely different architecture, retaining only the point-oriented, sitewise, LST-forced design. Experiments in the process of TempEst 2 development led to the creation of the Seasonal Conditions Historical Expectation with Modeled Anomaly (SCHEMA) architecture, a generalization of stochastic models. The SCHEMA architecture allowed TempEst 2 to be designed with linear geostatistical (kriging) models predicting site-specific coefficients, enabling improvements in simplicity, interpretability, efficiency, and extrapolation capability compared to TempEst 1.</p>
+</section>
+<section id="libschema">
+<h2>LibSCHEMA<a class="headerlink" href="#libschema" title="Link to this heading">¶</a></h2>
+<p>LibSCHEMA is based on the possibility that the SCHEMA architecture might be more generally useful, allowing others to use it without having to implement most of the model software themselves. With LibSCHEMA, a researcher implementing a SCHEMA model need only provide functions for the core model logic - predicting the seasonal and anomaly terms. Then, the model logistics (processing input/output, running timesteps, etc) are provided automatically. LibSCHEMA also provides a Basic Model Interface implementation for those concerned with model interoperability, particularly through NOAA’s NextGen National Water Model Framework.</p>
+<p>I have found that general logistics, rather than the core model logic, are responsible for the majority of the source code and the vast majority of debugging effort, so I hope that LibSCHEMA can spare other researchers considerable effort in model implementation.</p>
+</section>
+</section>
 <section id="links-and-references">
 <h1>Links and References<a class="headerlink" href="#links-and-references" title="Link to this heading">¶</a></h1>
 <p>TempEst 1 (monthly temperature estimation): <a class="reference external" href="https://github.com/mines-ciroh/tempest1">https://github.com/mines-ciroh/tempest1</a> - Philippus, D., A. Sytsma, A. Rust, and T. S. Hogue. 2024. “A machine learning model for estimating the temperature of small rivers using satellite-based spatial data.” Remote Sensing of Environment, 311: 114271. <a class="reference external" href="https://doi.org/10.1016/j.rse.2024.114271">https://doi.org/10.1016/j.rse.2024.114271</a>.</p>
@@ -106,23 +128,26 @@
     <h3><a href="#">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">TempEst Modeling</a></li>
+<li><a class="reference internal" href="#tempest-software-notes">TempEst Software Notes</a><ul>
+<li><a class="reference internal" href="#tempest-1">TempEst 1</a></li>
+<li><a class="reference internal" href="#tempest-2">TempEst 2</a></li>
+<li><a class="reference internal" href="#libschema">LibSCHEMA</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#links-and-references">Links and References</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
   </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="tempest1/readme.html"
-                          title="next chapter">TempEst 1</a></p>
-  </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+<h3><a href="#">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tempest1/readme.html">TempEst 1 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tempest2/readme.html">TempEst 2 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libschema/readme.html">LibSCHEMA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
 <search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -149,7 +174,7 @@
         <li class="right" >
           <a href="tempest1/readme.html" title="TempEst 1"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">RiverTempest.org  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">RiverTempest.org</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">TempEst Modeling</a></li> 
       </ul>
     </div>

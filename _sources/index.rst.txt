@@ -10,6 +10,10 @@ The TempEst (stream TEMPerature ESTimation) models are a suite of river temperat
 
 If you use TempEst models, software, or data in your research, please cite the appropriate reference, listed `below <#links-and-references>`__. All TempEst software is available under the terms of the GNU General Public License v3, meaning that you are free to use, modify, and redistribute the software with appropriate attribution and so long as any derivative software is made open-source under the same terms.
 
+Any TempEst software featured on this website is usable and reasonably complete, and may or may not be under active development. All major TempEst models undergo peer review by way of the accompanying manuscript, though spinoff software with minimal new scientific content may not (for example, the SCHEMA framework is introduced in the peer-reviewed TempEst 2 paper, but LibSCHEMA, which did not exist at the time of publication, has not undergone further peer review in its own right).
+
+I am willing to consider minor feature requests via the projects' respective Issues pages, but make no guarantees about carrying them out. I am particularly interested in hearing about modifications to the workflow that would be helpful in practical use. I am also willing to reimplement TempEst 1/2 data retrieval independently of Google Earth Engine upon request.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -18,6 +22,34 @@ If you use TempEst models, software, or data in your research, please cite the a
    TempEst 2 Overview <tempest2/readme>
    LibSCHEMA Overview <libschema/readme>
    LibSCHEMA Reference <libschema/libschema>
+
+TempEst Software Notes
+======================
+
+Full descriptions should be sought in the Overview links above.
+
+The TempEst models differ substantially in their architecture, but a shared characteristic is that their prediction and data retrieval implementations are completely independent of the presence of a gage. They are all capable of running entirely off of coordinates, with no reference to established monitoring locations and using datasets that are available for the entire contiguous United States. They are also rigorously tested for ungaged use and extrapolation capabilities, including their performance for unseen regions (i.e., with no nearby gages to learn from), unseen time windows (testing their stability in time), and unseen elevations (evaluating their ability to extrapolate upwards).
+
+TempEst 1 and 2 are provided as R scripts with Google Earth Engine data retrieval code. LibSCHEMA is a Python package.
+
+TempEst 1
+---------
+
+TempEst 1 is the model that started it all, and may be described as just "TempEst". TempEst 1 is a machine learning (random forest) model that uses high-resolution, but low-frequency Landsat land surface temperature (LST) to estimate monthly mean stream temperatures, demonstrated for rivers from a few meters to a kilometer wide and for both minimally-disturbed and heavily-modified watersheds. TempEst 1 is the fastest way to get an estimate of general temperature trends.
+
+Scientifically, TempEst 1 demonstrated that "point-oriented, sitewise" models - meaning those that use data just for the point of interest, not the entire watershed (point-oriented) and do not consider the rest of the river network (sitewise) - can generate skillful stream temperature predictions with far lower computational and data requirements than watershed-oriented or network-aware models. TempEst 1's manuscript also established the extensive and rigorous testing procedures common to all subsequent TempEst modeling work and the use of wholly gage-independent data retrieval and prediction, with the manuscript including a demonstration for 100 unmonitored locations.
+
+TempEst 2
+---------
+
+TempEst 2's primary objective was to extend TempEst 1 to daily-resolution predictions. In the process, it established an entirely different architecture, retaining only the point-oriented, sitewise, LST-forced design. Experiments in the process of TempEst 2 development led to the creation of the Seasonal Conditions Historical Expectation with Modeled Anomaly (SCHEMA) architecture, a generalization of stochastic models. The SCHEMA architecture allowed TempEst 2 to be designed with linear geostatistical (kriging) models predicting site-specific coefficients, enabling improvements in simplicity, interpretability, efficiency, and extrapolation capability compared to TempEst 1.
+
+LibSCHEMA
+---------
+
+LibSCHEMA is based on the possibility that the SCHEMA architecture might be more generally useful, allowing others to use it without having to implement most of the model software themselves. With LibSCHEMA, a researcher implementing a SCHEMA model need only provide functions for the core model logic - predicting the seasonal and anomaly terms. Then, the model logistics (processing input/output, running timesteps, etc) are provided automatically. LibSCHEMA also provides a Basic Model Interface implementation for those concerned with model interoperability, particularly through NOAA's NextGen National Water Model Framework.
+
+I have found that general logistics, rather than the core model logic, are responsible for the majority of the source code and the vast majority of debugging effort, so I hope that LibSCHEMA can spare other researchers considerable effort in model implementation.
 
 Links and References
 ====================
