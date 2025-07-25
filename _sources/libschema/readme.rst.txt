@@ -27,7 +27,8 @@ purpose is ungaged modeling.
 Note: in Python, it is libschema (``import libschema``), not libSCHEMA.
 Easier to type.
 
-`Documentation Website <https://mines-ciroh.github.io/libSCHEMA/>`__
+`Documentation
+Website <https://www.rivertempest.org/libschema/readme.html>`__
 
 Quick Start
 -----------
@@ -60,7 +61,8 @@ Some key information:
 LibSCHEMA is free and open-source software and may be used, modified,
 redistributed, etc so long as any software built upon it is also
 open-source under the GNU General Public License v3. If you use
-LibSCHEMA in your research, please cite Philippus et al. 2025.
+LibSCHEMA in your research, please cite TempEst 2 (Philippus et
+al. 2025), which introduced the SCHEMA framework.
 
 General Concept
 ---------------
@@ -226,3 +228,12 @@ Philippus, Corona, Schneider, Rust, and Hogue, 2025, “Satellite-Based
 Spatial-Statistical Modeling of Daily Stream Water Temperatures at the
 CONUS Scale”, *Journal of Hydrology*,
 doi:`10.1016/j.jhydrol.2025.133321 <https://doi.org/10.1016/j.jhydrol.2025.133321>`__.
+
+Reference Overview
+------------------
+
+.. toctree::
+   :maxdepth: 3
+   :caption: LibSCHEMA Reference:
+
+   libschema

@@ -67,7 +67,8 @@ seasonality and anomaly, as well as coefficient estimation if your
 purpose is ungaged modeling.</p>
 <p>Note: in Python, it is libschema (<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">libschema</span></code>), not libSCHEMA.
 Easier to type.</p>
-<p><a class="reference external" href="https://mines-ciroh.github.io/libSCHEMA/">Documentation Website</a></p>
+<p><a class="reference external" href="https://www.rivertempest.org/libschema/readme.html">Documentation
+Website</a></p>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">libschema</span></code>.</p>
@@ -97,7 +98,8 @@ cross-validation and goodness-of-fit metrics.</p></li>
 <p>LibSCHEMA is free and open-source software and may be used, modified,
 redistributed, etc so long as any software built upon it is also
 open-source under the GNU General Public License v3. If you use
-LibSCHEMA in your research, please cite Philippus et al. 2025.</p>
+LibSCHEMA in your research, please cite TempEst 2 (Philippus et
+al. 2025), which introduced the SCHEMA framework.</p>
 </section>
 <section id="general-concept">
 <h2>General Concept<a class="headerlink" href="#general-concept" title="Link to this heading">¶</a></h2>
@@ -253,6 +255,40 @@ Spatial-Statistical Modeling of Daily Stream Water Temperatures at the
 CONUS Scale”, <em>Journal of Hydrology</em>,
 doi:<a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.133321">10.1016/j.jhydrol.2025.133321</a>.</p>
 </section>
+<section id="reference-overview">
+<h2>Reference Overview<a class="headerlink" href="#reference-overview" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">LibSCHEMA Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libschema.html">libschema package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libschema.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libschema.html#module-libschema.analysis">libschema.analysis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.analysis.anomilize"><code class="docutils literal notranslate"><span class="pre">anomilize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.analysis.kfold"><code class="docutils literal notranslate"><span class="pre">kfold()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.analysis.nse"><code class="docutils literal notranslate"><span class="pre">nse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.analysis.perf_summary"><code class="docutils literal notranslate"><span class="pre">perf_summary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libschema.html#module-libschema.bmi">libschema.bmi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.bmi.SchemaBmi"><code class="docutils literal notranslate"><span class="pre">SchemaBmi</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libschema.html#module-libschema.classes">libschema.classes module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.classes.Anomaly"><code class="docutils literal notranslate"><span class="pre">Anomaly</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.classes.ModEngine"><code class="docutils literal notranslate"><span class="pre">ModEngine</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.classes.Seasonality"><code class="docutils literal notranslate"><span class="pre">Seasonality</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libschema.html#module-libschema.model">libschema.model module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="libschema.html#libschema.model.SCHEMA"><code class="docutils literal notranslate"><span class="pre">SCHEMA</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libschema.html#module-libschema">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 </section>
 
 
@@ -279,6 +315,7 @@ doi:<a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.1
 </ul>
 </li>
 <li><a class="reference internal" href="#citation">Citation</a></li>
+<li><a class="reference internal" href="#reference-overview">Reference Overview</a></li>
 </ul>
 </li>
 </ul>
@@ -295,6 +332,7 @@ doi:<a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.1
 <li class="toctree-l2"><a class="reference internal" href="#implemented-functionality">Implemented Functionality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#required-functionality">Required Functionality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reference-overview">Reference Overview</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="libschema.html">LibSCHEMA Reference</a></li>
