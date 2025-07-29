@@ -13,6 +13,7 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     
+    <link rel="icon" href="_static/TempEstICOSmall.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="TempEst 1" href="tempest1/readme.html" /> 
@@ -89,11 +90,15 @@
 <p>TempEst 1 and 2 are provided as R scripts with Google Earth Engine data retrieval code. LibSCHEMA is a Python package.</p>
 <section id="tempest-1">
 <h2>TempEst 1<a class="headerlink" href="#tempest-1" title="Link to this heading">¶</a></h2>
+<a class="reference internal image-reference" href="_images/TempEst1.png"><img alt="TempEst 1 Logo" src="_images/TempEst1.png" style="width: 300px;" />
+</a>
 <p>TempEst 1 is the model that started it all, and may be described as just “TempEst”. TempEst 1 is a machine learning (random forest) model that uses high-resolution, but low-frequency Landsat land surface temperature (LST) to estimate monthly mean stream temperatures, demonstrated for rivers from a few meters to a kilometer wide and for both minimally-disturbed and heavily-modified watersheds. TempEst 1 is the fastest way to get an estimate of general temperature trends.</p>
 <p>Scientifically, TempEst 1 demonstrated that “point-oriented, sitewise” models - meaning those that use data just for the point of interest, not the entire watershed (point-oriented) and do not consider the rest of the river network (sitewise) - can generate skillful stream temperature predictions with far lower computational and data requirements than watershed-oriented or network-aware models. TempEst 1’s manuscript also established the extensive and rigorous testing procedures common to all subsequent TempEst modeling work and the use of wholly gage-independent data retrieval and prediction, with the manuscript including a demonstration for 100 unmonitored locations.</p>
 </section>
 <section id="tempest-2">
 <h2>TempEst 2<a class="headerlink" href="#tempest-2" title="Link to this heading">¶</a></h2>
+<a class="reference internal image-reference" href="_images/TempEst2.png"><img alt="TempEst 2 Logo" src="_images/TempEst2.png" style="width: 300px;" />
+</a>
 <p>TempEst 2’s primary objective was to extend TempEst 1 to daily-resolution predictions. In the process, it established an entirely different architecture, retaining only the point-oriented, sitewise, LST-forced design. Experiments in the process of TempEst 2 development led to the creation of the Seasonal Conditions Historical Expectation with Modeled Anomaly (SCHEMA) architecture, a generalization of stochastic models. The SCHEMA architecture allowed TempEst 2 to be designed with linear geostatistical (kriging) models predicting site-specific coefficients, enabling improvements in simplicity, interpretability, efficiency, and extrapolation capability compared to TempEst 1.</p>
 </section>
 <section id="libschema">
@@ -125,6 +130,9 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/TempEst.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
   <div>
     <h3><a href="#">Table of Contents</a></h3>
     <ul>
@@ -180,7 +188,7 @@
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2025, Daniel Philippus.
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>

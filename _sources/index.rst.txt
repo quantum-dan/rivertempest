@@ -35,12 +35,20 @@ TempEst 1 and 2 are provided as R scripts with Google Earth Engine data retrieva
 TempEst 1
 ---------
 
+.. image:: TempEstLogos/TempEst1.png
+   :width: 300
+   :alt: TempEst 1 Logo
+
 TempEst 1 is the model that started it all, and may be described as just "TempEst". TempEst 1 is a machine learning (random forest) model that uses high-resolution, but low-frequency Landsat land surface temperature (LST) to estimate monthly mean stream temperatures, demonstrated for rivers from a few meters to a kilometer wide and for both minimally-disturbed and heavily-modified watersheds. TempEst 1 is the fastest way to get an estimate of general temperature trends.
 
 Scientifically, TempEst 1 demonstrated that "point-oriented, sitewise" models - meaning those that use data just for the point of interest, not the entire watershed (point-oriented) and do not consider the rest of the river network (sitewise) - can generate skillful stream temperature predictions with far lower computational and data requirements than watershed-oriented or network-aware models. TempEst 1's manuscript also established the extensive and rigorous testing procedures common to all subsequent TempEst modeling work and the use of wholly gage-independent data retrieval and prediction, with the manuscript including a demonstration for 100 unmonitored locations.
 
 TempEst 2
 ---------
+
+.. image:: TempEstLogos/TempEst2.png
+   :width: 300
+   :alt: TempEst 2 Logo
 
 TempEst 2's primary objective was to extend TempEst 1 to daily-resolution predictions. In the process, it established an entirely different architecture, retaining only the point-oriented, sitewise, LST-forced design. Experiments in the process of TempEst 2 development led to the creation of the Seasonal Conditions Historical Expectation with Modeled Anomaly (SCHEMA) architecture, a generalization of stochastic models. The SCHEMA architecture allowed TempEst 2 to be designed with linear geostatistical (kriging) models predicting site-specific coefficients, enabling improvements in simplicity, interpretability, efficiency, and extrapolation capability compared to TempEst 1.
 
