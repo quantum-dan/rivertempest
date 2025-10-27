@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TempEst 2-FAST &#8212; RiverTempest.org</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="icon" href="../_static/TempEstICOSquare.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tempest2fast package" href="tempest2fast.html" />
+    <link rel="prev" title="TempEst2" href="../tempest2/readme.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tempest2fast.html" title="tempest2fast package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2/readme.html" title="TempEst2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst 2-FAST</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tempest-2-fast">
+<h1>TempEst 2-FAST<a class="headerlink" href="#tempest-2-fast" title="Link to this heading">¶</a></h1>
+<p>TempEst 2/SCHEMA is “TEMPerature ESTimation, version 2, using Seasonal
+Conditions Historical Expectation with Modeled daily Anomaly”. It
+estimates stream water temperature, for streams of any size, using a
+data-driven model based on satellite remote sensing data. TempEst 2-FAST
+is optimized for large-scale gridded applications, rather than discrete
+points. This involves two tradeoffs:</p>
+<ul class="simple">
+<li><p>Build-in data retrieval and native processing, rather than Google
+Earth Engine. For a small set of points, this is slower and
+resource-intensive. However, it means you don’t run into GEE memory
+and runtime limits, and it lets all the processing happen in one
+place. That way you also don’t have to set up GEE if you don’t have
+it. I have found that, while GEE is a wonderful tool provided for
+free to academic researchers, it gets a bit unwieldy when you move
+from thousands of points to tens or hundreds of thousands.</p></li>
+<li><p>Gridded, not discrete points. This means you can’t specify exact
+sites, or distinguish between several small streams that are all in a
+single 1-km pixel. However, it means the whole thing can be
+efficiently downloaded and processed as an array, without duplicating
+effort across adjacent points.</p></li>
+</ul>
+<p>In short, if you need data for a few thousand sites, use the original
+TempEst 2. If you need contiguous, high-resolution data over a large
+region - with at least 10,000 or so river-kilometers - use TempEst
+2-FAST. It’s designed to take advantage of xarray’s Dask-based design
+for larger-than-memory datasets and tested on a desktop (for a small
+test region), so it should work on a personal computer, but of course
+for large-scale datasets you’re better off with HPC or similar, and it
+should parallelize automatically.</p>
+<p>To avoid duplicating effort, the spatial components of the coefficient
+models are exported from TempEst 2 as kilometer-resolution rasters, as
+well as the model coefficients as a CSV. TempEst 2-FAST handles the
+implementation.</p>
+<p>The exported surfaces required for prediction <code class="docutils literal notranslate"><span class="pre">SpatialModels.nc</span></code> and
+the model coefficients <code class="docutils literal notranslate"><span class="pre">FixedModel.csv</span></code> are included in the GitHub
+repository, along with the elevation (<code class="docutils literal notranslate"><span class="pre">conus_1km.nc</span></code>) and hydrography
+(<code class="docutils literal notranslate"><span class="pre">Rivers.nc</span></code>) datasets. The full river temperature dataset is
+forthcoming.</p>
+<section id="usage-guide">
+<h2>Usage Guide<a class="headerlink" href="#usage-guide" title="Link to this heading">¶</a></h2>
+<p>Install from the Python Package Index: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tempest2fast</span></code>. A
+full reference may be found at
+<a class="reference external" href="https://rivertempest.org/tempest2fast/tempest2fast.html">RiverTempest.org</a>.
+If you are viewing this page on PyPI, all downloads provided with the
+model may be found at the <a class="reference external" href="https://github.com/mines-ciroh/TempEst2FAST/">GitHub
+repository</a>.</p>
+<p>Dependencies:</p>
+<ul class="simple">
+<li><p>xarray</p></li>
+<li><p>pandas</p></li>
+<li><p>numpy</p></li>
+<li><p>rioxarray</p></li>
+<li><p>earthaccess</p></li>
+<li><p>pynldas2</p></li>
+<li><p>dask</p></li>
+<li><p>s3fs</p></li>
+<li><p>rtseason</p></li>
+</ul>
+<section id="generating-predictions">
+<h3>Generating Predictions<a class="headerlink" href="#generating-predictions" title="Link to this heading">¶</a></h3>
+<p>Since TempEst 2-FAST doesn’t handle training, its prediction functions
+require paths for the spatial surfaces and fixed model coefficients.</p>
+<p>The other arguments to the prediction function are the paths for the
+land cover, hydrography, elevation (single files), humidity, and LST
+(multifile) datasets, or the pre-loaded datasets.</p>
+<p>TempEst 2-FAST will return an xarray dataset containing:</p>
+<ul class="simple">
+<li><p>temp.mod (modeled daily mean temperature; Celsius)</p></li>
+<li><p>temp.doy (modeled day-of-year mean temperature; Celsius)</p></li>
+<li><p>temp.anom (modeled temperature anomaly relative to day-of-year mean;
+Celsius)</p></li>
+<li><p>temp.plus (modeled maximum temperature relative to day-of-year mean;
+Celsius)</p></li>
+<li><p>temp.max (modeled maximum daily temperature; Celsius)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">temp.mod</span></code> = <code class="docutils literal notranslate"><span class="pre">temp.doy</span></code> + <code class="docutils literal notranslate"><span class="pre">temp.anom</span></code>.</p>
+<p>These five data arrays are the final output, and can be used to assess
+actual estimated temperature (<code class="docutils literal notranslate"><span class="pre">temp.mod</span></code>, <code class="docutils literal notranslate"><span class="pre">temp.max</span></code>); typical
+seasonal conditions (<code class="docutils literal notranslate"><span class="pre">temp.doy</span></code>), such as to assess general long-term
+behavior; and departure from typical seasonal conditions (<code class="docutils literal notranslate"><span class="pre">temp.anom</span></code>,
+<code class="docutils literal notranslate"><span class="pre">temp.plus</span></code>), such as to assess heat waves or other extremes.</p>
+<p>In my testing, memory requirements and compute time are sublinear with
+area of interest (but not with period of record), though out-of-memory
+computing is imperfect (read: it <em>will</em> crash from lack of memory).
+Therefore, I recommend running the largest area your resources support
+at a time, but manually chunking the run may be necessary. The top-level
+<code class="docutils literal notranslate"><span class="pre">run.py</span></code> includes an example of breaking the CONUS-wide data into
+subsets for efficient processing. A 1x1-degree, 24-year run (10,000
+total pixels, ~600 with rivers) takes 12.5 GB and 2.5 hours. (Note that
+600 points is well within the range where regular TempEst 2 would be the
+preferred tool.)</p>
+<section id="very-quick-version">
+<h4>Very Quick Version<a class="headerlink" href="#very-quick-version" title="Link to this heading">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">tempest2fast.full_run(fixed,</span> <span class="pre">rivers,</span> <span class="pre">elev,</span> <span class="pre">lcov,</span> <span class="pre">lst,</span> <span class="pre">humidity,</span> <span class="pre">spat,</span> <span class="pre">bbox).to_netcdf(output)</span></code>.
+All arguments are paths to the required datasets (single files for most;
+multi-file paths with wildcards for humidity and LST, like
+“humidity*.nc”) or the output file location.</p>
+</section>
+<section id="chunked-example-run-py">
+<h4>Chunked Example (run.py)<a class="headerlink" href="#chunked-example-run-py" title="Link to this heading">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tempest2fast</span><span class="w"> </span><span class="kn">import</span> <span class="n">full_run</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempest2fast.prediction</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">prediction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tempest2fast.defaults</span><span class="w"> </span><span class="kn">import</span> <span class="n">bbox</span> <span class="k">as</span> <span class="n">full_bbox</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">ceil</span>
+<span class="n">inp_base</span> <span class="o">=</span> <span class="s2">&quot;/scratch/dphilippus/FAST/&quot;</span>
+<span class="n">out_base</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;outputs/&quot;</span>
+
+<span class="n">fixed</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;FixedModel.csv&quot;</span>
+<span class="n">rivers</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;Rivers.nc&quot;</span>
+<span class="n">lcov</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;lcov.nc&quot;</span>
+<span class="n">elev</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;conus_1km.nc&quot;</span>
+<span class="n">spat</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;SpatialModels.nc&quot;</span>
+<span class="n">lst_base</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;LSTRch/&quot;</span>
+<span class="n">hum_base</span> <span class="o">=</span> <span class="n">inp_base</span> <span class="o">+</span> <span class="s2">&quot;HumidityRch/&quot;</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">lst_base</span> <span class="o">+</span> <span class="s2">&quot;modis_lst_*&quot;</span><span class="p">)</span>
+<span class="n">humidity</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">hum_base</span> <span class="o">+</span> <span class="s2">&quot;humidity_*&quot;</span><span class="p">)</span>
+
+<span class="n">logfile</span> <span class="o">=</span> <span class="s2">&quot;runlog.txt&quot;</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Run in NxN-degree chunks to limit memory use.</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">window_size</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">window_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">window_size</span><span class="si">}</span><span class="s2">deg_no</span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">outputco</span> <span class="o">=</span> <span class="n">out_base</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;cochunks/coefs_</span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">.nc&quot;</span>
+    <span class="n">outputts</span> <span class="o">=</span> <span class="n">out_base</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;chunks/ts_</span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">.nc&quot;</span>
+    <span class="c1"># Build windows. Default bbox is 60x25.</span>
+    <span class="c1"># Thus,</span>
+    <span class="c1"># 1x1 -&gt; 1500</span>
+    <span class="c1"># 5x5 -&gt; 60</span>
+    <span class="c1"># 2x2 -&gt; 390</span>
+    <span class="c1"># 3x3 -&gt; 180</span>
+    <span class="c1"># 4x4 -&gt; 105</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">((</span><span class="n">full_bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">full_bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">window_size</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">((</span><span class="n">full_bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">full_bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">window_size</span><span class="p">)</span>
+    <span class="c1"># Position:</span>
+    <span class="c1"># Which *row* is the number of complete columns it covers,</span>
+    <span class="c1"># and which *column* is mod rows.</span>
+    <span class="n">irow</span> <span class="o">=</span> <span class="n">N</span> <span class="o">//</span> <span class="n">columns</span>
+    <span class="n">icol</span> <span class="o">=</span> <span class="n">N</span> <span class="o">%</span> <span class="n">rows</span>
+    <span class="n">bbox</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">full_bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">icol</span> <span class="o">*</span> <span class="n">window_size</span><span class="p">,</span>
+            <span class="n">full_bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">irow</span> <span class="o">*</span> <span class="n">window_size</span><span class="p">,</span>
+            <span class="n">full_bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">icol</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">window_size</span><span class="p">,</span>
+            <span class="n">full_bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">irow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">window_size</span>
+            <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running index </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2"> with bbox </span><span class="si">{</span><span class="n">bbox</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">full_run</span><span class="p">(</span><span class="n">fixed</span><span class="p">,</span> <span class="n">rivers</span><span class="p">,</span> <span class="n">elev</span><span class="p">,</span> <span class="n">lcov</span><span class="p">,</span> <span class="n">lst</span><span class="p">,</span> <span class="n">humidity</span><span class="p">,</span> <span class="n">spat</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">outputco</span><span class="p">,</span> <span class="n">logfile</span><span class="p">)</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">outputts</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="retrieving-prediction-data">
+<h3>Retrieving Prediction Data<a class="headerlink" href="#retrieving-prediction-data" title="Link to this heading">¶</a></h3>
+<p>Suitable prediction data can be retrieved in any way, but TempEst 2-FAST
+has built-in code to download and process some of the required data
+(MODIS LST, NLDAS2 humidity, Copernicus global DEM). Land cover from ESA
+WorldCover and (if outside the CONUS) MERIT Hydro hydrography must be
+downloaded manually, but TempEst 2-FAST can take it from there. TempEst
+2-FAST can automatically download NLDAS-2, but the runtime is excessive
+for a large dataset, so manually downloading humidity is recommended.
+Processing involves reprojecting the gridded datasets into a consistent
+format, resampling, and creating an array of river IDs. All datasets are
+converted to a 0.01-degree grid with centroids at each 0.01 degrees.
+Inputs are not, in principle, dataset-specific, but be wary of
+differences in dataset estimates, which are likely embedded into the
+model coefficients to some degree. I’d recommend retraining the TempEst
+2 model if you use different input datasets.</p>
+<p>For ESA WorldCover,
+<a class="reference external" href="https://worldcover2021.esa.int/downloader">download</a> and unzip the
+macrotiles corresponding to your area of interest. TempEst 2-FAST then
+requires the extracted directory as an argument and will take it from
+there.</p>
+<p>For NLDAS-2 humidity, generate the subset download links
+<a class="reference external" href="https://disc.gsfc.nasa.gov/datasets/NLDAS_FORB0125_H_2.0/summary?keywords=NLDAS">here</a>,
+then follow the wget download instructions
+<a class="reference external" href="https://disc.gsfc.nasa.gov/information/howto?title=How%20to%20Access%20GES%20DISC%20Data%20Using%20wget%20and%20curl">here</a>.
+This is far faster than using pynldas2, and can download about 2 days
+per minute. After that, use <code class="docutils literal notranslate"><span class="pre">humidity.process_downloaded</span></code> to convert
+the data into the appropriate format. However, for smaller areas,
+<code class="docutils literal notranslate"><span class="pre">humidity.process_days</span></code> (via PyNLDAS2) may be appropriate.</p>
+<p>The river dataset uses river widths from <a class="reference external" href="https://hydro.iis.u-tokyo.ac.jp/~yamadai/MERIT_Hydro/">MERIT
+Hydro</a>. A
+GeoTIFF of river widths for the CONUS was downloaded using Google Earth
+Engine and is included. For other areas, you can download a suitable
+river width dataset directly from MERIT Hydro or using GEE.</p>
+<p>TempEst 2-FAST ships with pre-processed elevation and land cover for the
+CONUS, since those (being static) are reasonably small (a few hundred
+megabytes). LST needs to be downloaded locally, since the default
+coverage (~24 years over the CONUS) is about a terabyte of data. I
+recommend running <code class="docutils literal notranslate"><span class="pre">lst.build_multids</span></code> directly in a terminal, using
+the <code class="docutils literal notranslate"><span class="pre">start</span></code> argument to pick up where you left off; you should not
+need to directly access any other functions from the <code class="docutils literal notranslate"><span class="pre">lst</span></code> module, and
+manual downloading is not necessary. Initial running must be interactive
+since you will be asked for EarthData login information.</p>
+<p>Note that, despite lazy loading, reading through large input files is a
+major bottleneck, so I recommend only downloading the areas you intend
+to process.</p>
+</section>
+<section id="training-a-model">
+<h3>Training a Model<a class="headerlink" href="#training-a-model" title="Link to this heading">¶</a></h3>
+<p>See <a class="reference external" href="https://github.com/mines-ciroh/TempEst2">TempEst 2</a>. Then run
+the extra step in <code class="docutils literal notranslate"><span class="pre">demo.Rmd</span></code> there to export surfaces and
+coefficients. One entry of the Variable column will be blank; this
+should be set to <code class="docutils literal notranslate"><span class="pre">AutumnWinter</span></code>. To avoid redundancy, TempEst 2-FAST
+does not handle model training.</p>
+</section>
+</section>
+<section id="citation-and-more-information">
+<h2>Citation and More Information<a class="headerlink" href="#citation-and-more-information" title="Link to this heading">¶</a></h2>
+<p>If you use this model in your research, please cite TempEst 2.</p>
+<p>The model design is based on Philippus, Corona, Schneider, Rust, and
+Hogue, 2025, “Satellite-Based Spatial-Statistical Modeling of Daily
+Stream Water Temperatures at the CONUS Scale”, <em>Journal of Hydrology</em>.
+This paper also contains a detailed description of model design and
+performance characteristics.</p>
+<p>The seasonality component is based on the “three-sine” stream annual
+temperature cycle function described in: Philippus, Corona, and Hogue,
+2024, “Improved annual temperature cycle function for stream seasonal
+thermal regimes”, <em>JAWRA</em>, <a class="reference external" href="https://doi.org/10.1111/1752-1688.13228">https://doi.org/10.1111/1752-1688.13228</a>.</p>
+<p>Full training datasets, pre-trained models, and a knitted model
+validation notebook PDF are available in CUAHSI HydroShare: <a class="reference external" href="https://www.hydroshare.org/resource/a8b243957f7946e388d10ab206990675/">TempEst 2
+Development Data: Observed Stream Temperature, Covariates, Performance
+Data, and Analysis
+Notebooks</a>.</p>
+<p>The Python package implementing TempEst 2-FAST is available on the
+Python Package Index:
+<a class="reference external" href="https://pypi.org/project/tempest2fast">pypi.org/project/tempest2fast</a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/TempEstNoNumberForDarkBackgrounds.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TempEst 2-FAST</a><ul>
+<li><a class="reference internal" href="#usage-guide">Usage Guide</a><ul>
+<li><a class="reference internal" href="#generating-predictions">Generating Predictions</a><ul>
+<li><a class="reference internal" href="#very-quick-version">Very Quick Version</a></li>
+<li><a class="reference internal" href="#chunked-example-run-py">Chunked Example (run.py)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#retrieving-prediction-data">Retrieving Prediction Data</a></li>
+<li><a class="reference internal" href="#training-a-model">Training a Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#citation-and-more-information">Citation and More Information</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst 2-FAST Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage-guide">Usage Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#citation-and-more-information">Citation and More Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tempest2fast.html">TempEst 2-FAST Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tempest2fast.html" title="tempest2fast package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2/readme.html" title="TempEst2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst 2-FAST</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

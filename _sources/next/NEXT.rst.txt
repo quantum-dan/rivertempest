@@ -1,0 +1,61 @@
+NEXT package
+============
+
+Submodules
+----------
+
+NEXT.coef\_est module
+---------------------
+
+.. automodule:: NEXT.coef_est
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEXT.data module
+----------------
+
+.. automodule:: NEXT.data
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEXT.datatools module
+---------------------
+
+.. automodule:: NEXT.datatools
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEXT.model\_manager module
+--------------------------
+
+.. automodule:: NEXT.model_manager
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEXT.reach\_prep module
+-----------------------
+
+.. automodule:: NEXT.reach_prep
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEXT.wforecast module
+---------------------
+
+.. automodule:: NEXT.wforecast
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: NEXT
+   :members:
+   :show-inheritance:
+   :undoc-members:

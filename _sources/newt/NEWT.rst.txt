@@ -1,0 +1,53 @@
+NEWT package
+============
+
+Submodules
+----------
+
+NEWT.analysis module
+--------------------
+
+.. automodule:: NEWT.analysis
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEWT.bmi module
+---------------
+
+.. automodule:: NEWT.bmi
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEWT.engines module
+-------------------
+
+.. automodule:: NEWT.engines
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEWT.statics module
+-------------------
+
+.. automodule:: NEWT.statics
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+NEWT.watershed module
+---------------------
+
+.. automodule:: NEWT.watershed
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: NEWT
+   :members:
+   :show-inheritance:
+   :undoc-members:

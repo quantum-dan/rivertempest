@@ -20,6 +20,12 @@ I am willing to consider minor feature requests via the projects' respective Iss
 
    TempEst 1 Overview <tempest1/readme>
    TempEst 2 Overview <tempest2/readme>
+   TempEst 2-FAST Overview <tempest2fast/readme>
+   TempEst 2-FAST Reference <tempest2fast/tempest2fast>
+   TempEst-NEWT Overview <newt/readme>
+   TempEst-NEXT Overview <next/readme>
+   TempEst-NEWT Reference <newt/NEWT>
+   TempEst-NEXT Reference <next/NEXT>
    LibSCHEMA Overview <libschema/readme>
    LibSCHEMA Reference <libschema/libschema>
 
@@ -43,7 +49,7 @@ TempEst 1 is the model that started it all, and may be described as just "TempEs
 
 Scientifically, TempEst 1 demonstrated that "point-oriented, sitewise" models - meaning those that use data just for the point of interest, not the entire watershed (point-oriented) and do not consider the rest of the river network (sitewise) - can generate skillful stream temperature predictions with far lower computational and data requirements than watershed-oriented or network-aware models. TempEst 1's manuscript also established the extensive and rigorous testing procedures common to all subsequent TempEst modeling work and the use of wholly gage-independent data retrieval and prediction, with the manuscript including a demonstration for 100 unmonitored locations.
 
-TempEst 2
+TempEst 2 and FAST
 ---------
 
 .. image:: TempEstLogos/TempEst2.png
@@ -51,6 +57,21 @@ TempEst 2
    :alt: TempEst 2 Logo
 
 TempEst 2's primary objective was to extend TempEst 1 to daily-resolution predictions. In the process, it established an entirely different architecture, retaining only the point-oriented, sitewise, LST-forced design. Experiments in the process of TempEst 2 development led to the creation of the Seasonal Conditions Historical Expectation with Modeled Anomaly (SCHEMA) architecture, a generalization of stochastic models. The SCHEMA architecture allowed TempEst 2 to be designed with linear geostatistical (kriging) models predicting site-specific coefficients, enabling improvements in simplicity, interpretability, efficiency, and extrapolation capability compared to TempEst 1.
+
+TempEst 2-FAST ("Fast Analysis in Space and Time") is a variant on TempEst 2 optimized for, well, what it says on the tin. TempEst 2 is optimized for predictions at a sample of specific points, and gets a bit unwieldy at over ~10,000 points or so (it also tends to require data chunking for over ~2,000 points). In general, that's already a huge sample, and TempEst 2 works well for most use cases. However, one might want to analyze continuous, gridded SWT estimates over an entire state, large watershed, or country. There, TempEst 2 gets awkward. The solution: a version of TempEst 2 optimized for gridded application over large scales. That's FAST. The model logic is the same, but designed to work over gridded data at 1-km resolution.
+
+TempEst 2-FAST scales much better, but it takes a lot more computing setup than TempEst 2. Perhaps more importantly, since it uses a grid and not discrete points, it cannot be used to pinpoint a specific river near a confluence, for example.
+
+TempEst-NEXT/NEWT
+-----------------
+
+.. image:: TempEstLogos/TempEstNext.png
+   :width: 300
+   :alt: TempEst-NEXT Logo
+
+TempEst-NEWT/NEXT build on the SCHEMA foundation developed by TempEst 2 to implement forecasting. In the process, they improve support for nonstationarity and disturbances. TempEst-NEWT is a straightforward standalone implementation of SCHEMA for individual watersheds, and can be used as a watershed-specific model. It also supports modification engines to dynamically adjust model coefficients and has smarter anomaly handling than TempEst 2.
+
+TempEst-NEXT, in turn, provides watershed generalization capabilities - coefficient estimation for ungaged watersheds. Unlike TempEst 2, there is more emphasis on directly physically relevant conditions and it does not use latitude or longitude, forcing the model to emphasize site behavior directly.
 
 LibSCHEMA
 ---------
@@ -66,6 +87,8 @@ TempEst 1 (monthly temperature estimation): https://github.com/mines-ciroh/tempe
 
 TempEst 2 (daily temperature estimation): https://github.com/mines-ciroh/tempest2 - Philippus, D., C. R. Corona, K. Schneider, A. Rust, and T. S. Hogue. 2025. “Satellite-based spatial-statistical modeling of daily stream water temperatures at the CONUS scale.” Journal of Hydrology, 661: 133321. https://doi.org/10.1016/j.jhydrol.2025.133321.
 
+TempEst-NEWT/NEXT (daily temperature forecasting): https://github.com/mines-ciroh/tempest-next, https://github.com/mines-ciroh/tempest-newt - Philippus, Corona and Hogue. "Daily Stream Water Temperature Modeling and Forecasting for Ungaged Watersheds at the CONUS Scale." In review.
+
 LibSCHEMA (generic SCHEMA library): https://pypi.org/project/libschema/ - cite TempEst 2.
 
 Three-sine river temperature seasonality: https://pypi.org/project/rtseason/ - Philippus, D., C. R. Corona, and T. S. Hogue. 2024. “Improved Annual Temperature Cycle Function for Stream Seasonal Thermal Regimes.” Journal of the American Water Resources Association, 60 (6). https://doi.org/10.1111/1752-1688.13228.
@@ -79,3 +102,9 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+.. TempEst-NEWT Overview <newt/readme>
+   TempEst-NEXT Overview <next/readme>
+   TempEst-NEWT Reference <newt/NEWT>
+   TempEst-NEXT Reference <next/NEXT>

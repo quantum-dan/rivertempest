@@ -1,6 +1,7 @@
-libschema
-=========
+NEWT
+====
 
 .. toctree::
    :maxdepth: 4
 
+   NEWT

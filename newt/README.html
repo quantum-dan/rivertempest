@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TempEst-NEWT &#8212; RiverTempest.org</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="icon" href="../_static/TempEstICOSquare.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TempEst-NEXT" href="../next/readme.html" />
+    <link rel="prev" title="tempest2fast package" href="../tempest2fast/tempest2fast.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../next/readme.html" title="TempEst-NEXT"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2fast/tempest2fast.html" title="tempest2fast package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst-NEWT</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>“She turned me into a NEWT! I got better… Then I moved on to the NEXT
+big thing.”</p>
+<section id="tempest-newt">
+<h1>TempEst-NEWT<a class="headerlink" href="#tempest-newt" title="Link to this heading">¶</a></h1>
+<p>TempEst-NEWT (stream temperature estimation: near-term expected
+watershed temperatures) is a statistical model to hindcast and forecast
+daily stream temperature for watersheds using air temperature and vapor
+pressure only. It’s essentially a complicated air-temperature
+regression, but a high-performing one, with a median validation-period
+RMSE of 1.4 C, R2 of 0.95, and bias of 0.003%.</p>
+<p>NEWT is principally developed as the calibrated component of
+<a class="reference external" href="https://github.com/mines-ciroh/TempEst-NEXT">TempEst-NEXT</a>, which
+couples NEWT with coefficient estimation for ungaged-watershed
+forecasting, but it is also useful as a standalone, calibrated model and
+is therefore made available as its own package. NEWT and NEXT are part
+of the TempEst family of models, including <a class="reference external" href="https://github.com/river-tempest/tempest">TempEst
+1</a> for remote sensing-based
+monthly mean temperatures and <a class="reference external" href="https://github.com/mines-ciroh/TempEst2">TempEst
+2</a> for remote sensing-based
+daily mean and maximum temperatures, both in ungaged watersheds. TempEst
+2 and NEXT have similar functionality, but TempEst-NEXT is capable of
+forecasting and disturbance modeling, while TempEst 2 is only for
+historical estimation (but is much faster and uses less data). TempEst
+1/2 are intended for fast analyses of large-domain historical patterns,
+while NEWT/NEXT are more focused on in-depth analysis of changes over
+time, as well as forecasting.</p>
+<p>TempEst-NEWT is implemented using
+<a class="reference external" href="https://mines-ciroh.github.io/libSCHEMA/">libSCHEMA</a>.</p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h3>
+<p>Install from PyPI: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tempest-newt</span></code>. The installed module is
+called NEWT: <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">NEWT</span></code>. The main model class is
+<code class="docutils literal notranslate"><span class="pre">NEWT.Watershed</span></code>.</p>
+</section>
+<section id="data-preparation">
+<h3>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">¶</a></h3>
+<p>To generate predictions with a NEWT model with specified coefficients
+(<code class="docutils literal notranslate"><span class="pre">Watershed.run_series(data)</span></code>), the requirement is a data frame with
+columns <code class="docutils literal notranslate"><span class="pre">date</span></code> (a Pandas datetime), <code class="docutils literal notranslate"><span class="pre">day</span></code> (Julian day), and <code class="docutils literal notranslate"><span class="pre">tmax</span></code>
+(daily max air temperature, averaged over the watershed). To train a
+model from data (<code class="docutils literal notranslate"><span class="pre">Watershed.from_data(data)</span></code>), there also needs to be
+a <code class="docutils literal notranslate"><span class="pre">temperature</span></code> (observed daily stream water temperature) column.
+Performance results are for daily mean, but this also works with daily
+max or min.</p>
+</section>
+<section id="model-execution">
+<h3>Model Execution<a class="headerlink" href="#model-execution" title="Link to this heading">¶</a></h3>
+<p>The standard approach to running the model is
+<code class="docutils literal notranslate"><span class="pre">Watershed.run_series(data)</span></code>, which executes the model for the full
+provided timeseries and adds a <code class="docutils literal notranslate"><span class="pre">prediction</span></code> column. If modification
+engines are not in use, this runs a fast single-pass approach.
+Otherwise, it runs step-by-step, applying modification engines when
+needed. You can also manually run step-by-step using
+<code class="docutils literal notranslate"><span class="pre">.run_step(inputs)</span></code> - a single step - or
+<code class="docutils literal notranslate"><span class="pre">.run_series_incremental(data)</span></code>, which forces the full series to be
+run step-by-step.</p>
+<p>An optional argument to <code class="docutils literal notranslate"><span class="pre">run_series</span></code> is <code class="docutils literal notranslate"><span class="pre">context</span></code>. If True
+(default), it adds a <code class="docutils literal notranslate"><span class="pre">prediction</span></code> column, as described. Otherwise, it
+just returns the array of predictions.</p>
+</section>
+</section>
+<section id="detailed-documentation">
+<h2>Detailed Documentation<a class="headerlink" href="#detailed-documentation" title="Link to this heading">¶</a></h2>
+<p>See the <a class="reference external" href="https://rivertempest.org/newt/newt.html">documentation</a> at
+RiverTempest.org.</p>
+</section>
+<section id="capabilities-overview">
+<h2>Capabilities Overview<a class="headerlink" href="#capabilities-overview" title="Link to this heading">¶</a></h2>
+<p>The default NEWT configuration runs a stationary seasonality plus
+weather model, a direct implementation of the SCHEMA (Seasonal
+Conditions Historical Expectation with Modeled daily Anomaly) approach
+developed for TempEst 2. However, you can also specify “modification
+engines”, which activate at specified intervals to modify coefficients
+based on model history. This allows accounting for disturbances,
+droughts, climate change, etc. These are simply passed as an argument to
+initializing the watershed model; see the reference linked above.</p>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">¶</a></h2>
+<p>If you use TempEst-NEWT in your research, please cite:</p>
+<p>Philippus, Corona and Hogue. “Kilometer-Resolution Daily Stream Water
+Temperature Modeling and Forecasting for Ungaged Watersheds at the CONUS
+Scale.” In preparation.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/TempEstNoNumberForDarkBackgrounds.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TempEst-NEWT</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#data-preparation">Data Preparation</a></li>
+<li><a class="reference internal" href="#model-execution">Model Execution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#detailed-documentation">Detailed Documentation</a></li>
+<li><a class="reference internal" href="#capabilities-overview">Capabilities Overview</a></li>
+<li><a class="reference internal" href="#citation">Citation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/readme.html">TempEst 2-FAST Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/tempest2fast.html">TempEst 2-FAST Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst-NEWT Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detailed-documentation">Detailed Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#capabilities-overview">Capabilities Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../next/readme.html" title="TempEst-NEXT"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2fast/tempest2fast.html" title="tempest2fast package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst-NEWT</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

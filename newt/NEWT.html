@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>NEWT package &#8212; RiverTempest.org</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="icon" href="../_static/TempEstICOSquare.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NEXT package" href="../next/NEXT.html" />
+    <link rel="prev" title="TempEst-NEXT" href="../next/readme.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../next/NEXT.html" title="NEXT package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../next/readme.html" title="TempEst-NEXT"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NEWT package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="newt-package">
+<h1>NEWT package<a class="headerlink" href="#newt-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-NEWT.analysis">
+<span id="newt-analysis-module"></span><h2>NEWT.analysis module<a class="headerlink" href="#module-NEWT.analysis" title="Link to this heading">¶</a></h2>
+<p>Created on Fri Jul 19 14:03:02 2024</p>
+<p>&#64;author: dphilippus</p>
+<p>This file contains analysis helpers.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.analysis.anomalies">
+<span class="sig-prename descclassname"><span class="pre">NEWT.analysis.</span></span><span class="sig-name descname"><span class="pre">anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.analysis.anomalies" title="Link to this definition">¶</a></dt>
+<dd><p>Compute day-of-year anomalies for y.  Returns a Series with anomalies.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.analysis.apply_cutoff">
+<span class="sig-prename descclassname"><span class="pre">NEWT.analysis.</span></span><span class="sig-name descname"><span class="pre">apply_cutoff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cut</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.analysis.apply_cutoff" title="Link to this definition">¶</a></dt>
+<dd><p>For a given slopes (sensitivities) dataset, compute correlation, min
+sensitivity, and max sensitivity below the specified cutoff.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.analysis.circular_season">
+<span class="sig-prename descclassname"><span class="pre">NEWT.analysis.</span></span><span class="sig-name descname"><span class="pre">circular_season</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.analysis.circular_season" title="Link to this definition">¶</a></dt>
+<dd><p>Compute seasonality under circular statistics (Fisher 1993).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>days</strong> (<em>pandas Series</em>) – Series of date string, Pandas datetime, or integer day of year.</p></li>
+<li><p><strong>values</strong> (<em>numeric pandas Series</em>) – Whatever we’re computing the seasonality of.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>day_ctr</strong> (<em>float</em>) – Mean, or central, day of the quantity.</p></li>
+<li><p><strong>I</strong> (<em>float</em>) – Seasonality index.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>For angle from Jan. 1:</dt><dd><p>S = sum(P*sin)
+C = sum(P*cos)</p>
+</dd>
+</dl>
+<p>Magnitude PR = sqrt(S^2 + C^2)
+Angle = atan(S/C); +180 if C &lt;0 and +360 if S &lt; 0.  This gives average
+time of ocurrence.
+Concentration in time (seasonality index, IS) = PR/P total.
+Fisher, N.I. (1993). Statistical Analysis of Circular Data. New York:</p>
+<blockquote>
+<div><p>Cambridge University Press.  Cited in
+Dingman, S. L. (2015). Physical Hydrology, 3rd ed.
+Long Grove: Waveland Press, Inc.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.analysis.convolve">
+<span class="sig-prename descclassname"><span class="pre">NEWT.analysis.</span></span><span class="sig-name descname"><span class="pre">convolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.132,</span> <span class="pre">0.401,</span> <span class="pre">0.162,</span> <span class="pre">0.119,</span> <span class="pre">0.056,</span> <span class="pre">0.13])</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.analysis.convolve" title="Link to this definition">¶</a></dt>
+<dd><p>Implements anomaly smoothing for analysis use by convolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series</strong> (<em>numeric array</em>) – The series (typically, air temperature anomaly) to be smoothed.</p></li>
+<li><p><strong>conv</strong> (<em>numeric array</em>) – The array to use for smoothing.  This is applies “backwards”, so, for
+the final entry in the result, conv[0] is multiplied with series[-1],
+etc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The smoothed/convolved result.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numeric array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.analysis.find_cutoff">
+<span class="sig-prename descclassname"><span class="pre">NEWT.analysis.</span></span><span class="sig-name descname"><span class="pre">find_cutoff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sl</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.analysis.find_cutoff" title="Link to this definition">¶</a></dt>
+<dd><p>sl: has int_mean, slope
+We want:</p>
+<blockquote>
+<div><p>Optimal cutoff point for corr., such that there are at least 3 values above and below the cutoff
+Sub-cutoff correlation, minimum, maximum</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.analysis.get_sensitivities">
+<span class="sig-prename descclassname"><span class="pre">NEWT.analysis.</span></span><span class="sig-name descname"><span class="pre">get_sensitivities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.analysis.get_sensitivities" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the sensitivity of ST to AT anomaly, grouped by integer mean
+temperature (actemp).
+data must contain: anom_atmod, st_anom, actemp</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.analysis.get_sensitivity">
+<span class="sig-prename descclassname"><span class="pre">NEWT.analysis.</span></span><span class="sig-name descname"><span class="pre">get_sensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.analysis.get_sensitivity" title="Link to this definition">¶</a></dt>
+<dd><p>Compute single-regression sensitivity of ST to AT anomaly.
+data must contain: anom_atmod, st_anom</p>
+</dd></dl>
+
+</section>
+<section id="module-NEWT.bmi">
+<span id="newt-bmi-module"></span><h2>NEWT.bmi module<a class="headerlink" href="#module-NEWT.bmi" title="Link to this heading">¶</a></h2>
+<p>Created on Mon Jul 29 13:34:31 2024</p>
+<p>&#64;author: dphilippus</p>
+<p>BMI implementation of the Watershed class.  Referred to as NEXT in reference
+to the parent library (with coefficient estimation), but the actual BMI part
+is the watershed model NEWT.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="NEWT.bmi.NextBmi">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NEWT.bmi.</span></span><span class="sig-name descname"><span class="pre">NextBmi</span></span><a class="headerlink" href="#NEWT.bmi.NextBmi" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.bmi.SchemaBmi" title="libschema.bmi.SchemaBmi"><code class="xref py py-class docutils literal notranslate"><span class="pre">SchemaBmi</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.bmi.NextBmi.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.bmi.NextBmi.initialize" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the model.  Filename points to input file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.bmi.NextBmi.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.bmi.NextBmi.update" title="Link to this definition">¶</a></dt>
+<dd><p>Advance model state by one time step.</p>
+<p>Perform all tasks that take place within one pass through the model’s
+time loop. This typically includes incrementing all of the model’s
+state variables. If the model’s state variables don’t change in time,
+then they can be computed by the <a class="reference internal" href="#NEWT.bmi.NextBmi.initialize" title="NEWT.bmi.NextBmi.initialize"><code class="xref py py-func docutils literal notranslate"><span class="pre">initialize()</span></code></a> method and this
+method can return with no action.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-NEWT.engines">
+<span id="newt-engines-module"></span><h2>NEWT.engines module<a class="headerlink" href="#module-NEWT.engines" title="Link to this heading">¶</a></h2>
+<p>This file covers pre-specified modification engines for the Watershed class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="NEWT.engines.ClimateEngine">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NEWT.engines.</span></span><span class="sig-name descname"><span class="pre">ClimateEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coef_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.engines.ClimateEngine" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModEngine</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.engines.ClimateEngine.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seasonality</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.engines.ClimateEngine.apply" title="Link to this definition">¶</a></dt>
+<dd><p>Apply ModEngine to model coefficients and update them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seasonality</strong> (<a class="reference internal" href="../libschema/libschema.html#libschema.classes.Seasonality" title="libschema.classes.Seasonality"><em>Seasonality</em></a>) – Current model seasonality object.</p></li>
+<li><p><strong>anomaly</strong> (<a class="reference internal" href="../libschema/libschema.html#libschema.classes.Anomaly" title="libschema.classes.Anomaly"><em>Anomaly</em></a>) – Current model anomaly object.</p></li>
+<li><p><strong>periodics</strong> (<em>DataFrame</em>) – Current model periodics (i.e. day-of-year means or similar).</p></li>
+<li><p><strong>history</strong> (<em>DataFrame</em>) – Model input history dataframe containing required ModEngine inputs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated seasonality, anomaly, and periodics. May be unchanged.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../libschema/libschema.html#libschema.classes.Seasonality" title="libschema.classes.Seasonality">Seasonality</a>, <a class="reference internal" href="../libschema/libschema.html#libschema.classes.Anomaly" title="libschema.classes.Anomaly">Anomaly</a>, DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.engines.ClimateEngine.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.engines.ClimateEngine.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Convert ModEngine to a dictionary, if applicable. This differs from .coefficients()
+because it is intended to contain information for rebuilding the entire ModEngine,
+not just coefficients - e.g., for to/from file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NEWT.engines.</span></span><span class="sig-name descname"><span class="pre">WetDryEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.engines.WetDryEngine" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModEngine</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seasonality</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.engines.WetDryEngine.apply" title="Link to this definition">¶</a></dt>
+<dd><p>Apply ModEngine to model coefficients and update them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seasonality</strong> (<a class="reference internal" href="../libschema/libschema.html#libschema.classes.Seasonality" title="libschema.classes.Seasonality"><em>Seasonality</em></a>) – Current model seasonality object.</p></li>
+<li><p><strong>anomaly</strong> (<a class="reference internal" href="../libschema/libschema.html#libschema.classes.Anomaly" title="libschema.classes.Anomaly"><em>Anomaly</em></a>) – Current model anomaly object.</p></li>
+<li><p><strong>periodics</strong> (<em>DataFrame</em>) – Current model periodics (i.e. day-of-year means or similar).</p></li>
+<li><p><strong>history</strong> (<em>DataFrame</em>) – Model input history dataframe containing required ModEngine inputs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated seasonality, anomaly, and periodics. May be unchanged.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="../libschema/libschema.html#libschema.classes.Seasonality" title="libschema.classes.Seasonality">Seasonality</a>, <a class="reference internal" href="../libschema/libschema.html#libschema.classes.Anomaly" title="libschema.classes.Anomaly">Anomaly</a>, DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine.coefficients">
+<span class="sig-name descname"><span class="pre">coefficients</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([[-0.0005052</span> <span class="pre">,</span>&#160; <span class="pre">0.20950815,</span>&#160; <span class="pre">0.00878928,</span>&#160; <span class="pre">0.27126956],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.02483909,</span>&#160; <span class="pre">0.03893097,</span>&#160; <span class="pre">0.23097838,</span> <span class="pre">-0.08972917],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.18165192,</span>&#160; <span class="pre">0.03533642,</span>&#160; <span class="pre">0.0376597</span> <span class="pre">,</span> <span class="pre">-0.04843433],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.11882707,</span> <span class="pre">-0.02540745,</span>&#160; <span class="pre">0.0872312</span> <span class="pre">,</span>&#160; <span class="pre">0.09682372],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.11377387,</span> <span class="pre">-0.03922007,</span> <span class="pre">-0.05867647,</span> <span class="pre">-0.19380713],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.00695277,</span> <span class="pre">-0.05728106,</span> <span class="pre">-0.0050682</span> <span class="pre">,</span> <span class="pre">-0.03441679],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.09729149,</span> <span class="pre">-0.15457463,</span> <span class="pre">-0.04012739,</span>&#160; <span class="pre">0.1094664</span> <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.03810666,</span> <span class="pre">-0.00421428,</span>&#160; <span class="pre">0.04688826,</span> <span class="pre">-0.00968003],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.02978966,</span> <span class="pre">-0.01732264,</span>&#160; <span class="pre">0.03163223,</span> <span class="pre">-0.05764028],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.07078723,</span>&#160; <span class="pre">0.00972933,</span>&#160; <span class="pre">0.03174617,</span>&#160; <span class="pre">0.02962073],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.09364882,</span> <span class="pre">-0.0618068</span> <span class="pre">,</span>&#160; <span class="pre">0.02496836,</span>&#160; <span class="pre">0.1010218</span> <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.01003955,</span>&#160; <span class="pre">0.07616144,</span> <span class="pre">-0.07250772,</span>&#160; <span class="pre">0.09110184],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.1211358</span> <span class="pre">,</span>&#160; <span class="pre">0.01166767,</span> <span class="pre">-0.00616139,</span>&#160; <span class="pre">0.0322868</span> <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.09323389,</span>&#160; <span class="pre">0.04177228,</span>&#160; <span class="pre">0.10193825,</span> <span class="pre">-0.02004063],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.01498119,</span>&#160; <span class="pre">0.11652247,</span> <span class="pre">-0.01487626,</span>&#160; <span class="pre">0.03793324],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.04443768,</span>&#160; <span class="pre">0.16149348,</span> <span class="pre">-0.05055509,</span> <span class="pre">-0.01486221],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.05967385,</span>&#160; <span class="pre">0.01504736,</span> <span class="pre">-0.02869132,</span>&#160; <span class="pre">0.07218751],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.05059341,</span>&#160; <span class="pre">0.0044748</span> <span class="pre">,</span>&#160; <span class="pre">0.01692253,</span>&#160; <span class="pre">0.03422162],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-0.01654923,</span> <span class="pre">-0.13983716,</span>&#160; <span class="pre">0.04076389,</span> <span class="pre">-0.06276745],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">0.09192067,</span>&#160; <span class="pre">0.15357204,</span> <span class="pre">-0.02941425,</span>&#160; <span class="pre">0.08073295]])</span></em><a class="headerlink" href="#NEWT.engines.WetDryEngine.coefficients" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine.from_data">
+<span class="sig-name descname"><span class="pre">from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.engines.WetDryEngine.from_data" title="Link to this definition">¶</a></dt>
+<dd><p>Fit ModEngine from data, if applicable.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine.offset">
+<span class="sig-name descname"><span class="pre">offset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">tmax_1_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.866020e-17</span> <span class="pre">tmax_2_anom</span>&#160;&#160;&#160;&#160; <span class="pre">2.158889e-18</span> <span class="pre">tmax_3_anom</span>&#160;&#160;&#160; <span class="pre">-2.778008e-17</span> <span class="pre">tmax_4_anom</span>&#160;&#160;&#160; <span class="pre">-1.504659e-18</span> <span class="pre">tmax_5_anom</span>&#160;&#160;&#160;&#160; <span class="pre">6.855634e-17</span> <span class="pre">tmax_6_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.256513e-16</span> <span class="pre">tmax_7_anom</span>&#160;&#160;&#160; <span class="pre">-1.682039e-16</span> <span class="pre">tmax_8_anom</span>&#160;&#160;&#160; <span class="pre">-4.931471e-17</span> <span class="pre">tmax_9_anom</span>&#160;&#160;&#160; <span class="pre">-5.568388e-17</span> <span class="pre">tmax_10_anom</span>&#160;&#160; <span class="pre">-6.857474e-17</span> <span class="pre">tmax_11_anom</span>&#160;&#160; <span class="pre">-5.103312e-17</span> <span class="pre">tmax_12_anom</span>&#160;&#160;&#160; <span class="pre">7.225219e-18</span> <span class="pre">prcp_1_anom</span>&#160;&#160;&#160;&#160; <span class="pre">2.311987e-17</span> <span class="pre">prcp_2_anom</span>&#160;&#160;&#160; <span class="pre">-6.943452e-18</span> <span class="pre">prcp_3_anom</span>&#160;&#160;&#160; <span class="pre">-6.496954e-18</span> <span class="pre">prcp_4_anom</span>&#160;&#160;&#160;&#160; <span class="pre">8.598049e-19</span> <span class="pre">prcp_5_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.640192e-17</span> <span class="pre">prcp_6_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.560257e-17</span> <span class="pre">prcp_7_anom</span>&#160;&#160;&#160;&#160; <span class="pre">4.914546e-18</span> <span class="pre">prcp_8_anom</span>&#160;&#160;&#160;&#160; <span class="pre">8.475965e-18</span> <span class="pre">prcp_9_anom</span>&#160;&#160;&#160; <span class="pre">-3.659373e-18</span> <span class="pre">prcp_10_anom</span>&#160;&#160;&#160; <span class="pre">1.583611e-17</span> <span class="pre">prcp_11_anom</span>&#160;&#160; <span class="pre">-3.233782e-18</span> <span class="pre">prcp_12_anom</span>&#160;&#160;&#160; <span class="pre">7.329933e-18</span> <span class="pre">dtype:</span> <span class="pre">float64</span></em><a class="headerlink" href="#NEWT.engines.WetDryEngine.offset" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine.pc_fit">
+<span class="sig-name descname"><span class="pre">pc_fit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([[</span> <span class="pre">1.78448251e-01,</span>&#160; <span class="pre">1.42709343e-01,</span>&#160; <span class="pre">3.95463780e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.08135443e-01,</span>&#160; <span class="pre">1.98240525e-01,</span>&#160; <span class="pre">4.26967297e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.95903767e-01,</span>&#160; <span class="pre">1.26097507e-01,</span> <span class="pre">-1.19611786e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.27733177e-01,</span>&#160; <span class="pre">2.01187014e-01,</span>&#160; <span class="pre">2.18794091e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.18430122e-01,</span> <span class="pre">-3.30709761e-02,</span> <span class="pre">-1.61873524e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.66035665e-01,</span> <span class="pre">-2.64834974e-01,</span> <span class="pre">-3.29201348e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-4.47227019e-02,</span>&#160; <span class="pre">3.10711344e-02,</span>&#160; <span class="pre">7.74043235e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-4.73086655e-02,</span>&#160; <span class="pre">4.54544152e-02,</span>&#160; <span class="pre">1.33724790e-02],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">3.20460446e-01,</span>&#160; <span class="pre">2.60926901e-01,</span>&#160; <span class="pre">1.14116091e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">6.79676211e-02,</span> <span class="pre">-2.08912198e-01,</span> <span class="pre">-5.54946670e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.67133220e-01,</span> <span class="pre">-4.37442327e-01,</span> <span class="pre">-2.63705331e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.56966021e-01,</span>&#160; <span class="pre">1.45365418e-01,</span>&#160; <span class="pre">4.44699971e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.51338243e-02,</span> <span class="pre">-1.36097365e-01,</span> <span class="pre">-7.24610755e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.24256899e-02,</span>&#160; <span class="pre">1.75981445e-01,</span>&#160; <span class="pre">3.70865529e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">3.84371972e-01,</span>&#160; <span class="pre">2.38485394e-01,</span>&#160; <span class="pre">1.03381736e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.13513894e-01,</span> <span class="pre">-2.37517761e-01,</span> <span class="pre">-1.05088454e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">2.58176242e-01,</span>&#160; <span class="pre">1.87981020e-01,</span>&#160; <span class="pre">1.17008107e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.16458320e-01,</span> <span class="pre">-2.22006728e-01,</span> <span class="pre">-1.11127334e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">4.84185786e-02,</span>&#160; <span class="pre">1.11158354e-01,</span>&#160; <span class="pre">4.19810694e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-5.85908031e-02,</span>&#160; <span class="pre">2.14142289e-02,</span>&#160; <span class="pre">2.74768208e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">5.60907001e-02,</span> <span class="pre">-2.73552720e-01,</span>&#160; <span class="pre">3.30019615e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-7.16107662e-02,</span>&#160; <span class="pre">1.58551480e-01,</span>&#160; <span class="pre">1.47773735e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-6.63518720e-04,</span> <span class="pre">-2.29383948e-01,</span> <span class="pre">-5.22586323e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.53202014e-01,</span>&#160; <span class="pre">1.25085758e-01,</span>&#160; <span class="pre">9.74416365e-02],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-2.59484015e-01,</span> <span class="pre">-3.22268264e-01,</span> <span class="pre">-1.95286249e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">3.96239149e-01,</span>&#160; <span class="pre">2.53620561e-01,</span>&#160; <span class="pre">9.66020717e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-3.17853928e-01,</span> <span class="pre">-1.10052614e-01,</span>&#160; <span class="pre">1.05392195e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-6.71144276e-02,</span> <span class="pre">-8.39857208e-03,</span>&#160; <span class="pre">1.00017137e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.15475659e-01,</span> <span class="pre">-3.39113390e-03,</span> <span class="pre">-1.31854095e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-4.39160466e-01,</span> <span class="pre">-1.49022332e-01,</span>&#160; <span class="pre">7.88806418e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.11566354e-01,</span> <span class="pre">-1.72726312e-01,</span> <span class="pre">-5.17042049e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.68450720e-01,</span> <span class="pre">-1.72427807e-01,</span> <span class="pre">-1.79973384e-04],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-6.73877280e-02,</span> <span class="pre">-4.08782264e-02,</span>&#160; <span class="pre">3.14616330e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">6.46777954e-02,</span> <span class="pre">-1.33616541e-01,</span>&#160; <span class="pre">9.99457566e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.92201141e-01,</span> <span class="pre">-1.28829313e-01,</span> <span class="pre">-1.12150616e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-4.47024940e-02,</span> <span class="pre">-1.63774653e-01,</span> <span class="pre">-2.15416433e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.51252692e-01,</span> <span class="pre">-2.97981761e-01,</span> <span class="pre">-2.99489114e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.28411923e-02,</span> <span class="pre">-6.90296147e-02,</span> <span class="pre">-1.70606196e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.23518872e-01,</span>&#160; <span class="pre">5.23924625e-02,</span> <span class="pre">-6.63803503e-03,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.64759741e-01,</span>&#160; <span class="pre">4.35368495e-01,</span>&#160; <span class="pre">5.80948765e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">1.25003122e-02,</span> <span class="pre">-3.78198013e-01,</span>&#160; <span class="pre">2.69962941e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.59941297e-01,</span> <span class="pre">-3.68214305e-01,</span> <span class="pre">-2.32209802e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.25754678e-01,</span>&#160; <span class="pre">1.39875508e-01,</span> <span class="pre">-2.31770432e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-4.20145985e-01,</span>&#160; <span class="pre">1.29693755e-01,</span>&#160; <span class="pre">3.53126478e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">9.09774826e-02,</span>&#160; <span class="pre">2.25740261e-01,</span> <span class="pre">-2.00676398e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.58598240e-01,</span>&#160; <span class="pre">6.89702751e-02,</span> <span class="pre">-1.22134250e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.29230072e-01,</span>&#160; <span class="pre">8.33498364e-02,</span>&#160; <span class="pre">4.10869073e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.72753996e-01,</span> <span class="pre">-1.12827692e-01,</span>&#160; <span class="pre">1.24490438e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-1.03349329e-01,</span>&#160; <span class="pre">1.28478791e-01,</span>&#160; <span class="pre">1.06517798e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.31361114e-02,</span>&#160; <span class="pre">7.60730834e-02,</span> <span class="pre">-1.30604590e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-3.33637489e-03,</span>&#160; <span class="pre">3.12454787e-01,</span>&#160; <span class="pre">1.16361899e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.96575498e-01,</span>&#160; <span class="pre">4.45995928e-01,</span> <span class="pre">-2.26910082e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-9.75902658e-02,</span> <span class="pre">-3.02535175e-01,</span> <span class="pre">-3.66050093e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-5.41816440e-02,</span>&#160; <span class="pre">2.40059163e-01,</span>&#160; <span class="pre">2.53995619e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-9.14855010e-02,</span> <span class="pre">-9.32948721e-02,</span>&#160; <span class="pre">3.39271060e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">3.60320958e-02,</span> <span class="pre">-2.09584083e-01,</span> <span class="pre">-1.84487015e-02],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-1.78146633e-01,</span>&#160; <span class="pre">2.18513950e-01,</span> <span class="pre">-3.23098745e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.77040626e-01,</span> <span class="pre">-1.20301794e-01,</span>&#160; <span class="pre">1.26915873e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.81441522e-02,</span>&#160; <span class="pre">9.19418110e-02,</span>&#160; <span class="pre">1.80397674e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">5.95750558e-02,</span>&#160; <span class="pre">3.27251026e-01,</span> <span class="pre">-3.50570956e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">6.92223828e-02,</span>&#160; <span class="pre">2.22420155e-01,</span>&#160; <span class="pre">5.00482756e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.85412666e-01,</span>&#160; <span class="pre">2.72021222e-01,</span> <span class="pre">-2.27532347e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.79059400e-01,</span>&#160; <span class="pre">7.84567517e-02,</span>&#160; <span class="pre">8.11877971e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.58416876e-02,</span>&#160; <span class="pre">1.74804458e-01,</span>&#160; <span class="pre">2.04230902e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">2.44110635e-01,</span> <span class="pre">-7.90667078e-02,</span>&#160; <span class="pre">4.74084898e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.02146270e-01,</span>&#160; <span class="pre">1.24937911e-01,</span> <span class="pre">-1.77899675e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.71671391e-01,</span> <span class="pre">-1.88070288e-01,</span>&#160; <span class="pre">1.52803252e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.14040920e-01,</span>&#160; <span class="pre">1.70818157e-01,</span> <span class="pre">-1.88778979e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">9.45564599e-02,</span>&#160; <span class="pre">1.98248647e-01,</span> <span class="pre">-2.01606225e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.19405075e-01,</span> <span class="pre">-2.53972713e-01,</span>&#160; <span class="pre">3.66530045e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.52330751e-01,</span>&#160; <span class="pre">5.70672162e-01,</span> <span class="pre">-8.93270896e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">9.11063532e-02,</span>&#160; <span class="pre">1.28841555e-01,</span>&#160; <span class="pre">3.82714204e-02],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-2.64751228e-01,</span>&#160; <span class="pre">1.73478212e-01,</span>&#160; <span class="pre">5.16937831e-03,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">5.16134192e-02,</span> <span class="pre">-1.78129963e-01,</span>&#160; <span class="pre">4.45578342e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.09605482e-01,</span> <span class="pre">-1.52557901e-01,</span> <span class="pre">-5.39881222e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.26486157e-01,</span> <span class="pre">-4.70979123e-02,</span>&#160; <span class="pre">6.17040165e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">5.91427242e-01,</span>&#160; <span class="pre">1.57929506e-01,</span> <span class="pre">-3.70042619e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-6.85399430e-03,</span>&#160; <span class="pre">1.74895195e-01,</span> <span class="pre">-9.36501790e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-3.59696237e-01,</span>&#160; <span class="pre">7.55711692e-02,</span> <span class="pre">-4.02124006e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-5.61335512e-02,</span> <span class="pre">-1.49638970e-01,</span>&#160; <span class="pre">2.99770035e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">8.64448088e-02,</span> <span class="pre">-3.17519580e-01,</span>&#160; <span class="pre">7.55872539e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">4.09118636e-01,</span> <span class="pre">-3.14358644e-01,</span>&#160; <span class="pre">4.41707069e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.77070315e-01,</span> <span class="pre">-6.85929536e-02,</span> <span class="pre">-2.82057095e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.29755069e-01,</span> <span class="pre">-8.53544373e-02,</span> <span class="pre">-1.39012681e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.03462683e-02,</span>&#160; <span class="pre">3.20067645e-02,</span> <span class="pre">-2.38272020e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.56011723e-04,</span>&#160; <span class="pre">3.13022216e-01,</span>&#160; <span class="pre">4.25358355e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.26650570e-01,</span> <span class="pre">-1.72601830e-01,</span>&#160; <span class="pre">1.78240356e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.64838865e-01,</span>&#160; <span class="pre">3.23717024e-01,</span> <span class="pre">-3.34796750e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">5.24908538e-02,</span>&#160; <span class="pre">1.12015401e-01,</span>&#160; <span class="pre">2.21797595e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.53678902e-01,</span> <span class="pre">-1.05186871e-01,</span> <span class="pre">-1.63273109e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.73980959e-01,</span>&#160; <span class="pre">1.14510682e-01,</span> <span class="pre">-3.89027179e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.02252435e-01,</span>&#160; <span class="pre">8.84559919e-02,</span> <span class="pre">-1.86827497e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.02278044e-01,</span> <span class="pre">-6.08413536e-02,</span>&#160; <span class="pre">3.05662801e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.61362017e-01,</span> <span class="pre">-4.45773870e-01,</span>&#160; <span class="pre">9.60138459e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.31706823e-01,</span> <span class="pre">-3.23686969e-01,</span> <span class="pre">-5.25519129e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">9.88015059e-02,</span> <span class="pre">-2.22747404e-01,</span>&#160; <span class="pre">1.70998967e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">2.20001269e-01,</span>&#160; <span class="pre">1.93482436e-01,</span>&#160; <span class="pre">8.93363450e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">4.99117149e-02,</span>&#160; <span class="pre">2.32842386e-01,</span> <span class="pre">-2.44313993e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-4.56539642e-02,</span>&#160; <span class="pre">8.90558844e-02,</span> <span class="pre">-8.81618902e-03,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.29849446e-01,</span> <span class="pre">-1.03352900e-01,</span>&#160; <span class="pre">6.91039966e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.47574448e-01,</span>&#160; <span class="pre">5.15489404e-01,</span> <span class="pre">-2.01276099e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">4.81358098e-02,</span>&#160; <span class="pre">9.81346892e-02,</span>&#160; <span class="pre">3.39436392e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">3.11481975e-01,</span> <span class="pre">-3.53344211e-01,</span>&#160; <span class="pre">1.85480339e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.58441597e-01,</span>&#160; <span class="pre">2.54295392e-01,</span>&#160; <span class="pre">7.23753407e-02],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">1.03759952e-01,</span>&#160; <span class="pre">2.02044996e-01,</span> <span class="pre">-9.09883507e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">7.45851674e-02,</span>&#160; <span class="pre">5.86497800e-02,</span>&#160; <span class="pre">7.01415755e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.63057041e-01,</span> <span class="pre">-1.52501569e-01,</span> <span class="pre">-7.98255238e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.16653807e-01,</span> <span class="pre">-3.90064508e-01,</span> <span class="pre">-2.13083789e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-6.60451998e-02,</span> <span class="pre">-1.52869196e-01,</span>&#160; <span class="pre">1.82181153e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-4.85758025e-01,</span>&#160; <span class="pre">2.29538451e-01,</span>&#160; <span class="pre">9.84768074e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-9.17180953e-02,</span> <span class="pre">-6.50920945e-02,</span>&#160; <span class="pre">6.85087678e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">5.03259138e-01,</span> <span class="pre">-2.70724367e-01,</span>&#160; <span class="pre">2.46951783e-02],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-1.17047137e-02,</span>&#160; <span class="pre">7.86065708e-02,</span> <span class="pre">-7.58969175e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">3.46541395e-02,</span>&#160; <span class="pre">4.49094615e-02,</span>&#160; <span class="pre">2.00734732e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.18905738e-01,</span> <span class="pre">-6.60687392e-02,</span> <span class="pre">-8.89164848e-03,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-3.13627853e-01,</span>&#160; <span class="pre">3.81161045e-02,</span> <span class="pre">-3.64373672e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.35551487e-01,</span> <span class="pre">-5.66449414e-02,</span> <span class="pre">-2.49404683e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.17409594e-01,</span> <span class="pre">-2.64346814e-02,</span> <span class="pre">-2.29281363e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">3.88223661e-01,</span> <span class="pre">-8.03995657e-02,</span> <span class="pre">-3.63069564e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.38907141e-01,</span> <span class="pre">-4.49788006e-02,</span> <span class="pre">-2.99886182e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-2.09755739e-01,</span>&#160; <span class="pre">8.39861009e-02,</span>&#160; <span class="pre">9.87765476e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.31488012e-01,</span>&#160; <span class="pre">1.42938929e-01,</span> <span class="pre">-2.40313114e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.07029212e-01,</span>&#160; <span class="pre">7.70021810e-02,</span> <span class="pre">-1.29513362e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.19980380e-01,</span> <span class="pre">-1.38202005e-01,</span>&#160; <span class="pre">1.64471722e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">4.51035348e-01,</span> <span class="pre">-3.96742224e-01,</span>&#160; <span class="pre">1.75469126e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.41298665e-01,</span> <span class="pre">-8.40278255e-02,</span>&#160; <span class="pre">4.25009632e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.73320423e-01,</span>&#160; <span class="pre">1.14072293e-01,</span>&#160; <span class="pre">2.42772508e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.32857067e-01,</span>&#160; <span class="pre">3.56135598e-01,</span> <span class="pre">-7.75451330e-02],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-2.34241661e-01,</span> <span class="pre">-6.80943928e-02,</span>&#160; <span class="pre">1.47588296e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">5.29099343e-02,</span> <span class="pre">-1.71242137e-01,</span>&#160; <span class="pre">2.75386254e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-2.64083452e-02,</span>&#160; <span class="pre">4.51293741e-01,</span> <span class="pre">-1.95008464e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">3.56009031e-01,</span> <span class="pre">-1.50884606e-01,</span> <span class="pre">-7.46398474e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">6.35097224e-03,</span> <span class="pre">-3.31785040e-02,</span>&#160; <span class="pre">1.42581273e-03,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-3.29396607e-02,</span>&#160; <span class="pre">6.01385395e-02,</span>&#160; <span class="pre">4.22936012e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.55093534e-01,</span>&#160; <span class="pre">3.22118973e-01,</span> <span class="pre">-2.66031557e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">6.75866371e-02,</span> <span class="pre">-8.59625194e-02,</span> <span class="pre">-1.34218771e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[-2.62983232e-01,</span> <span class="pre">-6.69756995e-02,</span>&#160; <span class="pre">2.19477159e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">4.80627723e-01,</span>&#160; <span class="pre">2.49935877e-01,</span>&#160; <span class="pre">1.18131117e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.15495553e-01,</span> <span class="pre">-1.36869176e-01,</span>&#160; <span class="pre">3.27618753e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.31325501e-02,</span>&#160; <span class="pre">8.83275887e-02,</span>&#160; <span class="pre">3.81364564e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-9.34647658e-02,</span> <span class="pre">-9.76918537e-02,</span>&#160; <span class="pre">1.38483042e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">5.01080176e-01,</span>&#160; <span class="pre">2.02808399e-01,</span>&#160; <span class="pre">4.56177870e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.00250323e-01,</span>&#160; <span class="pre">1.23717744e-01,</span>&#160; <span class="pre">8.04031190e-02,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.41702973e-01,</span> <span class="pre">-1.06434631e-01,</span>&#160; <span class="pre">1.11278788e-01],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">3.64092580e-01,</span> <span class="pre">-1.19791943e-01,</span> <span class="pre">-1.17510647e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.77385558e-01,</span> <span class="pre">-1.32150702e-01,</span>&#160; <span class="pre">1.32140333e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">9.84593697e-02,</span>&#160; <span class="pre">2.95378881e-01,</span>&#160; <span class="pre">3.13708287e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.88133050e-02,</span> <span class="pre">-3.75676997e-01,</span> <span class="pre">-1.44377909e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.61402483e-01,</span> <span class="pre">-8.05675891e-02,</span>&#160; <span class="pre">1.22058408e-03,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">2.09406254e-01,</span> <span class="pre">-8.85379123e-02,</span> <span class="pre">-1.06257368e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">1.40857017e-01,</span>&#160; <span class="pre">1.33255425e-01,</span>&#160; <span class="pre">3.83510794e-01,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-1.73906349e-01,</span> <span class="pre">-2.66469446e-01,</span>&#160; <span class="pre">1.83705456e-01]])</span></em><a class="headerlink" href="#NEWT.engines.WetDryEngine.pc_fit" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine.scale">
+<span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">tmax_1_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.886562</span> <span class="pre">tmax_2_anom</span>&#160;&#160;&#160;&#160; <span class="pre">2.648912</span> <span class="pre">tmax_3_anom</span>&#160;&#160;&#160;&#160; <span class="pre">2.412429</span> <span class="pre">tmax_4_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.733292</span> <span class="pre">tmax_5_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.785214</span> <span class="pre">tmax_6_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.495733</span> <span class="pre">tmax_7_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.424760</span> <span class="pre">tmax_8_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.196091</span> <span class="pre">tmax_9_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.563411</span> <span class="pre">tmax_10_anom</span>&#160;&#160;&#160; <span class="pre">2.061096</span> <span class="pre">tmax_11_anom</span>&#160;&#160;&#160; <span class="pre">2.248093</span> <span class="pre">tmax_12_anom</span>&#160;&#160;&#160; <span class="pre">2.194900</span> <span class="pre">prcp_1_anom</span>&#160;&#160;&#160;&#160; <span class="pre">2.303151</span> <span class="pre">prcp_2_anom</span>&#160;&#160;&#160;&#160; <span class="pre">2.314468</span> <span class="pre">prcp_3_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.973934</span> <span class="pre">prcp_4_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.687703</span> <span class="pre">prcp_5_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.636684</span> <span class="pre">prcp_6_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.617215</span> <span class="pre">prcp_7_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.340375</span> <span class="pre">prcp_8_anom</span>&#160;&#160;&#160;&#160; <span class="pre">1.584619</span> <span class="pre">prcp_9_anom</span>&#160;&#160;&#160;&#160; <span class="pre">2.008103</span> <span class="pre">prcp_10_anom</span>&#160;&#160;&#160; <span class="pre">2.179123</span> <span class="pre">prcp_11_anom</span>&#160;&#160;&#160; <span class="pre">1.892588</span> <span class="pre">prcp_12_anom</span>&#160;&#160;&#160; <span class="pre">2.186411</span> <span class="pre">dtype:</span> <span class="pre">float64</span></em><a class="headerlink" href="#NEWT.engines.WetDryEngine.scale" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NEWT.engines.WetDryEngine.variables">
+<span class="sig-name descname"><span class="pre">variables</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Amplitude',</span> <span class="pre">'FallWinter',</span> <span class="pre">'Intercept',</span> <span class="pre">'SpringSummer']</span></em><a class="headerlink" href="#NEWT.engines.WetDryEngine.variables" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.engines.wetDryHistory">
+<span class="sig-prename descclassname"><span class="pre">NEWT.engines.</span></span><span class="sig-name descname"><span class="pre">wetDryHistory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pcs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.engines.wetDryHistory" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-NEWT.statics">
+<span id="newt-statics-module"></span><h2>NEWT.statics module<a class="headerlink" href="#module-NEWT.statics" title="Link to this heading">¶</a></h2>
+<p>Created on Fri Jul 19 15:27:59 2024</p>
+<p>&#64;author: dphilippus</p>
+<p>Contains functions for generating static estimates.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.statics.fit_simple_daily">
+<span class="sig-prename descclassname"><span class="pre">NEWT.statics.</span></span><span class="sig-name descname"><span class="pre">fit_simple_daily</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crash</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.statics.fit_simple_daily" title="Link to this definition">¶</a></dt>
+<dd><p>Use OLS to fit simple-daily coefficients.  data must have day and name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.statics.fitrun_sd">
+<span class="sig-prename descclassname"><span class="pre">NEWT.statics.</span></span><span class="sig-name descname"><span class="pre">fitrun_sd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.statics.fitrun_sd" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.statics.sd_2d_model">
+<span class="sig-prename descclassname"><span class="pre">NEWT.statics.</span></span><span class="sig-name descname"><span class="pre">sd_2d_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.statics.sd_2d_model" title="Link to this definition">¶</a></dt>
+<dd><p>Build a model to predict simple daily coefficients from latitude and
+elevation.  data must contain id, day, lat, elev, and name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.statics.simple_daily">
+<span class="sig-prename descclassname"><span class="pre">NEWT.statics.</span></span><span class="sig-name descname"><span class="pre">simple_daily</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intercept</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ksin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kcos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.statics.simple_daily" title="Link to this definition">¶</a></dt>
+<dd><p>Construct a day-of-year timeseries (DataFrame of [day, name]) using a
+variable-phase sinusoid of y = a + b*sin(d) + c*cos(d)
+intercept = intercept, ksin = sine coef, kcos = cosine coef
+phase = atan(ksin/kcos)</p>
+</dd></dl>
+
+</section>
+<section id="module-NEWT.watershed">
+<span id="newt-watershed-module"></span><h2>NEWT.watershed module<a class="headerlink" href="#module-NEWT.watershed" title="Link to this heading">¶</a></h2>
+<p>This file defines a watershed class for provided coefficients.  It simply implements prediction logic.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="NEWT.watershed.Anomaly">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NEWT.watershed.</span></span><span class="sig-name descname"><span class="pre">Anomaly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">at_coef</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomgam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomnoise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.132,</span> <span class="pre">0.401,</span> <span class="pre">0.162,</span> <span class="pre">0.119,</span> <span class="pre">0.056,</span> <span class="pre">0.13])</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Anomaly" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.classes.Anomaly" title="libschema.classes.Anomaly"><code class="xref py py-class docutils literal notranslate"><span class="pre">Anomaly</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Anomaly.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periodic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Anomaly.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Anomaly.apply_vec">
+<span class="sig-name descname"><span class="pre">apply_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periodic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Anomaly.apply_vec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Anomaly.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Anomaly.from_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Anomaly.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Anomaly.to_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="NEWT.watershed.Seasonality">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NEWT.watershed.</span></span><span class="sig-name descname"><span class="pre">Seasonality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ThreeSine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Seasonality" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.classes.Seasonality" title="libschema.classes.Seasonality"><code class="xref py py-class docutils literal notranslate"><span class="pre">Seasonality</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Seasonality.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Seasonality.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Seasonality.apply_vec">
+<span class="sig-name descname"><span class="pre">apply_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_array</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Seasonality.apply_vec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Seasonality.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Seasonality.from_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Seasonality.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Seasonality.to_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NEWT.watershed.</span></span><span class="sig-name descname"><span class="pre">Watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seasonality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#NEWT.watershed.Seasonality" title="NEWT.watershed.Seasonality"><span class="pre">Seasonality</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#NEWT.watershed.Anomaly" title="NEWT.watershed.Anomaly"><span class="pre">Anomaly</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at_day</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../libschema/libschema.html#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><span class="pre">ModEngine</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.model.SCHEMA" title="libschema.model.SCHEMA"><code class="xref py py-class docutils literal notranslate"><span class="pre">SCHEMA</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seasonality</strong> (<a class="reference internal" href="#NEWT.watershed.Seasonality" title="NEWT.watershed.Seasonality"><em>Seasonality</em></a><em> | </em><em>dict</em>) – a Seasonaly object or dictionary of {Intercept, Amplitude,
+SpringSummer, FallWinter, SpringDay, SummerDay, FallDay,
+WinterDay}.</p></li>
+<li><p><strong>anomaly</strong> (<a class="reference internal" href="#NEWT.watershed.Anomaly" title="NEWT.watershed.Anomaly"><em>Anomaly</em></a><em> | </em><em>dict</em>) – an Anomaly object or dictionary of {at_coef} with optional
+{anomgam, quantiles, anomnoise, conv}.</p></li>
+<li><p><strong>at_day</strong> (<em>pd.DataFrame</em>) – data frame of [day, mean_tmax] or [period, tmax].</p></li>
+<li><p><strong>engines</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><a class="reference internal" href="../libschema/libschema.html#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><em>classes.ModEngine</em></a><em>]</em><em>]</em>) – Modification engines to apply at specified frequencies.</p></li>
+<li><p><strong>extra_columns</strong> (<em>list</em><em> of </em><em>strings</em><em>, </em><em>optional</em>) – history (e.g., for use by modification engines).  All columns
+specified must be provided for each step or specified through
+setters. The default is [].</p></li>
+<li><p><strong>logfile</strong> (<em>str</em><em>, </em><em>optional</em>) – Where to store logs, if anywhere. The default is None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.basic_histcol">
+<span class="sig-name descname"><span class="pre">basic_histcol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['day',</span> <span class="pre">'tmax']</span></em><a class="headerlink" href="#NEWT.watershed.Watershed.basic_histcol" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.coefs_to_df">
+<span class="sig-name descname"><span class="pre">coefs_to_df</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed.coefs_to_df" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.from_data">
+<span class="sig-name descname"><span class="pre">from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">anomgam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at_conv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.132,</span> <span class="pre">0.401,</span> <span class="pre">0.162,</span> <span class="pre">0.119,</span> <span class="pre">0.056,</span> <span class="pre">0.13])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_anomgam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed.from_data" title="Link to this definition">¶</a></dt>
+<dd><p>Train a watershed model from data.
+Requires columns date, temperature, tmax</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.from_file">
+<span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed.from_file" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.init_with_schema_names">
+<span class="sig-name descname"><span class="pre">init_with_schema_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed.init_with_schema_names" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.initialize_run">
+<span class="sig-name descname"><span class="pre">initialize_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed.initialize_run" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.run_series">
+<span class="sig-name descname"><span class="pre">run_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed.run_series" title="Link to this definition">¶</a></dt>
+<dd><p>Run a full timeseries at once.
+data must have columns date (as an actual date type), day, tmax.
+Will be returned with new columns day, actemp, anom, temp.mod
+This runs things all at once, so it’s much faster, but only works without engines.
+If engines are present, it switches to an incremental run.
+Returns the predicted array (if context=False) or the data with an added prediction
+column (if context=True).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NEWT.watershed.Watershed.run_step">
+<span class="sig-name descname"><span class="pre">run_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEWT.watershed.Watershed.run_step" title="Link to this definition">¶</a></dt>
+<dd><p>Run a single step, incrementally.  Updates history and returns
+today’s prediction.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEWT.watershed.anomilize">
+<span class="sig-prename descclassname"><span class="pre">NEWT.watershed.</span></span><span class="sig-name descname"><span class="pre">anomilize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#NEWT.watershed.anomilize" title="Link to this definition">¶</a></dt>
+<dd><p>Add anomaly information, comparing the air and optionally water temperature
+timeseries to their observed baselines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>DataFrame</em>) – The input dataframe. Columns: date, tmax. Also temperature if obs is True.</p></li>
+<li><p><strong>obs</strong> (<em>Bool</em><em>, </em><em>optional</em>) – Whether the data includes observed temperature. The default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>data</strong> – Data frame with added columns: day, at_day and at_anom (air temperature),
+optionally actemp and st_anom (water temperature).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-NEWT">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-NEWT" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/TempEstNoNumberForDarkBackgrounds.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NEWT package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-NEWT.analysis">NEWT.analysis module</a><ul>
+<li><a class="reference internal" href="#NEWT.analysis.anomalies"><code class="docutils literal notranslate"><span class="pre">anomalies()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.analysis.apply_cutoff"><code class="docutils literal notranslate"><span class="pre">apply_cutoff()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.analysis.circular_season"><code class="docutils literal notranslate"><span class="pre">circular_season()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.analysis.convolve"><code class="docutils literal notranslate"><span class="pre">convolve()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.analysis.find_cutoff"><code class="docutils literal notranslate"><span class="pre">find_cutoff()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.analysis.get_sensitivities"><code class="docutils literal notranslate"><span class="pre">get_sensitivities()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.analysis.get_sensitivity"><code class="docutils literal notranslate"><span class="pre">get_sensitivity()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-NEWT.bmi">NEWT.bmi module</a><ul>
+<li><a class="reference internal" href="#NEWT.bmi.NextBmi"><code class="docutils literal notranslate"><span class="pre">NextBmi</span></code></a><ul>
+<li><a class="reference internal" href="#NEWT.bmi.NextBmi.initialize"><code class="docutils literal notranslate"><span class="pre">NextBmi.initialize()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.bmi.NextBmi.update"><code class="docutils literal notranslate"><span class="pre">NextBmi.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-NEWT.engines">NEWT.engines module</a><ul>
+<li><a class="reference internal" href="#NEWT.engines.ClimateEngine"><code class="docutils literal notranslate"><span class="pre">ClimateEngine</span></code></a><ul>
+<li><a class="reference internal" href="#NEWT.engines.ClimateEngine.apply"><code class="docutils literal notranslate"><span class="pre">ClimateEngine.apply()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.engines.ClimateEngine.to_dict"><code class="docutils literal notranslate"><span class="pre">ClimateEngine.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine"><code class="docutils literal notranslate"><span class="pre">WetDryEngine</span></code></a><ul>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine.apply"><code class="docutils literal notranslate"><span class="pre">WetDryEngine.apply()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine.coefficients"><code class="docutils literal notranslate"><span class="pre">WetDryEngine.coefficients</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine.from_data"><code class="docutils literal notranslate"><span class="pre">WetDryEngine.from_data()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine.offset"><code class="docutils literal notranslate"><span class="pre">WetDryEngine.offset</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine.pc_fit"><code class="docutils literal notranslate"><span class="pre">WetDryEngine.pc_fit</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine.scale"><code class="docutils literal notranslate"><span class="pre">WetDryEngine.scale</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.engines.WetDryEngine.variables"><code class="docutils literal notranslate"><span class="pre">WetDryEngine.variables</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#NEWT.engines.wetDryHistory"><code class="docutils literal notranslate"><span class="pre">wetDryHistory()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-NEWT.statics">NEWT.statics module</a><ul>
+<li><a class="reference internal" href="#NEWT.statics.fit_simple_daily"><code class="docutils literal notranslate"><span class="pre">fit_simple_daily()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.statics.fitrun_sd"><code class="docutils literal notranslate"><span class="pre">fitrun_sd()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.statics.sd_2d_model"><code class="docutils literal notranslate"><span class="pre">sd_2d_model()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.statics.simple_daily"><code class="docutils literal notranslate"><span class="pre">simple_daily()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-NEWT.watershed">NEWT.watershed module</a><ul>
+<li><a class="reference internal" href="#NEWT.watershed.Anomaly"><code class="docutils literal notranslate"><span class="pre">Anomaly</span></code></a><ul>
+<li><a class="reference internal" href="#NEWT.watershed.Anomaly.apply"><code class="docutils literal notranslate"><span class="pre">Anomaly.apply()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Anomaly.apply_vec"><code class="docutils literal notranslate"><span class="pre">Anomaly.apply_vec()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Anomaly.from_dict"><code class="docutils literal notranslate"><span class="pre">Anomaly.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Anomaly.to_dict"><code class="docutils literal notranslate"><span class="pre">Anomaly.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#NEWT.watershed.Seasonality"><code class="docutils literal notranslate"><span class="pre">Seasonality</span></code></a><ul>
+<li><a class="reference internal" href="#NEWT.watershed.Seasonality.apply"><code class="docutils literal notranslate"><span class="pre">Seasonality.apply()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Seasonality.apply_vec"><code class="docutils literal notranslate"><span class="pre">Seasonality.apply_vec()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Seasonality.from_dict"><code class="docutils literal notranslate"><span class="pre">Seasonality.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Seasonality.to_dict"><code class="docutils literal notranslate"><span class="pre">Seasonality.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed"><code class="docutils literal notranslate"><span class="pre">Watershed</span></code></a><ul>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.basic_histcol"><code class="docutils literal notranslate"><span class="pre">Watershed.basic_histcol</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.coefs_to_df"><code class="docutils literal notranslate"><span class="pre">Watershed.coefs_to_df()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.from_data"><code class="docutils literal notranslate"><span class="pre">Watershed.from_data()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.from_file"><code class="docutils literal notranslate"><span class="pre">Watershed.from_file()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.init_with_schema_names"><code class="docutils literal notranslate"><span class="pre">Watershed.init_with_schema_names()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.initialize_run"><code class="docutils literal notranslate"><span class="pre">Watershed.initialize_run()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.run_series"><code class="docutils literal notranslate"><span class="pre">Watershed.run_series()</span></code></a></li>
+<li><a class="reference internal" href="#NEWT.watershed.Watershed.run_step"><code class="docutils literal notranslate"><span class="pre">Watershed.run_step()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#NEWT.watershed.anomilize"><code class="docutils literal notranslate"><span class="pre">anomilize()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-NEWT">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/readme.html">TempEst 2-FAST Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/tempest2fast.html">TempEst 2-FAST Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">TempEst-NEWT Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst-NEWT Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NEWT.analysis">NEWT.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NEWT.bmi">NEWT.bmi module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NEWT.engines">NEWT.engines module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NEWT.statics">NEWT.statics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NEWT.watershed">NEWT.watershed module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NEWT">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../next/NEXT.html">TempEst-NEXT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../next/NEXT.html" title="NEXT package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../next/readme.html" title="TempEst-NEXT"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NEWT package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+tempest2fast package
+====================
+
+Submodules
+----------
+
+tempest2fast.defaults module
+----------------------------
+
+.. automodule:: tempest2fast.defaults
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2fast.dem module
+-----------------------
+
+.. automodule:: tempest2fast.dem
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2fast.humidity module
+----------------------------
+
+.. automodule:: tempest2fast.humidity
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2fast.lcov module
+------------------------
+
+.. automodule:: tempest2fast.lcov
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2fast.lst module
+-----------------------
+
+.. automodule:: tempest2fast.lst
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2fast.prediction module
+------------------------------
+
+.. automodule:: tempest2fast.prediction
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2fast.rivers module
+--------------------------
+
+.. automodule:: tempest2fast.rivers
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2fast.ufuncs module
+--------------------------
+
+.. automodule:: tempest2fast.ufuncs
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: tempest2fast
+   :members:
+   :show-inheritance:
+   :undoc-members:

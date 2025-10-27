@@ -1,6 +1,7 @@
-libschema
-=========
+NEXT
+====
 
 .. toctree::
    :maxdepth: 4
 
+   NEXT
