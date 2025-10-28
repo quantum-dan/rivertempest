@@ -32,6 +32,15 @@ called NEXT: ``import NEXT``.
 Data Preparation
 ~~~~~~~~~~~~~~~~
 
+**NOTE: Data retrieval is currently a bit spotty because of API changes
+and other upstream chaos, as the Daymet API that was used is no longer
+available. NLDAS2 data retrieval (``weather="nldas"``) may or may not
+work. HRRR data retrieval should work (argument: ``weather="hrrr"``).
+The** `HydroShare
+repository <https://www.hydroshare.org/resource/abdb4e52147e408f9e328a5ba2a155f8/>`__
+**includes data to replicate the analysis, so the automatic data
+retrieval tools are not required for testing.**
+
 TempEst-NEXT provides automatic tools for data retrieval, for example:
 ``NEXT.data.full_data("-105.1235:40.5723", start="2020", end="2024", site_type="coordinates")``.
 You can also provide an input data frame. Required columns are
@@ -81,7 +90,7 @@ be used to look at stream thermal regimes in general.
 Detailed Documentation
 ----------------------
 
-See the `documentation <https://rivertempest.org/next/next.html>`__ at
+See the `documentation <https://rivertempest.org/next/NEXT.html>`__ at
 RiverTempest.org.
 
 Design Overview
@@ -110,6 +119,5 @@ Citation
 
 If you use TempEst-NEXT in your research, please cite:
 
-Philippus, Corona and Hogue. “Kilometer-Resolution Daily Stream Water
-Temperature Modeling and Forecasting for Ungaged Watersheds at the CONUS
-Scale.” In preparation.
+Philippus, Corona and Hogue. “Daily Stream Water Temperature Modeling
+and Forecasting for Ungaged Watersheds at the CONUS Scale.” In review.
