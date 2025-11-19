@@ -71,14 +71,16 @@ historical estimation (but is much faster and uses less data). TempEst
 while NEWT/NEXT are more focused on in-depth analysis of changes over
 time, as well as forecasting.</p>
 <p>TempEst-NEWT is implemented using
-<a class="reference external" href="https://mines-ciroh.github.io/libSCHEMA/">libSCHEMA</a>.</p>
+<a class="reference external" href="https://rivertempest.org/libschema/readme.html">libSCHEMA</a>.</p>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h3>
 <p>Install from PyPI: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tempest-newt</span></code>. The installed module is
-called NEWT: <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">NEWT</span></code>. The main model class is
-<code class="docutils literal notranslate"><span class="pre">NEWT.Watershed</span></code>.</p>
+called NEWT: <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">NEWT</span></code>. The main model class is <code class="docutils literal notranslate"><span class="pre">NEWT.Watershed</span></code>
+(<a class="reference external" href="https://rivertempest.org/newt/NEWT.html#NEWT.watershed.Watershed">documentation</a>).</p>
+<p>Dependencies: pandas, numpy (&gt;=2), rtseason (&gt;=1.1.3), bmipy, scipy,
+pygam (&gt;=0.10), libschema (&gt;=0.1.4), pyyaml</p>
 </section>
 <section id="data-preparation">
 <h3>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">¶</a></h3>
@@ -89,7 +91,9 @@ columns <code class="docutils literal notranslate"><span class="pre">date</span>
 model from data (<code class="docutils literal notranslate"><span class="pre">Watershed.from_data(data)</span></code>), there also needs to be
 a <code class="docutils literal notranslate"><span class="pre">temperature</span></code> (observed daily stream water temperature) column.
 Performance results are for daily mean, but this also works with daily
-max or min.</p>
+max or min. Extra data columns may be required depending on the use of
+modification engines (see <a class="reference external" href="https://rivertempest.org/libschema/libschema.html#libschema.model.SCHEMA">LibSCHEMA
+docs</a>).</p>
 </section>
 <section id="model-execution">
 <h3>Model Execution<a class="headerlink" href="#model-execution" title="Link to this heading">¶</a></h3>
@@ -105,6 +109,31 @@ run step-by-step.</p>
 <p>An optional argument to <code class="docutils literal notranslate"><span class="pre">run_series</span></code> is <code class="docutils literal notranslate"><span class="pre">context</span></code>. If True
 (default), it adds a <code class="docutils literal notranslate"><span class="pre">prediction</span></code> column, as described. Otherwise, it
 just returns the array of predictions.</p>
+<p>Additional information can be found in the documentation for the
+<code class="docutils literal notranslate"><span class="pre">SCHEMA</span></code> class in
+<a class="reference external" href="https://rivertempest.org/libschema/libschema.html#libschema.model.SCHEMA">LibSCHEMA</a>.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">NEWT</span><span class="w"> </span><span class="kn">import</span> <span class="n">Watershed</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># `temperature` column included to demonstrate building a model from data. Not required for prediction.</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="s2">&quot;2025-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-01-02&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]),</span>
+                            <span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">365</span><span class="p">],</span> <span class="s2">&quot;tmax&quot;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">3.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">...</span><span class="p">]},</span>
+                            <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="o">...</span><span class="p">]})</span>
+
+<span class="c1"># Usually, the provided coefficients would be fitted or estimated, but you can also manually specify them, as here.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Watershed</span><span class="p">(</span><span class="n">seasonality</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Intercept&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Amplitude&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;SpringSummer&quot;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s2">&quot;FallWinter&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                                <span class="s2">&quot;SpringDay&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s2">&quot;SummerDay&quot;</span><span class="p">:</span> <span class="mi">220</span><span class="p">,</span> <span class="s2">&quot;FallDay&quot;</span><span class="p">:</span> <span class="mi">330</span><span class="p">,</span> <span class="s2">&quot;WinterDay&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">},</span>
+                  <span class="n">anomaly</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;at_coef&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>
+                  <span class="n">at_day</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;day&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">365</span><span class="p">],</span> <span class="s2">&quot;mean_tmax&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">4.7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="o">...</span><span class="p">]}),</span>
+                  <span class="n">engines</span><span class="o">=</span><span class="p">[])</span>
+<span class="c1"># OR (more common), with `temperature` column included</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Watershed</span><span class="o">.</span><span class="n">from_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+
+<span class="c1"># either way...</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_series</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="detailed-documentation">

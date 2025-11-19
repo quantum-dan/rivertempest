@@ -16,7 +16,7 @@
     <link rel="icon" href="../_static/TempEstICOSquare.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="TempEst-NEWT" href="../newt/readme.html" />
+    <link rel="next" title="TempEst 2-FAST" href="../tempest2fast/readme.html" />
     <link rel="prev" title="TempEst 1" href="../tempest1/readme.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
@@ -29,7 +29,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../newt/readme.html" title="TempEst-NEWT"
+          <a href="../tempest2fast/readme.html" title="TempEst 2-FAST"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../tempest1/readme.html" title="TempEst 1"
@@ -50,10 +50,11 @@
 Conditions Historical Estimation with Modeled daily Anomaly”. It
 estimates stream water temperature at a point, for streams of any size,
 using a data-driven model based on satellite remote sensing data.</p>
-<p>This repository contains the model source code (<code class="docutils literal notranslate"><span class="pre">model.R</span></code>), Google
-Earth Engine data retrieval script (<code class="docutils literal notranslate"><span class="pre">eeretrieval.py</span></code>) and example data
-collection points (<code class="docutils literal notranslate"><span class="pre">datapts.py</span></code>), and R Notebooks demonstrating model
-usage (<code class="docutils literal notranslate"><span class="pre">demo.Rmd</span></code>) and a large set of model performance tests
+<p>The <a class="reference external" href="https://github.com/mines-ciroh/tempest2">GitHub repository</a>
+contains the model source code (<code class="docutils literal notranslate"><span class="pre">model.R</span></code>), Google Earth Engine data
+retrieval script (<code class="docutils literal notranslate"><span class="pre">eeretrieval.py</span></code>) and example data collection points
+(<code class="docutils literal notranslate"><span class="pre">datapts.py</span></code>), and R Notebooks demonstrating model usage
+(<code class="docutils literal notranslate"><span class="pre">demo.Rmd</span></code>) and a large set of model performance tests
 (<code class="docutils literal notranslate"><span class="pre">validation.Rmd</span></code>), used to make the performance claims reproducible.
 In addition, the HydroShare data (see below) includes knitted output of
 both Notebooks (<code class="docutils literal notranslate"><span class="pre">demo.pdf</span></code>, <code class="docutils literal notranslate"><span class="pre">validation.pdf</span></code>) and the full
@@ -65,14 +66,20 @@ the correct format, evenly-spaced above given target site(s) - this is
 useful for quickly generating study points over rivers of interest.</p>
 <section id="quick-guide">
 <h2>Quick Guide<a class="headerlink" href="#quick-guide" title="Link to this heading">¶</a></h2>
-<p>Dependencies in R: <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code>, <code class="docutils literal notranslate"><span class="pre">fields</span></code>. Additional dependencies
-for Google Earth Engine data retrieval: Python with the GEE API
-configured.</p>
+<p>Dependencies in R: <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code>, <code class="docutils literal notranslate"><span class="pre">fields</span></code>. The validation notebook
+also requires <code class="docutils literal notranslate"><span class="pre">terra</span></code>, <code class="docutils literal notranslate"><span class="pre">sf,</span></code>ggspatial<code class="docutils literal notranslate"><span class="pre">,</span> <span class="pre">and</span></code>hydroGOF`.
+Additional dependencies for Google Earth Engine data retrieval: Python
+with the GEE API configured.</p>
+<p>Note that it is advisable to run at least 5 years and preferably 10,
+even if you are interested in a shorter period, so that TempEst 2 has
+adequate data to characterize the point of interest (see
+period-of-record tests in the paper).</p>
 <section id="using-a-trained-model">
 <h3>Using a Trained Model<a class="headerlink" href="#using-a-trained-model" title="Link to this heading">¶</a></h3>
-<p>A pre-trained model is available in Releases as <code class="docutils literal notranslate"><span class="pre">model.rda</span></code>.
-<code class="docutils literal notranslate"><span class="pre">load(&quot;model.rda&quot;)</span></code> will load a function called <code class="docutils literal notranslate"><span class="pre">model</span></code>. The
-argument to <code class="docutils literal notranslate"><span class="pre">model</span></code> is a data frame with columns:</p>
+<p>A pre-trained model is available in the GitHub
+<a class="reference external" href="https://github.com/mines-ciroh/TempEst2/releases">Releases</a> as
+<code class="docutils literal notranslate"><span class="pre">model.rda</span></code>. <code class="docutils literal notranslate"><span class="pre">load(&quot;model.rda&quot;)</span></code> will load a function called
+<code class="docutils literal notranslate"><span class="pre">model</span></code>. The argument to <code class="docutils literal notranslate"><span class="pre">model</span></code> is a data frame with columns:</p>
 <ul class="simple">
 <li><p>id (site ID; character)</p></li>
 <li><p>lon (longitude; decimal degrees East)</p></li>
@@ -104,6 +111,36 @@ assess actual estimated temperature (<code class="docutils literal notranslate">
 conditions (<code class="docutils literal notranslate"><span class="pre">temp.doy</span></code>), such as to assess general long-term behavior;
 and departure from typical seasonal conditions (<code class="docutils literal notranslate"><span class="pre">temp.anom</span></code>), such as
 to assess heat waves or other extremes.</p>
+<section id="full-steps-pre-trained-model">
+<h4>Full Steps (Pre-Trained Model)<a class="headerlink" href="#full-steps-pre-trained-model" title="Link to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Install <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code> and <code class="docutils literal notranslate"><span class="pre">fields</span></code>.</p></li>
+<li><p>Import the model code (<code class="docutils literal notranslate"><span class="pre">source(&quot;model.R&quot;)</span></code>).</p></li>
+<li><p>Prepare prediction data (see below for default setup). If you prepare
+it yourself, the data frame must have the columns <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">lon</span></code>,
+<code class="docutils literal notranslate"><span class="pre">lat</span></code>, <code class="docutils literal notranslate"><span class="pre">day</span></code>, <code class="docutils literal notranslate"><span class="pre">date</span></code>, <code class="docutils literal notranslate"><span class="pre">elevation</span></code>, <code class="docutils literal notranslate"><span class="pre">water</span></code>, <code class="docutils literal notranslate"><span class="pre">shrubland</span></code>,
+<code class="docutils literal notranslate"><span class="pre">grassland</span></code>, <code class="docutils literal notranslate"><span class="pre">barren</span></code>, <code class="docutils literal notranslate"><span class="pre">lst</span></code>, <code class="docutils literal notranslate"><span class="pre">humidity</span></code> (see above for units
+and meaning).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load()</span></code> the file containing the pre-trained model, e.g.,
+<code class="docutils literal notranslate"><span class="pre">load(&quot;model.rda&quot;)</span></code>, or otherwise have a model function in memory.</p></li>
+<li><p>Call the model function with the input dataframe as the argument,
+e.g. <code class="docutils literal notranslate"><span class="pre">result</span> <span class="pre">&lt;-</span> <span class="pre">model(data)</span></code>. The output dataframe will add the
+above three or five columns to the input dataframe. Done.</p></li>
+</ol>
+<p>Complete working example, assuming Earth Engine data outputs in
+<code class="docutils literal notranslate"><span class="pre">GEEData/</span></code> directory (see <code class="docutils literal notranslate"><span class="pre">demo.Rmd</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span><span class="p">(</span><span class="s2">&quot;model.R&quot;</span><span class="p">)</span>
+<span class="n">load</span><span class="p">(</span><span class="s2">&quot;model.rda&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">&lt;-</span> <span class="n">map_dfr</span><span class="p">(</span>
+  <span class="nb">list</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;GEEData/&quot;</span><span class="p">,</span> <span class="n">full</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">T</span><span class="p">),</span>
+  \<span class="p">(</span><span class="n">fn</span><span class="p">)</span> <span class="n">read_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">col_types</span><span class="o">=</span><span class="s2">&quot;cDddddddddd&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    <span class="n">mutate</span><span class="p">(</span><span class="n">day</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">integer</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;%j&quot;</span><span class="p">)))</span> <span class="o">%&gt;%</span>
+    <span class="nb">filter</span><span class="p">(</span><span class="n">lst</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">273</span><span class="p">)</span>  <span class="c1"># filters errors</span>
+<span class="p">)</span>
+<span class="n">pred</span> <span class="o">&lt;-</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="retrieving-prediction-data">
 <h3>Retrieving Prediction Data<a class="headerlink" href="#retrieving-prediction-data" title="Link to this heading">¶</a></h3>
@@ -113,6 +150,49 @@ retrieving the data from Google Earth Engine is included. In
 for specified points and dates to Google Drive. Points are specified
 according to the example format in <code class="docutils literal notranslate"><span class="pre">datapts.py</span></code>: a list of
 <code class="docutils literal notranslate"><span class="pre">[[[longitude,</span> <span class="pre">latitude],</span> <span class="pre">&quot;point</span> <span class="pre">id&quot;],</span> <span class="pre">...]</span></code>.</p>
+<p>To run <code class="docutils literal notranslate"><span class="pre">eeretrieval.py</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Specify your GEE cloud project name in the line
+<code class="docutils literal notranslate"><span class="pre">ee.Initialize(project='YOUR_CLOUD_PROJECT_HERE')</span></code>.</p></li>
+<li><p>Provide a list of points in the format above,
+e.g. <code class="docutils literal notranslate"><span class="pre">datapts</span> <span class="pre">=</span> <span class="pre">[[[-87.3989084,34.28537757],</span> <span class="pre">'02450250'],</span> <span class="pre">[[-87.1702791,33.75760677],</span> <span class="pre">'02453500'],</span> <span class="pre">[[-86.8911032,33.5239948],</span> <span class="pre">'02458502']]</span></code>
+for the first few USGS gages used for development. Site IDs are used
+only to identify locations and have no internal meaning. If you are
+interested in multiple points along certain rivers, you may find the
+script below for generating evenly-spaced points to be useful.</p></li>
+<li><p>Specify your dates of interest in the format
+<code class="docutils literal notranslate"><span class="pre">[(&quot;year&quot;,</span> <span class="pre">&quot;time&quot;,</span> <span class="pre">&quot;start&quot;,</span> <span class="pre">&quot;end&quot;),</span> <span class="pre">...]</span></code>. The script contains an
+example for automatically doing so, which you can likely just modify
+to specify your years of interest.</p></li>
+<li><p>Run
+<code class="docutils literal notranslate"><span class="pre">getAllTimeseries(points,</span> <span class="pre">times,</span> <span class="pre">basename,</span> <span class="pre">folder,</span> <span class="pre">prt=True,</span> <span class="pre">wait=...)</span></code>.
+Basename is the base file name and folder is the Google Drive output
+directory. <code class="docutils literal notranslate"><span class="pre">wait</span></code> specifies pause in seconds between jobs to avoid
+exceeding the maximum of 3,000 simultaneous jobs; each daily job
+usually takes about 1 minute per 1,000 sites all told, so for a
+20-year run (~7,000 jobs), a wait time of about 20 seconds per 1,000
+sites will work. If you are running fewer than 3,000 jobs (about 8
+years), you do not need a wait time.</p></li>
+<li><p>After the jobs run, download the output data and use for prediction
+as above.</p></li>
+</ol>
+<p>Complete working example (see <code class="docutils literal notranslate"><span class="pre">eeretrieval.py</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ee</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eeretrieval</span><span class="w"> </span><span class="kn">import</span> <span class="n">getAllTimeseries</span>
+
+<span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">&#39;YOUR_CLOUD_PROJECT_HERE&#39;</span><span class="p">)</span>
+
+<span class="n">datapts</span> <span class="o">=</span> <span class="p">[[[</span><span class="o">-</span><span class="mf">87.3989084</span><span class="p">,</span><span class="mf">34.28537757</span><span class="p">],</span> <span class="s1">&#39;02450250&#39;</span><span class="p">],</span> <span class="p">[[</span><span class="o">-</span><span class="mf">87.1702791</span><span class="p">,</span><span class="mf">33.75760677</span><span class="p">],</span> <span class="s1">&#39;02453500&#39;</span><span class="p">],</span> <span class="p">[[</span><span class="o">-</span><span class="mf">86.8911032</span><span class="p">,</span><span class="mf">33.5239948</span><span class="p">],</span> <span class="s1">&#39;02458502&#39;</span><span class="p">]]</span>
+
+
+<span class="n">times</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+  <span class="nb">str</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
+  <span class="nb">str</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2001</span><span class="p">,</span> <span class="mi">2024</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">365</span><span class="p">)]</span>
+<span class="n">getAllTimeseries</span><span class="p">(</span><span class="n">datapts</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="s2">&quot;AllData&quot;</span><span class="p">,</span> <span class="s2">&quot;AFolder&quot;</span><span class="p">,</span> <span class="n">prt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="generating-evenly-spaced-points">
 <h3>Generating Evenly-Spaced Points<a class="headerlink" href="#generating-evenly-spaced-points" title="Link to this heading">¶</a></h3>
@@ -138,7 +218,8 @@ to get a list in the suitable format.</p>
 <p>Using all default options, <code class="docutils literal notranslate"><span class="pre">full.schema()</span></code> returns a function for
 training a model. This function’s argument is a data frame similar to
 above, but with one additional column: <code class="docutils literal notranslate"><span class="pre">temperature</span></code>, the observed
-temperature (daily mean, Celsius) for training.
+temperature (daily mean, Celsius) for training (also <code class="docutils literal notranslate"><span class="pre">temperature.max</span></code>
+if you wish to train a model for daily maximum temperature as well).
 <code class="docutils literal notranslate"><span class="pre">full.schema()(training</span> <span class="pre">data)</span></code> then returns a function like <code class="docutils literal notranslate"><span class="pre">model</span></code>
 above. A typical approach to model training is for <code class="docutils literal notranslate"><span class="pre">id</span></code> to be set to
 training ga(u)ge IDs, such as the USGS stream temperature gage network,
@@ -180,6 +261,7 @@ thermal regimes”, JAWRA, <a class="reference external" href="https://doi.org/1
 <p>Full training datasets, pre-trained models, and a knitted model
 validation notebook PDF are available in CUAHSI HydroShare:
 <a class="reference external" href="https://doi.org/10.4211/hs.a8b243957f7946e388d10ab206990675">https://doi.org/10.4211/hs.a8b243957f7946e388d10ab206990675</a>.</p>
+<p>Source code is on GitHub: <a class="reference external" href="https://github.com/mines-ciroh/tempest2">https://github.com/mines-ciroh/tempest2</a></p>
 </section>
 </section>
 
@@ -198,7 +280,10 @@ validation notebook PDF are available in CUAHSI HydroShare:
     <ul>
 <li><a class="reference internal" href="#">TempEst2</a><ul>
 <li><a class="reference internal" href="#quick-guide">Quick Guide</a><ul>
-<li><a class="reference internal" href="#using-a-trained-model">Using a Trained Model</a></li>
+<li><a class="reference internal" href="#using-a-trained-model">Using a Trained Model</a><ul>
+<li><a class="reference internal" href="#full-steps-pre-trained-model">Full Steps (Pre-Trained Model)</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#retrieving-prediction-data">Retrieving Prediction Data</a></li>
 <li><a class="reference internal" href="#generating-evenly-spaced-points">Generating Evenly-Spaced Points</a></li>
 <li><a class="reference internal" href="#training-a-model">Training a Model</a></li>
@@ -219,6 +304,8 @@ validation notebook PDF are available in CUAHSI HydroShare:
 <li class="toctree-l2"><a class="reference internal" href="#citation-and-more-information">Citation and More Information</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/readme.html">TempEst 2-FAST Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/tempest2fast.html">TempEst 2-FAST Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
@@ -251,7 +338,7 @@ validation notebook PDF are available in CUAHSI HydroShare:
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../newt/readme.html" title="TempEst-NEWT"
+          <a href="../tempest2fast/readme.html" title="TempEst 2-FAST"
              >next</a> |</li>
         <li class="right" >
           <a href="../tempest1/readme.html" title="TempEst 1"

@@ -16,18 +16,24 @@ I am willing to consider minor feature requests via the projects' respective Iss
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Overviews:
 
-   TempEst 1 Overview <tempest1/readme>
-   TempEst 2 Overview <tempest2/readme>
-   TempEst 2-FAST Overview <tempest2fast/readme>
-   TempEst 2-FAST Reference <tempest2fast/tempest2fast>
-   TempEst-NEWT Overview <newt/readme>
-   TempEst-NEXT Overview <next/readme>
-   TempEst-NEWT Reference <newt/NEWT>
-   TempEst-NEXT Reference <next/NEXT>
-   LibSCHEMA Overview <libschema/readme>
-   LibSCHEMA Reference <libschema/libschema>
+   TempEst 1 <tempest1/readme>
+   TempEst 2 <tempest2/readme>
+   TempEst 2-FAST <tempest2fast/readme>
+   TempEst-NEWT <newt/readme>
+   TempEst-NEXT <next/readme>
+   LibSCHEMA <libschema/readme>
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: References:
+
+   TempEst 2-FAST <tempest2fast/modules>
+   TempEst-NEWT <newt/modules>
+   TempEst-NEXT <next/modules>
+   LibSCHEMA <libschema/modules>
 
 TempEst Software Notes
 ======================
@@ -50,7 +56,7 @@ TempEst 1 is the model that started it all, and may be described as just "TempEs
 Scientifically, TempEst 1 demonstrated that "point-oriented, sitewise" models - meaning those that use data just for the point of interest, not the entire watershed (point-oriented) and do not consider the rest of the river network (sitewise) - can generate skillful stream temperature predictions with far lower computational and data requirements than watershed-oriented or network-aware models. TempEst 1's manuscript also established the extensive and rigorous testing procedures common to all subsequent TempEst modeling work and the use of wholly gage-independent data retrieval and prediction, with the manuscript including a demonstration for 100 unmonitored locations.
 
 TempEst 2 and FAST
----------
+------------------
 
 .. image:: TempEstLogos/TempEst2.png
    :width: 300
@@ -94,6 +100,14 @@ LibSCHEMA (generic SCHEMA library): https://pypi.org/project/libschema/ - cite T
 Three-sine river temperature seasonality: https://pypi.org/project/rtseason/ - Philippus, D., C. R. Corona, and T. S. Hogue. 2024. “Improved Annual Temperature Cycle Function for Stream Seasonal Thermal Regimes.” Journal of the American Water Resources Association, 60 (6). https://doi.org/10.1111/1752-1688.13228.
 
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Full References:
+   
+   TempEst 2-FAST Reference <tempest2fast/tempest2fast>
+   TempEst-NEWT Reference <newt/NEWT>
+   TempEst-NEXT Reference <next/NEXT>
+   LibSCHEMA Reference <libschema/libschema>
 
 
 Indices and tables

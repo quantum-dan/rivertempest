@@ -63,12 +63,18 @@ historical estimation (but is much faster and uses less data). TempEst
 1/2 are intended for fast analyses of large-domain historical patterns,
 while NEWT/NEXT are more focused on in-depth analysis of changes over
 time, as well as forecasting.</p>
+<p>The model code is available on
+<a class="reference external" href="https://github.com/mines-ciroh/TempEst-NEXT">GitHub</a>.</p>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h3>
 <p>Install from PyPI: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tempest-next</span></code>. The installed module is
 called NEXT: <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">NEXT</span></code>.</p>
+<p>Dependencies: pandas, numpy&gt;=2, TempEst-NEWT, pygam&gt;=0.10,
+pydaymet&gt;=0.19, pynldas2, dataretrieval, geopandas, pynhd&gt;=0.19,
+pygeohydro, py3dep, xarray-spatial, s3fs, zarr, cartopy, metpy, getgfs,
+dask</p>
 </section>
 <section id="data-preparation">
 <h3>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">¶</a></h3>
@@ -83,7 +89,7 @@ retrieval tools are not required for testing.</strong></p>
 <p>TempEst-NEXT provides automatic tools for data retrieval, for example:
 <code class="docutils literal notranslate"><span class="pre">NEXT.data.full_data(&quot;-105.1235:40.5723&quot;,</span> <span class="pre">start=&quot;2020&quot;,</span> <span class="pre">end=&quot;2024&quot;,</span> <span class="pre">site_type=&quot;coordinates&quot;)</span></code>.
 You can also provide an input data frame. Required columns are
-<code class="docutils literal notranslate"><span class="pre">[&quot;id&quot;,</span> <span class="pre">&quot;tmax&quot;,</span> <span class="pre">&quot;prcp&quot;,</span> <span class="pre">&quot;vp&quot;,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;area&quot;,</span> <span class="pre">&quot;elev_min&quot;,</span> <span class="pre">&quot;elev&quot;,</span> <span class="pre">&quot;slope&quot;,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;wetland&quot;,</span> <span class="pre">&quot;developed&quot;,</span> <span class="pre">&quot;ice_snow&quot;,</span> <span class="pre">&quot;water&quot;,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;canopy&quot;,</span> <span class="pre">&quot;ws_canopy&quot;,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&quot;date&quot;,</span> <span class="pre">&quot;day&quot;]</span></code>,
+<code class="docutils literal notranslate"><span class="pre">[&quot;id&quot;,</span> <span class="pre">&quot;tmax&quot;,</span> <span class="pre">&quot;prcp&quot;,</span> <span class="pre">&quot;vp&quot;,</span> <span class="pre">&quot;area&quot;,</span> <span class="pre">&quot;elev_min&quot;,</span> <span class="pre">&quot;elev&quot;,</span> <span class="pre">&quot;slope&quot;,</span> <span class="pre">&quot;wetland&quot;,</span> <span class="pre">&quot;developed&quot;,</span> <span class="pre">&quot;ice_snow&quot;,</span> <span class="pre">&quot;water&quot;,</span> <span class="pre">&quot;canopy&quot;,</span> <span class="pre">&quot;ws_canopy&quot;,</span> <span class="pre">&quot;date&quot;,</span> <span class="pre">&quot;day&quot;]</span></code>,
 with the addition of a “temperature” column if you wish to train a
 model.</p>
 <p>Column details:</p>
@@ -123,6 +129,18 @@ prepare a model for later.</p></li>
 </ul>
 <p>NEXT can also predict coefficients without building a model, which can
 be used to look at stream thermal regimes in general.</p>
+<p>Full example with a pre-trained model as <code class="docutils literal notranslate"><span class="pre">coefs.pickle</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">NEXT</span>
+
+<span class="c1"># Pre-trained model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">NEXT</span><span class="o">.</span><span class="n">NEXT</span><span class="o">.</span><span class="n">from_pickle</span><span class="p">(</span><span class="s2">&quot;coefs.pickle&quot;</span><span class="p">)</span>
+<span class="c1"># Or, if you have a training dataset with a `temperature` (observed stream temp.) column...</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">NEXT</span><span class="o">.</span><span class="n">NEXT</span><span class="o">.</span><span class="n">from_data</span><span class="p">(</span><span class="n">training_data</span><span class="p">)</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">NEXT</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">full_data</span><span class="p">(</span><span class="s2">&quot;10343500&quot;</span><span class="p">,</span> <span class="s2">&quot;2015&quot;</span><span class="p">,</span> <span class="s2">&quot;2024&quot;</span><span class="p">,</span> <span class="n">weather</span><span class="o">=</span><span class="s2">&quot;nldas&quot;</span><span class="p">)</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="detailed-documentation">
