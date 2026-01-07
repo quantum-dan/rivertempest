@@ -10,12 +10,13 @@
     <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
     
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     
     <link rel="icon" href="../_static/TempEstICOSquare.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NEWT" href="../newt/modules.html" />
     <link rel="prev" title="libSCHEMA" href="readme.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
@@ -27,6 +28,9 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../newt/modules.html" title="NEWT"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="readme.html" title="libSCHEMA"
              accesskey="P">previous</a> |</li>
@@ -111,7 +115,7 @@ and just return those if that is the case.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="libschema.analysis.perf_summary">
-<span class="sig-prename descclassname"><span class="pre">libschema.analysis.</span></span><span class="sig-name descname"><span class="pre">perf_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs='temperature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod='prediction'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep='date'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period='day'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_timestep=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statlag=1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.analysis.perf_summary" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">libschema.analysis.</span></span><span class="sig-name descname"><span class="pre">perf_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'temperature'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'prediction'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'date'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'day'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statlag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.analysis.perf_summary" title="Link to this definition">¶</a></dt>
 <dd><p>Summarize the performance of a modeled column in data compared to an
 observed column.</p>
 <dl>
@@ -160,7 +164,7 @@ Date: 2025-02-05</p>
 <p>BMI implementation of SCHEMA.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="libschema.bmi.SchemaBmi">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.bmi.</span></span><span class="sig-name descname"><span class="pre">SchemaBmi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">libschema.bmi.</span></span><span class="sig-name descname"><span class="pre">SchemaBmi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_units</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.bmi.SchemaBmi" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Bmi</span></code></p>
 <p>BMI implementation for SCHEMA.
 Example: <a class="reference external" href="https://github.com/csdms/bmi-example-python/blob/master/heat/bmi_heat.py">https://github.com/csdms/bmi-example-python/blob/master/heat/bmi_heat.py</a></p>
@@ -909,7 +913,7 @@ method can return with no action.</p>
 <p>This file defines key classes for libSCHEMA.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="libschema.classes.Anomaly">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">Anomaly</span></span><a class="headerlink" href="#libschema.classes.Anomaly" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">Anomaly</span></span><a class="headerlink" href="#libschema.classes.Anomaly" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="libschema.classes.Anomaly.apply">
@@ -935,7 +939,7 @@ method can return with no action.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="libschema.classes.ModEngine">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">ModEngine</span></span><a class="headerlink" href="#libschema.classes.ModEngine" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">ModEngine</span></span><a class="headerlink" href="#libschema.classes.ModEngine" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Generic modification engine. Internal structure is entirely arbitrary.
 Key logic requirements are specified in ModEngine.apply.</p>
@@ -994,7 +998,7 @@ not just coefficients - e.g., for to/from file.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="libschema.classes.Seasonality">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">Seasonality</span></span><a class="headerlink" href="#libschema.classes.Seasonality" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">libschema.classes.</span></span><span class="sig-name descname"><span class="pre">Seasonality</span></span><a class="headerlink" href="#libschema.classes.Seasonality" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="libschema.classes.Seasonality.apply">
@@ -1026,7 +1030,7 @@ Date: 2025-02-05</p>
 <p>This file implements the core SCHEMA model class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="libschema.model.SCHEMA">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libschema.model.</span></span><span class="sig-name descname"><span class="pre">SCHEMA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seasonality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libschema.classes.Seasonality" title="libschema.classes.Seasonality"><span class="pre">Seasonality</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libschema.classes.Anomaly" title="libschema.classes.Anomaly"><span class="pre">Anomaly</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><span class="pre">ModEngine</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static_coefs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">libschema.model.</span></span><span class="sig-name descname"><span class="pre">SCHEMA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seasonality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libschema.classes.Seasonality" title="libschema.classes.Seasonality"><span class="pre">Seasonality</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomaly</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#libschema.classes.Anomaly" title="libschema.classes.Anomaly"><span class="pre">Anomaly</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#libschema.classes.ModEngine" title="libschema.classes.ModEngine"><span class="pre">ModEngine</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stepsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static_coefs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A generic implementation of the SCHEMA framework (<a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.133321">https://doi.org/10.1016/j.jhydrol.2025.133321</a>).</p>
 <dl class="field-list simple">
@@ -1058,7 +1062,7 @@ The default is True (xi=fi(x0)).</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="libschema.model.SCHEMA.from_file">
-<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.from_file" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libschema.model.SCHEMA.from_file" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1257,15 +1261,13 @@ array of values which can be handled as a single mean value here.</p>
 
   </div>
 <h3><a href="../index.html">Table of Contents</a></h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Overviews:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1 Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/readme.html">TempEst 2-FAST Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/tempest2fast.html">TempEst 2-FAST Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT Overview</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="readme.html">LibSCHEMA Overview</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="readme.html">LibSCHEMA</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="readme.html#quick-start">Quick Start</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#general-concept">General Concept</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#implemented-functionality">Implemented Functionality</a></li>
@@ -1274,15 +1276,19 @@ array of values which can be handled as a single mean value here.</p>
 <li class="toctree-l2 current"><a class="reference internal" href="readme.html#reference-overview">Reference Overview</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">LibSCHEMA Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-libschema.analysis">libschema.analysis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-libschema.bmi">libschema.bmi module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-libschema.classes">libschema.classes module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-libschema.model">libschema.model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-libschema">Module contents</a></li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../newt/modules.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/modules.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full References:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/tempest2fast.html">TempEst 2-FAST Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/NEXT.html">TempEst-NEXT Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LibSCHEMA Reference</a></li>
 </ul>
 
 <search id="searchbox" style="display: none" role="search">
@@ -1309,6 +1315,9 @@ array of values which can be handled as a single mean value here.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="../newt/modules.html" title="NEWT"
+             >next</a> |</li>
+        <li class="right" >
           <a href="readme.html" title="libSCHEMA"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
@@ -1318,7 +1327,7 @@ array of values which can be handled as a single mean value here.</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

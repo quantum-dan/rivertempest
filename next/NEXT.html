@@ -10,14 +10,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
     
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     
     <link rel="icon" href="../_static/TempEstICOSquare.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="libSCHEMA" href="../libschema/readme.html" />
-    <link rel="prev" title="NEWT package" href="../newt/NEWT.html" /> 
+    <link rel="next" title="libschema" href="../libschema/modules.html" />
+    <link rel="prev" title="NEXT" href="modules.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
@@ -29,12 +29,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../libschema/readme.html" title="libSCHEMA"
+          <a href="../libschema/modules.html" title="libschema"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../newt/NEWT.html" title="NEWT package"
+          <a href="modules.html" title="NEXT"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">NEXT</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">NEXT package</a></li> 
       </ul>
     </div>  
@@ -109,7 +110,7 @@ except for the geometry and topo functions, which return a dictionary.</p>
 Prediction requirements: everything except temperature</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.all_data_gpkg">
-<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">all_data_gpkg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather='daymet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc='nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo='3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cumulative=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.all_data_gpkg" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">all_data_gpkg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'daymet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cumulative</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.all_data_gpkg" title="Link to this definition">¶</a></dt>
 <dd><p>Wraps full_data to get everything for each site in a geopackage at path.</p>
 </dd></dl>
 
@@ -415,7 +416,7 @@ Only retrieve tmax, since GFS is not suitable for the full timeseires.</p>
 <p>This file covers automated data retrieval tools for ease-of-use.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.datatools.forecast_areal_summary">
-<span class="sig-prename descclassname"><span class="pre">NEXT.datatools.</span></span><span class="sig-name descname"><span class="pre">forecast_areal_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clipped_fcst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.datatools.forecast_areal_summary" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.datatools.</span></span><span class="sig-name descname"><span class="pre">forecast_areal_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clipped_fcst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.datatools.forecast_areal_summary" title="Link to this definition">¶</a></dt>
 <dd><p>Generate areal summary of a selected forecast, grouped by time.</p>
 </dd></dl>
 
@@ -427,7 +428,7 @@ Only retrieve tmax, since GFS is not suitable for the full timeseires.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.datatools.get_daily_forecasts">
-<span class="sig-prename descclassname"><span class="pre">NEXT.datatools.</span></span><span class="sig-name descname"><span class="pre">get_daily_forecasts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var='TMP'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.datatools.get_daily_forecasts" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.datatools.</span></span><span class="sig-name descname"><span class="pre">get_daily_forecasts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TMP'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.datatools.get_daily_forecasts" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve full forecast run, then returns daily summaries.</p>
 <p>:47 because the last hour is two days out</p>
 </dd></dl>
@@ -444,7 +445,7 @@ var: TMP, etc.  Variable to retrieve.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.datatools.get_nldas">
-<span class="sig-prename descclassname"><span class="pre">NEXT.datatools.</span></span><span class="sig-name descname"><span class="pre">get_nldas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.datatools.get_nldas" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.datatools.</span></span><span class="sig-name descname"><span class="pre">get_nldas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.datatools.get_nldas" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve and process NLDAS data, by date, for a given basin (shape).
 shape: basin geometry
 name: NLDAS variable name, e.g. “temp”, “prcp”, “humidity”
@@ -469,7 +470,7 @@ operator: how to summarize hours-to-days, e.g. max for temp -&gt; tmax, sum for 
 etc.  Mostly a wrapper around coef_est.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="NEXT.model_manager.NEXT">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">NEXT.model_manager.</span></span><span class="sig-name descname"><span class="pre">NEXT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomgam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomnoise</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drywet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.model_manager.NEXT" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">NEXT.model_manager.</span></span><span class="sig-name descname"><span class="pre">NEXT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomgam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anomnoise</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drywet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.model_manager.NEXT" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="NEXT.model_manager.NEXT.from_data">
@@ -753,7 +754,7 @@ so this is for true forecasts only.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.wforecast.get_gfs_downloaded">
-<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_gfs_downloaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var='t2m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name='tmax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_type='instant'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_gfs_downloaded" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_gfs_downloaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'t2m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'instant'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_gfs_downloaded" title="Link to this definition">¶</a></dt>
 <dd><p>This works better than get_gfs, but it requires ecCodes and therefore won’t run on Windows.</p>
 </dd></dl>
 
@@ -764,7 +765,7 @@ so this is for true forecasts only.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.wforecast.get_hrrr">
-<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_hrrr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var='TMP'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_hrrr" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_hrrr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TMP'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_hrrr" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve a full forecast run as an xarray.
 date: YYYYMMDD, using the 06z run (which should roughly correspond to day-of in US timezones)
 var: TMP, etc.  Variable to retrieve.</p>
@@ -774,7 +775,7 @@ var: TMP, etc.  Variable to retrieve.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.wforecast.hrrr_areal_summary">
-<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">hrrr_areal_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areal_operator=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.hrrr_areal_summary" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">hrrr_areal_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areal_operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.hrrr_areal_summary" title="Link to this definition">¶</a></dt>
 <dd><p>Generate areal summary of a selected forecast, grouped by time.</p>
 </dd></dl>
 
@@ -913,27 +914,37 @@ var: TMP, etc.  Variable to retrieve.</p>
 
   </div>
 <h3><a href="../index.html">Table of Contents</a></h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Overviews:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1 Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/readme.html">TempEst 2-FAST Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tempest2fast/tempest2fast.html">TempEst 2-FAST Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">TempEst-NEXT Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst-NEXT Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-NEXT.coef_est">NEXT.coef_est module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-NEXT.data">NEXT.data module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-NEXT.datatools">NEXT.datatools module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-NEXT.model_manager">NEXT.model_manager module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-NEXT.reach_prep">NEXT.reach_prep module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-NEXT.wforecast">NEXT.wforecast module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-NEXT">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/modules.html">TempEst-NEWT</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TempEst-NEXT</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">NEXT package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-NEXT.coef_est">NEXT.coef_est module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-NEXT.data">NEXT.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-NEXT.datatools">NEXT.datatools module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-NEXT.model_manager">NEXT.model_manager module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-NEXT.reach_prep">NEXT.reach_prep module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-NEXT.wforecast">NEXT.wforecast module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-NEXT">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/modules.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full References:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst-NEXT Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
 </ul>
 
@@ -961,18 +972,19 @@ var: TMP, etc.  Variable to retrieve.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../libschema/readme.html" title="libSCHEMA"
+          <a href="../libschema/modules.html" title="libschema"
              >next</a> |</li>
         <li class="right" >
-          <a href="../newt/NEWT.html" title="NEWT package"
+          <a href="modules.html" title="NEXT"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >NEXT</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">NEXT package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>
