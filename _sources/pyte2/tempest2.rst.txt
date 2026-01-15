@@ -1,0 +1,77 @@
+tempest2 package
+================
+
+Submodules
+----------
+
+tempest2.defaults module
+------------------------
+
+.. automodule:: tempest2.defaults
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2.fit module
+-------------------
+
+.. automodule:: tempest2.fit
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2.gents module
+---------------------
+
+.. automodule:: tempest2.gents
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2.spatial module
+-----------------------
+
+.. automodule:: tempest2.spatial
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2.summaries module
+-------------------------
+
+.. automodule:: tempest2.summaries
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2.tests module
+---------------------
+
+.. automodule:: tempest2.tests
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2.ufuncs module
+----------------------
+
+.. automodule:: tempest2.ufuncs
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tempest2.util module
+--------------------
+
+.. automodule:: tempest2.util
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: tempest2
+   :members:
+   :show-inheritance:
+   :undoc-members:

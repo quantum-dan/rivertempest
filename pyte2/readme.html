@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TempEst 2 &#8212; RiverTempest.org</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    
+    <link rel="icon" href="../_static/TempEstICOSquare.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TempEst-NEWT" href="../newt/readme.html" />
+    <link rel="prev" title="TempEst2" href="../tempest2/readme.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../newt/readme.html" title="TempEst-NEWT"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2/readme.html" title="TempEst2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst 2</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tempest-2">
+<h1>TempEst 2<a class="headerlink" href="#tempest-2" title="Link to this heading">¶</a></h1>
+<p>TempEst 2/SCHEMA is “TEMPerature ESTimation, version 2, using Seasonal
+Conditions Historical Expectation with Modeled daily Anomaly”. It
+estimates stream water temperature, for streams of any size, using a
+data-driven model based on satellite remote sensing data. This is the
+Python implementation with some additional data processing features.</p>
+<p>Note that the geostatistical implementation is similar but <em>not
+identical</em> to the original (R) impementation described in Philippus et
+al., 2025 because PyKrige does not have the same spatial covariance
+functions available as fields and does not have MLE-based covariance
+function parameter estimation.</p>
+<section id="usage-guide">
+<h2>Usage Guide<a class="headerlink" href="#usage-guide" title="Link to this heading">¶</a></h2>
+<p>Full documentation is available at RiverTempest.org.</p>
+<section id="generating-predictions">
+<h3>Generating Predictions<a class="headerlink" href="#generating-predictions" title="Link to this heading">¶</a></h3>
+<p>TempEst 2 will return:</p>
+<ul class="simple">
+<li><p>temp.mod (modeled daily mean temperature; Celsius)</p></li>
+<li><p>temp.doy (modeled day-of-year mean temperature; Celsius)</p></li>
+<li><p>temp.anom (modeled temperature anomaly relative to day-of-year mean;
+Celsius)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">temp.mod</span></code> = <code class="docutils literal notranslate"><span class="pre">temp.doy</span></code> + <code class="docutils literal notranslate"><span class="pre">temp.anom</span></code>.</p>
+<p>These three variables are the final output, and can be used to assess
+actual estimated temperature (<code class="docutils literal notranslate"><span class="pre">temp.mod</span></code>); typical seasonal conditions
+(<code class="docutils literal notranslate"><span class="pre">temp.doy</span></code>), such as to assess general long-term behavior; and
+departure from typical seasonal conditions (<code class="docutils literal notranslate"><span class="pre">temp.anom</span></code>), such as to
+assess heat waves or other extremes.</p>
+<ol class="arabic simple">
+<li><p>Install TempEst 2: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">TempEst2</span></code></p></li>
+<li><p>Download pre-trained model pickle from <a class="reference external" href="https://github.com/mines-ciroh/pyTE2/releases">GitHub
+Releases</a> as
+<code class="docutils literal notranslate"><span class="pre">model.pkl</span></code></p></li>
+<li><p>Download prediction data by any suitable means, such as the
+<a class="reference external" href="github.com/mines-ciroh/tempest2">reference implementation’s</a>
+Google Earth Engine data retrieval script, as <code class="docutils literal notranslate"><span class="pre">data.csv</span></code>. Required
+columns: id, date, lst, humidity, lat, lon, elevation, grassland,
+shrubland, barren, water.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">predictions</span> <span class="pre">=</span> <span class="pre">tempest2.predict('model.pkl',</span> <span class="pre">'data.csv')</span></code></p></li>
+</ol>
+<section id="relevant-functionality">
+<h4>Relevant Functionality<a class="headerlink" href="#relevant-functionality" title="Link to this heading">¶</a></h4>
+<p>The above-described <code class="docutils literal notranslate"><span class="pre">predict</span></code> function handles the entire prediction
+process. There are several key functions that may be relevant on their
+own and to fitting a model:</p>
+<ul class="simple">
+<li><p>Spatial prediction:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempest2.spatial.to_pickle</span></code> and <code class="docutils literal notranslate"><span class="pre">.from_pickle</span></code>: store and
+retrieve geospatial models in Pickle format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempest2.build_model</span></code>: train a geospatial model from timeseries
+data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempest2.predict_coefs</span></code> and <code class="docutils literal notranslate"><span class="pre">.predict_timeseries</span></code>: predict site
+coefficients and full timeseries, respectively. <code class="docutils literal notranslate"><span class="pre">predict_coefs</span></code>
+requires summarized inputs, while <code class="docutils literal notranslate"><span class="pre">.predict_timeseries</span></code> uses a
+full timeseries input.</p></li>
+</ul>
+</li>
+<li><p>Single site:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempest2.full_fit</span></code>: fit TempEst 2 coefficients from a site
+timeseries. Unlike the reference implementation, this begins with a
+direct solution, then iteratively optimizes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempest2.timeseries</span></code>: predict a timeseries for a single site
+using a timeseries input and specified coefficients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempest2.Model</span></code>: LibSCHEMA model implementation</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tempest2.full_summary</span></code>: generate prediction data from an input
+timeseries.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="citation-and-more-information">
+<h2>Citation and More Information<a class="headerlink" href="#citation-and-more-information" title="Link to this heading">¶</a></h2>
+<p>If you use this model in your research, please cite TempEst 2 (Philippus
+et al., 2025).</p>
+<p>Reference implementation in R and data retrieval tools for Google Earth
+Engine: <a class="reference external" href="https://github.com/mines-ciroh/tempest2">https://github.com/mines-ciroh/tempest2</a></p>
+<p>The model design is based on Philippus, Corona, Schneider, Rust, and
+Hogue, 2025, “Satellite-Based Spatial-Statistical Modeling of Daily
+Stream Water Temperatures at the CONUS Scale”, <em>Journal of Hydrology</em>,
+<a class="reference external" href="https://doi.org/10.1016/j.jhydrol.2025.133321">https://doi.org/10.1016/j.jhydrol.2025.133321</a>. This paper also contains
+a detailed description of model design and performance characteristics.</p>
+<p>The seasonality component is based on the “three-sine” stream annual
+temperature cycle function described in: Philippus, Corona, and Hogue,
+2024, “Improved annual temperature cycle function for stream seasonal
+thermal regimes”, <em>JAWRA</em>, <a class="reference external" href="https://doi.org/10.1111/1752-1688.13228">https://doi.org/10.1111/1752-1688.13228</a>.</p>
+<p>Full training datasets, pre-trained models, and a knitted model
+validation notebook PDF are available in CUAHSI HydroShare: <a class="reference external" href="https://www.hydroshare.org/resource/a8b243957f7946e388d10ab206990675/">TempEst 2
+Development Data: Observed Stream Temperature, Covariates, Performance
+Data, and Analysis
+Notebooks</a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/TempEstNoNumberForDarkBackgrounds.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TempEst 2</a><ul>
+<li><a class="reference internal" href="#usage-guide">Usage Guide</a><ul>
+<li><a class="reference internal" href="#generating-predictions">Generating Predictions</a><ul>
+<li><a class="reference internal" href="#relevant-functionality">Relevant Functionality</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#citation-and-more-information">Citation and More Information</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Overviews:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 R</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst 2 Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage-guide">Usage Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#citation-and-more-information">Citation and More Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">TempEst 2 Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/modules.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/modules.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/modules.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tempest2.html">TempEst 2 Python Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/NEXT.html">TempEst-NEXT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../newt/readme.html" title="TempEst-NEWT"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../tempest2/readme.html" title="TempEst2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst 2</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    </div>
+  </body>
+</html>

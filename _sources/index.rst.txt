@@ -19,7 +19,8 @@ I am willing to consider minor feature requests via the projects' respective Iss
    :caption: Overviews:
 
    TempEst 1 <tempest1/readme>
-   TempEst 2 <tempest2/readme>
+   TempEst 2 R <tempest2/readme>
+   TempEst 2 Python <pyte2/readme>
    TempEst-NEWT <newt/readme>
    TempEst-NEXT <next/readme>
    LibSCHEMA <libschema/readme>
@@ -29,6 +30,7 @@ I am willing to consider minor feature requests via the projects' respective Iss
    :maxdepth: 3
    :caption: References:
 
+   TempEst 2 Python <pyte2/modules>
    TempEst-NEWT <newt/modules>
    TempEst-NEXT <next/modules>
    LibSCHEMA <libschema/modules>
@@ -40,7 +42,7 @@ Full descriptions should be sought in the Overview links above.
 
 The TempEst models differ substantially in their architecture, but a shared characteristic is that their prediction and data retrieval implementations are completely independent of the presence of a gage. They are all capable of running entirely off of coordinates, with no reference to established monitoring locations and using datasets that are available for the entire contiguous United States. They are also rigorously tested for ungaged use and extrapolation capabilities, including their performance for unseen regions (i.e., with no nearby gages to learn from), unseen time windows (testing their stability in time), and unseen elevations (evaluating their ability to extrapolate upwards).
 
-TempEst 1 and 2 are provided as R scripts with Google Earth Engine data retrieval code. LibSCHEMA is a Python package.
+TempEst 1 and 2 are provided as R scripts with Google Earth Engine data retrieval code. LibSCHEMA, TempEst-NEXT/NEWT, and TempEst 2 are Python packages.
 
 TempEst 1
 ---------
@@ -62,7 +64,7 @@ TempEst 2
 
 TempEst 2's primary objective was to extend TempEst 1 to daily-resolution predictions. In the process, it established an entirely different architecture, retaining only the point-oriented, sitewise, LST-forced design. Experiments in the process of TempEst 2 development led to the creation of the Seasonal Conditions Historical Expectation with Modeled Anomaly (SCHEMA) architecture, a generalization of stochastic models. The SCHEMA architecture allowed TempEst 2 to be designed with linear geostatistical (kriging) models predicting site-specific coefficients, enabling improvements in simplicity, interpretability, efficiency, and extrapolation capability compared to TempEst 1.
 
-A Python version of TempEst 2 is in development. This version will also provide non-GEE data retrieval, either for specific points (like the original TempEst 2) or for large, gridded domains. The gridded version is more efficient for large-scale analysis (>10k points), but does not permit pinpointing of specific locations at subkilometer resolution, such as one of several adjacent streams.
+A Python version of TempEst 2 is in available as tempest2 on PyPI. This version will also provide non-GEE data retrieval, either for specific points (like the original TempEst 2) or for large, gridded domains, though built-in data retrieval remains in development and current data retrieval is through the GEE scripts from the reference implementation. The gridded version is more efficient for large-scale analysis (>10k points), but does not permit pinpointing of specific locations at subkilometer resolution, such as one of several adjacent streams.
 
 TempEst-NEXT/NEWT
 -----------------
@@ -87,7 +89,7 @@ Links and References
 
 TempEst 1 (monthly temperature estimation): https://github.com/mines-ciroh/tempest1 - Philippus, D., A. Sytsma, A. Rust, and T. S. Hogue. 2024. “A machine learning model for estimating the temperature of small rivers using satellite-based spatial data.” Remote Sensing of Environment, 311: 114271. https://doi.org/10.1016/j.rse.2024.114271.
 
-TempEst 2 (daily temperature estimation): https://github.com/mines-ciroh/tempest2 - Philippus, D., C. R. Corona, K. Schneider, A. Rust, and T. S. Hogue. 2025. “Satellite-based spatial-statistical modeling of daily stream water temperatures at the CONUS scale.” Journal of Hydrology, 661: 133321. https://doi.org/10.1016/j.jhydrol.2025.133321.
+TempEst 2 (daily temperature estimation): https://github.com/mines-ciroh/tempest2, https://github.com/mines-ciroh/pyTE2 - Philippus, D., C. R. Corona, K. Schneider, A. Rust, and T. S. Hogue. 2025. “Satellite-based spatial-statistical modeling of daily stream water temperatures at the CONUS scale.” Journal of Hydrology, 661: 133321. https://doi.org/10.1016/j.jhydrol.2025.133321.
 
 TempEst-NEWT/NEXT (daily temperature forecasting): https://github.com/mines-ciroh/tempest-next, https://github.com/mines-ciroh/tempest-newt - Philippus, Corona and Hogue. "Daily Stream Water Temperature Modeling and Forecasting for Ungaged Watersheds at the CONUS Scale." In review.
 
@@ -100,6 +102,7 @@ Three-sine river temperature seasonality: https://pypi.org/project/rtseason/ - P
    :maxdepth: 1
    :caption: Full References:
    
+   TempEst 2 Python Reference <pyte2/tempest2>
    TempEst-NEWT Reference <newt/NEWT>
    TempEst-NEXT Reference <next/NEXT>
    LibSCHEMA Reference <libschema/libschema>

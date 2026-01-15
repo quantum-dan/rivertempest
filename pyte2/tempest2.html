@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>tempest2 package &#8212; RiverTempest.org</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    
+    <link rel="icon" href="../_static/TempEstICOSquare.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NEWT" href="../newt/modules.html" />
+    <link rel="prev" title="pyTE2" href="modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../newt/modules.html" title="NEWT"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="pyTE2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">pyTE2</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">tempest2 package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tempest2-package">
+<h1>tempest2 package<a class="headerlink" href="#tempest2-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-tempest2.defaults">
+<span id="tempest2-defaults-module"></span><h2>tempest2.defaults module<a class="headerlink" href="#module-tempest2.defaults" title="Link to this heading">¶</a></h2>
+<p>Created on Thu Mar 13 11:34:26 2025</p>
+<p>&#64;author: dphilippus</p>
+<p>This provides default values.</p>
+</section>
+<section id="module-tempest2.fit">
+<span id="tempest2-fit-module"></span><h2>tempest2.fit module<a class="headerlink" href="#module-tempest2.fit" title="Link to this heading">¶</a></h2>
+<p>Created on Wed Jan  7 14:44:36 2026</p>
+<p>&#64;author: Daniel Philippus</p>
+<p>This provides calibration functions for optimizing SCHEMA coefficients at a site.</p>
+<p>Unlike the original TempEst 2, this version (experimentally) optimizes rather
+than analytically computing coefficients. This has two hypothesized advantages.</p>
+<p>1. Experiments with TempEst-NEXT determined that analytic SCHEMA coefficients
+are not necessarily optimal, so this version may achieve better local fits,
+particularly when data are incomplete.
+2. The calibration process will allow quantification of the uncertainty in the
+coefficients, which may enable follow-up experiments.</p>
+<p>Since SCHEMA prediction is very fast, optimization can also be quite efficient
+and thorough. I plan to implement a mixed algorithm.</p>
+<p>1. Use ordinary least squares to identify an approximately optimal set of 3sine
+coefficients using averaged seasonality.
+2. Conduct a small-scale grid search near the analytic coefficients.
+3. Analytically solve for sensitivity terms using the full timeseries.</p>
+<p>This algorithm assumes that the initial fit will avoid the local optimum problem.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.fit.add_random">
+<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">add_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.fit.add_random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.fit.fit_all">
+<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">fit_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.fit.fit_all" title="Link to this definition">¶</a></dt>
+<dd><p>Generate TempEst 2 coefficients for all sites in the input dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sites</strong> (<em>pl.DataFrame</em>) – “id”, “date”, “temperature”, “LST”, “humidity”</p></li>
+<li><p><strong>**kwargs</strong> – Passed to full_fit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>“id”, “Intercept”, “Amplitude”, “SpringSummer”, “FallWinter”,
+“WinterDay”, “SpringDay”, “SummerDay”, “FallDay”, “LST”, “Humidity”</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.fit.fit_check">
+<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">fit_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#tempest2.fit.fit_check" title="Link to this definition">¶</a></dt>
+<dd><p>Evaluate the fit (by squared error) of a set of three-sine coefficients.
+Only the five coefficients that vary in TempEst 2 need to be tested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pl.DataFrame</em>) – DataFrame containing “day” and “temperature” (one year’s worth) used
+for observations.</p></li>
+<li><p><strong>coefs</strong> (<em>dict</em>) – Coefficients “Intercept”, “Amplitude”, “SpringSummer”, “FallWinter”,
+and “WinterDay” to evaluate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Squared error over the timeseries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The return value is the sum of squared errors, so it is NOT comparable
+across sites and should be used only to optimize for a single site.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.fit.full_fit">
+<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">full_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.fit.full_fit" title="Link to this definition">¶</a></dt>
+<dd><p>Generate a full, optimized SCHEMA fit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pl.DataFrame</em>) – DataFrame containing “date”, “temperature”, “LST”, “humidity”.</p></li>
+<li><p><strong>to_df</strong> (<em>bool</em><em>, </em><em>optional</em>) – Return results as a DataFrame instead of a dictionary. The default is
+false.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to optimize. ‘sample’ and ‘iters’ likely relevant.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Full coefficients: “Intercept”, “Amplitude”, “SpringSummer”, “FallWinter”,
+“WinterDay”, “SpringDay”, “SummerDay”, “FallDay”, “LST”, “Humidity”.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict or pl.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.fit.full_training_data">
+<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">full_training_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.fit.full_training_data" title="Link to this definition">¶</a></dt>
+<dd><p>Generate TempEst 2 coefficients and prediction data for all sites in the
+input dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sites</strong> (<em>pl.DataFrame</em>) – ‘id’, ‘date’, ‘lat’, ‘lon’, ‘elevation’, ‘lst’, ‘humidity’, ‘water’,
+‘shrubland’, ‘grassland’, ‘barren’, ‘year’, ‘day’, ‘temperature’</p></li>
+<li><p><strong>**kwargs</strong> (<em>passed to fit_all</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Full prediction data and coefficients. ‘humidity_03’, ‘cdd_10’,
+‘amphum’, ‘lon’, ‘lst_10’, ‘humidity_05’,
+‘freeze_days’, ‘humidity_07’, ‘grassland’, ‘lst_09’, ‘shrubland’,
+‘lst_05’, ‘Intercept’, ‘barren’, ‘elevation’, ‘humidity_01’, ‘maxT’,
+‘humidity_11’, ‘humidity_09’, ‘lat’, ‘humidity_sd’, ‘minT’, ‘water’,
+‘humidity_08’, ‘cdd_09’
+‘FallWinter’, ‘WinterDay’, ‘Amplitude’, ‘Intercept’, ‘SpringSummer’,
+‘LST’, ‘Humidity’</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.fit.optimize">
+<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#tempest2.fit.optimize" title="Link to this definition">¶</a></dt>
+<dd><p>Iteratively optimize all coefficients together and return optimized version</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pl.DataFrame</em>) – DataFrame containing “day” and “temperature” (one year’s worth) used
+for observations.</p></li>
+<li><p><strong>coefs</strong> (<em>dict</em>) – Coefficients “Intercept”, “Amplitude”, “SpringSummer”, “FallWinter”,
+and “WinterDay” to evaluate.</p></li>
+<li><p><strong>iters</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of iterations. The default is 100.</p></li>
+<li><p><strong>tol</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum proportional improvement in squared error before iteration halts.
+The default is 0.0001.</p></li>
+<li><p><strong>sample</strong> (<em>int</em><em>, </em><em>optional</em>) – Sample size per iteration. The default is 100.</p></li>
+<li><p><strong>prt</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print progress info. The default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimized coefficients.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Each coefficient either increases or decreases by up to 20%. Also offset
+by up to 0.5 to allow for negative values, etc.</p>
+</dd></dl>
+
+</section>
+<section id="module-tempest2.gents">
+<span id="tempest2-gents-module"></span><h2>tempest2.gents module<a class="headerlink" href="#module-tempest2.gents" title="Link to this heading">¶</a></h2>
+<p>Created on Wed Jan 14 08:52:57 2026</p>
+<p>&#64;author: daniel</p>
+<p>This file deals with generating timeseries from specified coefficients and
+input timeseries. Includes standalone Polars and LibSCHEMA implementations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tempest2.gents.Model">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">tempest2.gents.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ThreeSine</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LST</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Humidity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">periodics</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.Model" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.model.SCHEMA" title="libschema.model.SCHEMA"><code class="xref py py-class docutils literal notranslate"><span class="pre">SCHEMA</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tempest2.gents.Model.run_series">
+<span class="sig-name descname"><span class="pre">run_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.Model.run_series" title="Link to this definition">¶</a></dt>
+<dd><p>Run a full timeseries at once if modification engines are not present.
+Otherwise, reverts to run_series_incremental.
+Period_col specifies a period column if one exists.
+Returns the predicted array (if context=False) or the data with an added prediction
+column (if context=True).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tempest2.gents.ScAnomaly">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">tempest2.gents.</span></span><span class="sig-name descname"><span class="pre">ScAnomaly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LST</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Humidity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.ScAnomaly" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.classes.Anomaly" title="libschema.classes.Anomaly"><code class="xref py py-class docutils literal notranslate"><span class="pre">Anomaly</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tempest2.gents.ScAnomaly.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periodic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.ScAnomaly.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tempest2.gents.ScAnomaly.apply_vec">
+<span class="sig-name descname"><span class="pre">apply_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periodic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anom_history</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.ScAnomaly.apply_vec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tempest2.gents.ScSeasonality">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">tempest2.gents.</span></span><span class="sig-name descname"><span class="pre">ScSeasonality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ssn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ThreeSine</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.ScSeasonality" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.classes.Seasonality" title="libschema.classes.Seasonality"><code class="xref py py-class docutils literal notranslate"><span class="pre">Seasonality</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tempest2.gents.ScSeasonality.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.ScSeasonality.apply" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tempest2.gents.ScSeasonality.apply_vec">
+<span class="sig-name descname"><span class="pre">apply_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.ScSeasonality.apply_vec" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tempest2.gents.TeBmi">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">tempest2.gents.</span></span><span class="sig-name descname"><span class="pre">TeBmi</span></span><a class="headerlink" href="#tempest2.gents.TeBmi" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../libschema/libschema.html#libschema.bmi.SchemaBmi" title="libschema.bmi.SchemaBmi"><code class="xref py py-class docutils literal notranslate"><span class="pre">SchemaBmi</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tempest2.gents.TeBmi.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.gents.TeBmi.initialize" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the model.  Filename points to input file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.gents.all_timeseries">
+<span class="sig-prename descclassname"><span class="pre">tempest2.gents.</span></span><span class="sig-name descname"><span class="pre">all_timeseries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.gents.all_timeseries" title="Link to this definition">¶</a></dt>
+<dd><p>Generate all timeseries for multiple site IDs with coefficients included.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pl.DataFrame</em>) – “id”, “date”, “lst”, “humidity”, ‘FallWinter’, ‘WinterDay’,
+‘Amplitude’, ‘Intercept’, ‘SpringSummer’, ‘LST’, ‘Humidity’</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>With added columns temp.doy, temp.anom, and temp.mod.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Current implementation is not properly polarized, i.e., not taking full
+advantage of polars. However, as prediction is fast, this should not be
+a significant problem.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.gents.anoms">
+<span class="sig-prename descclassname"><span class="pre">tempest2.gents.</span></span><span class="sig-name descname"><span class="pre">anoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#tempest2.gents.anoms" title="Link to this definition">¶</a></dt>
+<dd><p>Generate anomaly (temp.anom) timeseries for the given inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inp</strong> (<em>pl.DataFrame</em>) – Timeseries inputs: “date”, “lst”, “humidity”. Must be sorted by date.
+May include “id”.</p></li>
+<li><p><strong>coefs</strong> (<em>pl.DataFrame</em><em> | </em><em>dict</em>) – TempEst 2 anomaly coefficients ‘LST’, ‘Humidity’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of temp.mod predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.gents.timeseries">
+<span class="sig-prename descclassname"><span class="pre">tempest2.gents.</span></span><span class="sig-name descname"><span class="pre">timeseries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.gents.timeseries" title="Link to this definition">¶</a></dt>
+<dd><p>Standalone timeseries generation from input dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inp</strong> (<em>pl.DataFrame</em>) – Timeseries inputs: “date”, “lst”, “humidity”</p></li>
+<li><p><strong>coefs</strong> (<em>pl.DataFrame</em><em> | </em><em>dict</em>) – All TempEst 2 coefficients
+‘FallWinter’, ‘WinterDay’, ‘Amplitude’, ‘Intercept’, ‘SpringSummer’,
+‘LST’, ‘Humidity’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Timeseries of predicted temperatures. Adds temp.doy, temp.anom, and
+temp.mod columns.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-tempest2.spatial">
+<span id="tempest2-spatial-module"></span><h2>tempest2.spatial module<a class="headerlink" href="#module-tempest2.spatial" title="Link to this heading">¶</a></h2>
+<p>Created on Wed Jan 14 11:19:19 2026</p>
+<p>&#64;author: daniel</p>
+<p>This file covers the implementation of spatial/ungaged fitting and prediction through
+PyKrige.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tempest2.spatial.HiddenPrints">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">HiddenPrints</span></span><a class="headerlink" href="#tempest2.spatial.HiddenPrints" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>PyKrige prints a lot, which is a problem in programmatic use.
+Courtesy of StackExchange user Alexander C, <a class="reference external" href="https://stackoverflow.com/a/45669280">https://stackoverflow.com/a/45669280</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.build_krig">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">build_krig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#tempest2.spatial.build_krig" title="Link to this definition">¶</a></dt>
+<dd><p>Fit a set of kriging models for all TempEst 2 coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fit_data</strong> (<em>pd.DataFrame</em>) – DataFrame with all predictors and fitted coefficients.
+‘humidity_03’, ‘cdd_10’,
+‘amphum’, ‘lon’, ‘lst_10’, ‘humidity_05’, ‘AutumnWinter’,
+‘freeze_days’, ‘humidity_07’, ‘grassland’, ‘lst_09’, ‘shrubland’,
+‘lst_05’, ‘Intercept’, ‘barren’, ‘elevation’, ‘humidity_01’, ‘maxT’,
+‘humidity_11’, ‘humidity_09’, ‘lat’, ‘humidity_sd’, ‘minT’, ‘water’,
+‘humidity_08’, ‘cdd_09’
+‘FallWinter’, ‘WinterDay’, ‘Amplitude’, ‘Intercept’, ‘SpringSummer’,
+‘LST’, ‘Humidity’</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dict of {str</strong> – Named RegressionKriging fits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RegressionKriging}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.build_model">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">build_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#tempest2.spatial.build_model" title="Link to this definition">¶</a></dt>
+<dd><p>Build a model from TempEst 2 timeseries input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pd.DataFrame</em><em> | </em><em>pl.DataFrame</em>) – ‘id’, ‘date’, ‘lat’, ‘lon’, ‘elevation’, ‘lst’, ‘humidity’, ‘water’,
+‘shrubland’, ‘grassland’, ‘barren’, ‘year’, ‘day’, ‘temperature’</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dict of {str</strong> – Named RegressionKriging fits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RegressionKriging}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.from_pickle">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">from_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#tempest2.spatial.from_pickle" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.predict_coefs">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">predict_coefs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">krigs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.spatial.predict_coefs" title="Link to this definition">¶</a></dt>
+<dd><p>Predict all coefficients using trained krigs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>krigs</strong> (<em>dict</em><em> of </em><em>{str: RegressionKriging}</em>) – Named RegressionKriging fits.</p></li>
+<li><p><strong>pdata</strong> (<em>pd.DataFrame</em><em> | </em><em>pl.DataFrame</em>) – All required prediction data (see XVars).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>‘FallWinter’, ‘WinterDay’, ‘Amplitude’, ‘Intercept’,
+‘SpringSummer’, ‘LST’, ‘Humidity’, ‘SpringDay’, ‘SummerDay’,
+‘FallDay’</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.predict_timeseries">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">predict_timeseries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">krigs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_coefs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.spatial.predict_timeseries" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>krigs</strong> (<em>dict</em><em> of </em><em>{str: RegressionKriging}</em>) – Named RegressionKriging fits.</p></li>
+<li><p><strong>data</strong> (<em>pd.DataFrame</em><em> | </em><em>pl.DataFrame</em>) – ‘id’, ‘date’, ‘lat’, ‘lon’, ‘elevation’, ‘lst’, ‘humidity’, ‘water’,
+‘shrubland’, ‘grassland’, ‘barren’, ‘year’, ‘day’, ‘temperature’</p></li>
+<li><p><strong>keep_coefs</strong> (<em>keep SCHEMA coefficients in result</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Full predicted timeseries.
+Added columns temp.doy, temp.anom, and temp.mod.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.test_data">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.spatial.test_data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.test_run">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">test_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.spatial.test_run" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.to_pickle">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">to_pickle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">krigs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.spatial.to_pickle" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.train_krig">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">train_krig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.spatial.train_krig" title="Link to this definition">¶</a></dt>
+<dd><p>Wrapper to train and return a RegressionKriging object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>Any</em>) – Arguments passed to RegressionKriging.fit</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>RegressionKriging</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.spatial.tune_varg">
+<span class="sig-prename descclassname"><span class="pre">tempest2.spatial.</span></span><span class="sig-name descname"><span class="pre">tune_varg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.spatial.tune_varg" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tempest2.summaries">
+<span id="tempest2-summaries-module"></span><h2>tempest2.summaries module<a class="headerlink" href="#module-tempest2.summaries" title="Link to this heading">¶</a></h2>
+<p>Created on Tue Jan 13 15:22:20 2026</p>
+<p>&#64;author: daniel</p>
+<p>This file contains a function for summarizing the required prediction data.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.summaries.full_summary">
+<span class="sig-prename descclassname"><span class="pre">tempest2.summaries.</span></span><span class="sig-name descname"><span class="pre">full_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.summaries.full_summary" title="Link to this definition">¶</a></dt>
+<dd><p>Helper function that pulls all predictors from timeseries data.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.summaries.summaries">
+<span class="sig-prename descclassname"><span class="pre">tempest2.summaries.</span></span><span class="sig-name descname"><span class="pre">summaries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dyndata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.summaries.summaries" title="Link to this definition">¶</a></dt>
+<dd><p>Computes required summary statistics for coefficient estimation from
+dynamic data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dyndata</strong> (<em>DataFrame</em>) – DataFrame with id, date, LST (Kelvin or Celsius), and humidity (kg/kg).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>humidity_sd (std dev of smoothed anomaly, not of overall timeseries)
+amphum (coefficient of DOY mean humidity in terms of 210-centered cosine)
+humidity_01 (mean January humidity)
+humidity_03
+humidity_05
+humidity_07
+humidity_08
+humidity_09
+humidity_11
+minT (min daily mean LST)
+maxT
+freeze_days (total days of year with mean LST &lt; 0)
+lst_05
+lst_09
+lst_10
+cdd_09 (cumulative degree days from January 1)
+cdd_10</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dataset with required summary layers</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Before doing anything, Kelvin is converted to Celsius.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.summaries.test_data">
+<span class="sig-prename descclassname"><span class="pre">tempest2.summaries.</span></span><span class="sig-name descname"><span class="pre">test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.summaries.test_data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tempest2.tests">
+<span id="tempest2-tests-module"></span><h2>tempest2.tests module<a class="headerlink" href="#module-tempest2.tests" title="Link to this heading">¶</a></h2>
+<p>Created on Thu Jan 15 08:43:59 2026</p>
+<p>&#64;author: daniel</p>
+<p>This file contains some general tests.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.tests.kf_test">
+<span class="sig-prename descclassname"><span class="pre">tempest2.tests.</span></span><span class="sig-name descname"><span class="pre">kf_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.tests.kf_test" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.tests.modbuilder">
+<span class="sig-prename descclassname"><span class="pre">tempest2.tests.</span></span><span class="sig-name descname"><span class="pre">modbuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.tests.modbuilder" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.tests.test_data">
+<span class="sig-prename descclassname"><span class="pre">tempest2.tests.</span></span><span class="sig-name descname"><span class="pre">test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.tests.test_data" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tempest2.ufuncs">
+<span id="tempest2-ufuncs-module"></span><h2>tempest2.ufuncs module<a class="headerlink" href="#module-tempest2.ufuncs" title="Link to this heading">¶</a></h2>
+<p>Created on Fri Mar 28 14:52:50 2025</p>
+<p>&#64;author: dphilippus</p>
+<p>This file implements all required functions as Numpy ufuncs.  All summary functions
+are applied to DOY means.  Straightforward means, etc, are not provided.</p>
+<dl class="simple">
+<dt>Summary functions:</dt><dd><p>amphum (coefficient of DOY mean humidity in terms of 210-centered cosine)</p>
+</dd>
+<dt>Prediction functions:</dt><dd><p>anomaly application
+anomaly smoothers
+coefficient predictors</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.ufuncs.amphum">
+<span class="sig-prename descclassname"><span class="pre">tempest2.ufuncs.</span></span><span class="sig-name descname"><span class="pre">amphum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">humidity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.ufuncs.amphum" title="Link to this definition">¶</a></dt>
+<dd><p>Compute amplitude of humidity as a linear function of the cos-ts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>humidity</strong> (<em>array</em>) – Humidity timeseries.</p></li>
+<li><p><strong>doy</strong> (<em>array</em>) – Corresponding Julian days of year.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Amplitude of the humidity function as a sinusoid of day-of-year,
+determined using ordinary least squares.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.ufuncs.costs">
+<span class="sig-prename descclassname"><span class="pre">tempest2.ufuncs.</span></span><span class="sig-name descname"><span class="pre">costs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#tempest2.ufuncs.costs" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a generic cosine timeseries based on a center of 210
+and period of 365.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>doy</strong> (<em>array</em>) – Julian day of year array.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Periodic timeseries corresponding to input array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.ufuncs.humidity_smooth">
+<span class="sig-prename descclassname"><span class="pre">tempest2.ufuncs.</span></span><span class="sig-name descname"><span class="pre">humidity_smooth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">humidity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#tempest2.ufuncs.humidity_smooth" title="Link to this definition">¶</a></dt>
+<dd><p>Apply simple 1/0.1 smoother to humidity anomaly - i.e.,
+today*1 + yesterday*0.1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>humidity</strong> (<em>array</em>) – Humidity _anomaly_ timeseries - not the actual humidity timeseries.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Smoothed humidity anomaly timeseries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.ufuncs.lst_smooth">
+<span class="sig-prename descclassname"><span class="pre">tempest2.ufuncs.</span></span><span class="sig-name descname"><span class="pre">lst_smooth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#tempest2.ufuncs.lst_smooth" title="Link to this definition">¶</a></dt>
+<dd><p>Apply sigmoidal smoother to LST anomaly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lst</strong> (<em>array</em>) – LST _anomaly_ timeseries - not the actual LST timeseries.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Smoothed LST anomaly timeseries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>There are two steps to the smoother. First, LST anomalies are
+transformed sigmoidally: 1/(1+exp(-LST*0.3)) - 0.5
+Then, the sigmoided anomalies are smoothed over today and the
+preceding six days using the weights: 1 (today), then 1/(2N) for
+day N before today.</p>
+</dd></dl>
+
+</section>
+<section id="module-tempest2.util">
+<span id="tempest2-util-module"></span><h2>tempest2.util module<a class="headerlink" href="#module-tempest2.util" title="Link to this heading">¶</a></h2>
+<p>Created on Thu Jan 15 11:11:42 2026</p>
+<p>&#64;author: daniel</p>
+<p>Utility functions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tempest2.util.predict">
+<span class="sig-prename descclassname"><span class="pre">tempest2.util.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.util.predict" title="Link to this definition">¶</a></dt>
+<dd><p>Full prediction run from raw data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modfile</strong> (<em>str</em>) – Path of model pickle.</p></li>
+<li><p><strong>data</strong> (<em>str</em><em> | </em><em>pl.DataFrame</em><em> | </em><em>pandas.DataFrame</em>) – Input data (or path) with id, date, lst, humidity, lat, lon, elevation,
+grassland, shrubland, barren, water</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Predicted stream temperature timeseries with added columns temp.doy
+(seasonal temp), temp.anom (daily anomaly), and temp.mod (daily mean temp).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pl.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-tempest2">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tempest2" title="Link to this heading">¶</a></h2>
+<p>Created on Tue Mar  4 13:38:16 2025</p>
+<p>&#64;author: dphilippus</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/TempEstNoNumberForDarkBackgrounds.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">tempest2 package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-tempest2.defaults">tempest2.defaults module</a></li>
+<li><a class="reference internal" href="#module-tempest2.fit">tempest2.fit module</a><ul>
+<li><a class="reference internal" href="#tempest2.fit.add_random"><code class="docutils literal notranslate"><span class="pre">add_random()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.fit.fit_all"><code class="docutils literal notranslate"><span class="pre">fit_all()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.fit.fit_check"><code class="docutils literal notranslate"><span class="pre">fit_check()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.fit.full_fit"><code class="docutils literal notranslate"><span class="pre">full_fit()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.fit.full_training_data"><code class="docutils literal notranslate"><span class="pre">full_training_data()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.fit.optimize"><code class="docutils literal notranslate"><span class="pre">optimize()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tempest2.gents">tempest2.gents module</a><ul>
+<li><a class="reference internal" href="#tempest2.gents.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a><ul>
+<li><a class="reference internal" href="#tempest2.gents.Model.run_series"><code class="docutils literal notranslate"><span class="pre">Model.run_series()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tempest2.gents.ScAnomaly"><code class="docutils literal notranslate"><span class="pre">ScAnomaly</span></code></a><ul>
+<li><a class="reference internal" href="#tempest2.gents.ScAnomaly.apply"><code class="docutils literal notranslate"><span class="pre">ScAnomaly.apply()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.gents.ScAnomaly.apply_vec"><code class="docutils literal notranslate"><span class="pre">ScAnomaly.apply_vec()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tempest2.gents.ScSeasonality"><code class="docutils literal notranslate"><span class="pre">ScSeasonality</span></code></a><ul>
+<li><a class="reference internal" href="#tempest2.gents.ScSeasonality.apply"><code class="docutils literal notranslate"><span class="pre">ScSeasonality.apply()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.gents.ScSeasonality.apply_vec"><code class="docutils literal notranslate"><span class="pre">ScSeasonality.apply_vec()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tempest2.gents.TeBmi"><code class="docutils literal notranslate"><span class="pre">TeBmi</span></code></a><ul>
+<li><a class="reference internal" href="#tempest2.gents.TeBmi.initialize"><code class="docutils literal notranslate"><span class="pre">TeBmi.initialize()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tempest2.gents.all_timeseries"><code class="docutils literal notranslate"><span class="pre">all_timeseries()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.gents.anoms"><code class="docutils literal notranslate"><span class="pre">anoms()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.gents.timeseries"><code class="docutils literal notranslate"><span class="pre">timeseries()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tempest2.spatial">tempest2.spatial module</a><ul>
+<li><a class="reference internal" href="#tempest2.spatial.HiddenPrints"><code class="docutils literal notranslate"><span class="pre">HiddenPrints</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.build_krig"><code class="docutils literal notranslate"><span class="pre">build_krig()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.build_model"><code class="docutils literal notranslate"><span class="pre">build_model()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.from_pickle"><code class="docutils literal notranslate"><span class="pre">from_pickle()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.predict_coefs"><code class="docutils literal notranslate"><span class="pre">predict_coefs()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.predict_timeseries"><code class="docutils literal notranslate"><span class="pre">predict_timeseries()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.test_data"><code class="docutils literal notranslate"><span class="pre">test_data()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.test_run"><code class="docutils literal notranslate"><span class="pre">test_run()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.to_pickle"><code class="docutils literal notranslate"><span class="pre">to_pickle()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.train_krig"><code class="docutils literal notranslate"><span class="pre">train_krig()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.spatial.tune_varg"><code class="docutils literal notranslate"><span class="pre">tune_varg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tempest2.summaries">tempest2.summaries module</a><ul>
+<li><a class="reference internal" href="#tempest2.summaries.full_summary"><code class="docutils literal notranslate"><span class="pre">full_summary()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.summaries.summaries"><code class="docutils literal notranslate"><span class="pre">summaries()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.summaries.test_data"><code class="docutils literal notranslate"><span class="pre">test_data()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tempest2.tests">tempest2.tests module</a><ul>
+<li><a class="reference internal" href="#tempest2.tests.kf_test"><code class="docutils literal notranslate"><span class="pre">kf_test()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.tests.modbuilder"><code class="docutils literal notranslate"><span class="pre">modbuilder()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.tests.test_data"><code class="docutils literal notranslate"><span class="pre">test_data()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tempest2.ufuncs">tempest2.ufuncs module</a><ul>
+<li><a class="reference internal" href="#tempest2.ufuncs.amphum"><code class="docutils literal notranslate"><span class="pre">amphum()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.ufuncs.costs"><code class="docutils literal notranslate"><span class="pre">costs()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.ufuncs.humidity_smooth"><code class="docutils literal notranslate"><span class="pre">humidity_smooth()</span></code></a></li>
+<li><a class="reference internal" href="#tempest2.ufuncs.lst_smooth"><code class="docutils literal notranslate"><span class="pre">lst_smooth()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tempest2.util">tempest2.util module</a><ul>
+<li><a class="reference internal" href="#tempest2.util.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-tempest2">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Overviews:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">TempEst 2 Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">TempEst 2 Python</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">tempest2 package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.defaults">tempest2.defaults module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.fit">tempest2.fit module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.gents">tempest2.gents module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.spatial">tempest2.spatial module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.summaries">tempest2.summaries module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.tests">tempest2.tests module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.ufuncs">tempest2.ufuncs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2.util">tempest2.util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tempest2">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/modules.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/modules.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/modules.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full References:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst 2 Python Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/NEXT.html">TempEst-NEXT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../newt/modules.html" title="NEWT"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="pyTE2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >pyTE2</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">tempest2 package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    </div>
+  </body>
+</html>

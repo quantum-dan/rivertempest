@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyTE2 &#8212; RiverTempest.org</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    
+    <link rel="icon" href="../_static/TempEstICOSquare.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tempest2 package" href="tempest2.html" />
+    <link rel="prev" title="libschema package" href="../libschema/libschema.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tempest2.html" title="tempest2 package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../libschema/libschema.html" title="libschema package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyTE2</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="pyte2">
+<h1>pyTE2<a class="headerlink" href="#pyte2" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tempest2.html">tempest2 package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.defaults">tempest2.defaults module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.fit">tempest2.fit module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.fit.add_random"><code class="docutils literal notranslate"><span class="pre">add_random()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.fit.fit_all"><code class="docutils literal notranslate"><span class="pre">fit_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.fit.fit_check"><code class="docutils literal notranslate"><span class="pre">fit_check()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.fit.full_fit"><code class="docutils literal notranslate"><span class="pre">full_fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.fit.full_training_data"><code class="docutils literal notranslate"><span class="pre">full_training_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.fit.optimize"><code class="docutils literal notranslate"><span class="pre">optimize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.gents">tempest2.gents module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.gents.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tempest2.html#tempest2.gents.Model.run_series"><code class="docutils literal notranslate"><span class="pre">Model.run_series()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.gents.ScAnomaly"><code class="docutils literal notranslate"><span class="pre">ScAnomaly</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tempest2.html#tempest2.gents.ScAnomaly.apply"><code class="docutils literal notranslate"><span class="pre">ScAnomaly.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tempest2.html#tempest2.gents.ScAnomaly.apply_vec"><code class="docutils literal notranslate"><span class="pre">ScAnomaly.apply_vec()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.gents.ScSeasonality"><code class="docutils literal notranslate"><span class="pre">ScSeasonality</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tempest2.html#tempest2.gents.ScSeasonality.apply"><code class="docutils literal notranslate"><span class="pre">ScSeasonality.apply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tempest2.html#tempest2.gents.ScSeasonality.apply_vec"><code class="docutils literal notranslate"><span class="pre">ScSeasonality.apply_vec()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.gents.TeBmi"><code class="docutils literal notranslate"><span class="pre">TeBmi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tempest2.html#tempest2.gents.TeBmi.initialize"><code class="docutils literal notranslate"><span class="pre">TeBmi.initialize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.gents.all_timeseries"><code class="docutils literal notranslate"><span class="pre">all_timeseries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.gents.anoms"><code class="docutils literal notranslate"><span class="pre">anoms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.gents.timeseries"><code class="docutils literal notranslate"><span class="pre">timeseries()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.spatial">tempest2.spatial module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.HiddenPrints"><code class="docutils literal notranslate"><span class="pre">HiddenPrints</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.build_krig"><code class="docutils literal notranslate"><span class="pre">build_krig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.build_model"><code class="docutils literal notranslate"><span class="pre">build_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.from_pickle"><code class="docutils literal notranslate"><span class="pre">from_pickle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.predict_coefs"><code class="docutils literal notranslate"><span class="pre">predict_coefs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.predict_timeseries"><code class="docutils literal notranslate"><span class="pre">predict_timeseries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.test_data"><code class="docutils literal notranslate"><span class="pre">test_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.test_run"><code class="docutils literal notranslate"><span class="pre">test_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.to_pickle"><code class="docutils literal notranslate"><span class="pre">to_pickle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.train_krig"><code class="docutils literal notranslate"><span class="pre">train_krig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.spatial.tune_varg"><code class="docutils literal notranslate"><span class="pre">tune_varg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.summaries">tempest2.summaries module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.summaries.full_summary"><code class="docutils literal notranslate"><span class="pre">full_summary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.summaries.summaries"><code class="docutils literal notranslate"><span class="pre">summaries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.summaries.test_data"><code class="docutils literal notranslate"><span class="pre">test_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.tests">tempest2.tests module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.tests.kf_test"><code class="docutils literal notranslate"><span class="pre">kf_test()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.tests.modbuilder"><code class="docutils literal notranslate"><span class="pre">modbuilder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.tests.test_data"><code class="docutils literal notranslate"><span class="pre">test_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.ufuncs">tempest2.ufuncs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.ufuncs.amphum"><code class="docutils literal notranslate"><span class="pre">amphum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.ufuncs.costs"><code class="docutils literal notranslate"><span class="pre">costs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.ufuncs.humidity_smooth"><code class="docutils literal notranslate"><span class="pre">humidity_smooth()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.ufuncs.lst_smooth"><code class="docutils literal notranslate"><span class="pre">lst_smooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2.util">tempest2.util module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tempest2.html#tempest2.util.predict"><code class="docutils literal notranslate"><span class="pre">predict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html#module-tempest2">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/TempEstNoNumberForDarkBackgrounds.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Overviews:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">TempEst 2 Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/readme.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst 2 Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tempest2.html">tempest2 package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/modules.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/modules.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/modules.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tempest2.html">TempEst 2 Python Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../next/NEXT.html">TempEst-NEXT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tempest2.html" title="tempest2 package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../libschema/libschema.html" title="libschema package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyTE2</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    </div>
+  </body>
+</html>
