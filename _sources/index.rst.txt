@@ -15,7 +15,7 @@ Any TempEst software featured on this website is usable and reasonably complete,
 I am willing to consider minor feature requests via the projects' respective Issues pages, but make no guarantees about carrying them out. I am particularly interested in hearing about modifications to the workflow that would be helpful in practical use. I am also willing to reimplement TempEst 1/2 data retrieval independently of Google Earth Engine upon request.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Overviews:
 
    TempEst 1 <tempest1/readme>
@@ -24,6 +24,12 @@ I am willing to consider minor feature requests via the projects' respective Iss
    TempEst-NEWT <newt/readme>
    TempEst-NEXT <next/readme>
    LibSCHEMA <libschema/readme>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Full Examples/Demonstrations:
+
+   TempEst-NEXT Real-Time National Forecasting <next/forecast>
 
 
 .. toctree::

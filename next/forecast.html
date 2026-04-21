@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TempEst-NEXT Real-Time National Forecasting &#8212; RiverTempest.org</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=2bf1fcf8" />
+    
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    
+    <link rel="icon" href="../_static/TempEstICOSquare.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pyTE2" href="../pyte2/modules.html" />
+    <link rel="prev" title="libschema package" href="../libschema/libschema.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../pyte2/modules.html" title="pyTE2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../libschema/libschema.html" title="libschema package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst-NEXT Real-Time National Forecasting</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="tempest-next-real-time-national-forecasting">
+<h1>TempEst-NEXT Real-Time National Forecasting<a class="headerlink" href="#tempest-next-real-time-national-forecasting" title="Link to this heading">¶</a></h1>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">NEXT</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">NEXT.wforecast</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">wfc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapely</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">shp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pynhd</span><span class="w"> </span><span class="kn">import</span> <span class="n">WaterData</span><span class="p">,</span> <span class="n">NLDI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+</pre></div>
+</div>
+<section id="prepare-environment">
+<h2>Prepare Environment<a class="headerlink" href="#prepare-environment" title="Link to this heading">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hist_data/&quot;</span><span class="p">,</span> <span class="s2">&quot;hrrr_data/&quot;</span><span class="p">,</span> <span class="s2">&quot;final_hist/&quot;</span><span class="p">,</span> <span class="s2">&quot;gfs_raw/&quot;</span><span class="p">,</span> <span class="s2">&quot;forecasts/&quot;</span><span class="p">,</span> <span class="s1">&#39;figures/&#39;</span><span class="p">,</span> <span class="s1">&#39;full_forecasts/&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="identify-sites">
+<h2>Identify Sites<a class="headerlink" href="#identify-sites" title="Link to this heading">¶</a></h2>
+<p>By default, the forecast runs for 1,000 HUC-12 pour points sampled from
+across the contiguous US. You can modify this by changing the site
+selection below and removing the cached site file. The sampling
+procedure is to select 1,000 different HUC-8s, then sample one HUC-12
+from each. (The actual default dataset contains 913 sites after misc
+errors.)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sitefile</span> <span class="o">=</span> <span class="s2">&quot;forecast_points.json&quot;</span>
+<span class="n">run_sites</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">sitefile</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">try_and_sleep</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1"># Wait between calls because otherwise it tends to overload the API</span>
+<span class="k">if</span> <span class="n">run_sites</span><span class="p">:</span>
+    <span class="n">huc6</span> <span class="o">=</span> <span class="n">WaterData</span><span class="p">(</span><span class="s2">&quot;wbd06&quot;</span><span class="p">)</span>
+    <span class="n">huc12</span> <span class="o">=</span> <span class="n">WaterData</span><span class="p">(</span><span class="s2">&quot;wbd12&quot;</span><span class="p">)</span>
+    <span class="n">all_huc6</span> <span class="o">=</span> <span class="n">huc6</span><span class="o">.</span><span class="n">bybox</span><span class="p">((</span><span class="o">-</span><span class="mi">125</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">65</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="n">huc12_samp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+        <span class="n">try_and_sleep</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">huc12</span><span class="o">.</span><span class="n">bygeom</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span> <span class="c1"># get extra samples because some will crash</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_huc6</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+    <span class="p">])</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1200</span><span class="p">)</span>
+    <span class="n">pps</span> <span class="o">=</span> <span class="n">NLDI</span><span class="p">()</span><span class="o">.</span><span class="n">getfeature_byid</span><span class="p">(</span><span class="s2">&quot;huc12pp&quot;</span><span class="p">,</span> <span class="n">huc12_samp</span><span class="p">[</span><span class="s2">&quot;huc12&quot;</span><span class="p">])</span>
+    <span class="n">geodata</span> <span class="o">=</span> <span class="p">(</span><span class="n">huc12_samp</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span> <span class="s2">&quot;huc12&quot;</span><span class="p">,</span> <span class="s2">&quot;areasqkm&quot;</span><span class="p">]]</span><span class="o">.</span>
+        <span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;huc12&quot;</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;areasqkm&quot;</span><span class="p">:</span> <span class="s2">&quot;area&quot;</span><span class="p">})</span><span class="o">.</span>
+        <span class="n">merge</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">pps</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="n">pps</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+                <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="n">pps</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">x</span>
+            <span class="p">}),</span>
+            <span class="n">on</span><span class="o">=</span><span class="s2">&quot;id&quot;</span>
+        <span class="p">))</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">geodata</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geodata</span><span class="p">[</span><span class="s2">&quot;area&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="c1"># km2 -&gt; m2</span>
+    <span class="n">geodata</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">sitefile</span><span class="p">)</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">geodata</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">sitefile</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geodata</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Axes</span><span class="p">:</span> <span class="o">&gt;</span>
+</pre></div>
+</div>
+<img alt="../_images/forecast_6_1.png" src="../_images/forecast_6_1.png" />
+</section>
+<section id="retrieve-historical-data">
+<h2>Retrieve Historical Data<a class="headerlink" href="#retrieve-historical-data" title="Link to this heading">¶</a></h2>
+<p>Humidity is retrieved from GridMet. Air temperature is from HRRR so that
+climatology will be more similar to GFS, for which NEXT doesn’t have
+long-term archive retrieval (just recent forecast runs).</p>
+<p>The below loops may crash periodically due to server errors. If so, just
+restart them, as they are set up to resume where they left off. GridMet
+retrieval takes several hours, and HRRR retrieval is currently
+exceptionally slow for no obvious reason, on the order of 1 hour per
+site. Due to that challenge, HRRR is only retrieved for one year for a
+sample of sites, which is used to fit a correction function.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">runhist</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">basepath</span> <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+<span class="k">if</span> <span class="n">runhist</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">geodata</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">basepath</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+                <span class="c1"># note: site type &quot;huc12&quot; doesn&#39;t actually exist. It will internally convert to coordinates.</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">NEXT</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">geom_full_data</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;huc12&quot;</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">([</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="mi">4326</span><span class="p">),</span> <span class="n">row</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">area</span><span class="p">,</span>
+                                             <span class="s2">&quot;2015&quot;</span><span class="p">,</span> <span class="s2">&quot;2025&quot;</span><span class="p">,</span> <span class="s2">&quot;gridmet&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following block can be cancelled after several dozen sites have been
+retrieved.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">runhist</span><span class="p">:</span>
+    <span class="n">allids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>  <span class="c1"># don&#39;t run HRRR if we don&#39;t have other info</span>
+    <span class="n">basepath</span> <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">geodata</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">basepath</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">allids</span><span class="p">):</span>
+                <span class="n">NEXT</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">weather_hrrr</span><span class="p">(</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoSeries</span><span class="p">([</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="mi">4326</span><span class="p">),</span> <span class="s2">&quot;2025-01-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-12-31&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compute corrections:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">allids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+<span class="n">combined</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span><span class="o">.</span>
+        <span class="n">merge</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]),</span>
+              <span class="n">on</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span>
+              <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_gm&quot;</span><span class="p">,</span> <span class="s2">&quot;_hrrr&quot;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">geodata</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">allids</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">combined</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;tmax_gm&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;tmax_hrrr&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Axes</span><span class="p">:</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;tmax_gm&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;tmax_hrrr&#39;</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<img alt="../_images/forecast_16_1.png" src="../_images/forecast_16_1.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">combined</span><span class="p">[</span><span class="s2">&quot;tmax_gm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">combined</span><span class="p">[</span><span class="s2">&quot;tmax_hrrr&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">0.9543465835168514</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">combined</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)[[</span><span class="s2">&quot;tmax_hrrr&quot;</span><span class="p">,</span> <span class="s2">&quot;tmax_gm&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span>
+    <span class="n">loc</span><span class="p">[(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="s2">&quot;tmax_gm&quot;</span><span class="p">),</span> <span class="s2">&quot;tmax_hrrr&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">count</span>    <span class="mf">78.000000</span>
+<span class="n">mean</span>      <span class="mf">0.945189</span>
+<span class="n">std</span>       <span class="mf">0.037704</span>
+<span class="nb">min</span>       <span class="mf">0.762891</span>
+<span class="mi">25</span><span class="o">%</span>       <span class="mf">0.935038</span>
+<span class="mi">50</span><span class="o">%</span>       <span class="mf">0.956855</span>
+<span class="mi">75</span><span class="o">%</span>       <span class="mf">0.967331</span>
+<span class="nb">max</span>       <span class="mf">0.978917</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">tmax_hrrr</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</pre></div>
+</div>
+<p>The relationship is imperfect, but we observe that sitewise correlation
+is nearly identical to global correlation, so a global correction can be
+applied.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">combined</span><span class="p">)),</span> <span class="n">combined</span><span class="p">[</span><span class="s2">&quot;tmax_gm&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">combined</span><span class="p">[</span><span class="s2">&quot;tmax_hrrr&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">runhist</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">fn</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;tmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;tmax&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">fit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fn</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="retrieve-forecast-data-and-execute-forecasts">
+<h2>Retrieve Forecast Data and Execute Forecasts<a class="headerlink" href="#retrieve-forecast-data-and-execute-forecasts" title="Link to this heading">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">NEXT</span><span class="o">.</span><span class="n">NEXT</span><span class="o">.</span><span class="n">from_pickle</span><span class="p">(</span><span class="s1">&#39;coefs_hrrr.pickle&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">allids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+<span class="n">torun</span> <span class="o">=</span> <span class="n">geodata</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">geodata</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">allids</span><span class="p">)]</span>
+<span class="n">earlier</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
+    <span class="n">fcst_weath</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">wfc</span><span class="o">.</span><span class="n">get_gfs_downloaded</span><span class="p">(</span><span class="n">torun</span><span class="p">,</span> <span class="n">earlier</span><span class="p">,</span> <span class="n">dirs</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+                             <span class="n">wfc</span><span class="o">.</span><span class="n">get_gfs_downloaded</span><span class="p">(</span><span class="n">torun</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="n">dirs</span><span class="p">[</span><span class="mi">3</span><span class="p">])])</span><span class="o">.</span>
+        <span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="s2">&quot;tmax&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">last</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">torun</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+        <span class="n">infn</span> <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
+        <span class="n">outfn</span> <span class="o">=</span> <span class="n">dirs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">today</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outfn</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">make_newt</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">infn</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]),</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">fcst_weath</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fcst_weath</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">])</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outfn</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">080901000101</span>
+</pre></div>
+</div>
+</section>
+<section id="analyze-the-forecast">
+<h2>Analyze The Forecast<a class="headerlink" href="#analyze-the-forecast" title="Link to this heading">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">forecast</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">fn</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span><span class="o">.</span>
+        <span class="n">assign</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">today</span> <span class="ow">in</span> <span class="n">fn</span> <span class="ow">and</span> <span class="n">fn</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="c1"># Limit to weekly forecast</span>
+<span class="n">forecast</span> <span class="o">=</span> <span class="n">forecast</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;today&#39;</span><span class="p">))</span> <span class="o">&amp;</span>
+    <span class="p">(</span><span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;today&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)]</span>
+<span class="n">forecast</span> <span class="o">=</span> <span class="n">forecast</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">geodata</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">forecast</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;period&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">today</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">forecast</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>date</th>
+      <th>tmax</th>
+      <th>day</th>
+      <th>period</th>
+      <th>prediction</th>
+      <th>seasonal</th>
+      <th>anomaly</th>
+      <th>area</th>
+      <th>lat</th>
+      <th>lon</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>010900050201</td>
+      <td>2026-04-13</td>
+      <td>15.362663</td>
+      <td>103</td>
+      <td>103</td>
+      <td>8.945897</td>
+      <td>10.911749</td>
+      <td>-1.965852</td>
+      <td>66570000.0</td>
+      <td>41.442098</td>
+      <td>-71.590871</td>
+      <td>MULTIPOLYGON (((-71.51761 41.55376, -71.51733 ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>010900050201</td>
+      <td>2026-04-14</td>
+      <td>21.079019</td>
+      <td>104</td>
+      <td>104</td>
+      <td>9.638248</td>
+      <td>11.044416</td>
+      <td>-1.406168</td>
+      <td>66570000.0</td>
+      <td>41.442098</td>
+      <td>-71.590871</td>
+      <td>MULTIPOLYGON (((-71.51761 41.55376, -71.51733 ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>010900050201</td>
+      <td>2026-04-15</td>
+      <td>23.610065</td>
+      <td>105</td>
+      <td>105</td>
+      <td>10.816572</td>
+      <td>11.177676</td>
+      <td>-0.361104</td>
+      <td>66570000.0</td>
+      <td>41.442098</td>
+      <td>-71.590871</td>
+      <td>MULTIPOLYGON (((-71.51761 41.55376, -71.51733 ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>010900050201</td>
+      <td>2026-04-16</td>
+      <td>21.855503</td>
+      <td>106</td>
+      <td>106</td>
+      <td>11.754032</td>
+      <td>11.311491</td>
+      <td>0.442541</td>
+      <td>66570000.0</td>
+      <td>41.442098</td>
+      <td>-71.590871</td>
+      <td>MULTIPOLYGON (((-71.51761 41.55376, -71.51733 ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>010900050201</td>
+      <td>2026-04-17</td>
+      <td>23.611570</td>
+      <td>107</td>
+      <td>107</td>
+      <td>11.973921</td>
+      <td>11.445821</td>
+      <td>0.528099</td>
+      <td>66570000.0</td>
+      <td>41.442098</td>
+      <td>-71.590871</td>
+      <td>MULTIPOLYGON (((-71.51761 41.55376, -71.51733 ...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>6449</th>
+      <td>030601020108</td>
+      <td>2026-04-15</td>
+      <td>28.654725</td>
+      <td>105</td>
+      <td>105</td>
+      <td>9.599104</td>
+      <td>9.068038</td>
+      <td>0.531067</td>
+      <td>68530000.0</td>
+      <td>34.716343</td>
+      <td>-83.354611</td>
+      <td>MULTIPOLYGON (((-83.39605 34.78676, -83.39639 ...</td>
+    </tr>
+    <tr>
+      <th>6450</th>
+      <td>030601020108</td>
+      <td>2026-04-16</td>
+      <td>27.555318</td>
+      <td>106</td>
+      <td>106</td>
+      <td>11.424976</td>
+      <td>8.912083</td>
+      <td>2.512893</td>
+      <td>68530000.0</td>
+      <td>34.716343</td>
+      <td>-83.354611</td>
+      <td>MULTIPOLYGON (((-83.39605 34.78676, -83.39639 ...</td>
+    </tr>
+    <tr>
+      <th>6451</th>
+      <td>030601020108</td>
+      <td>2026-04-17</td>
+      <td>29.583026</td>
+      <td>107</td>
+      <td>107</td>
+      <td>11.641974</td>
+      <td>8.755528</td>
+      <td>2.886446</td>
+      <td>68530000.0</td>
+      <td>34.716343</td>
+      <td>-83.354611</td>
+      <td>MULTIPOLYGON (((-83.39605 34.78676, -83.39639 ...</td>
+    </tr>
+    <tr>
+      <th>6452</th>
+      <td>030601020108</td>
+      <td>2026-04-18</td>
+      <td>28.607069</td>
+      <td>108</td>
+      <td>108</td>
+      <td>11.782561</td>
+      <td>8.598419</td>
+      <td>3.184142</td>
+      <td>68530000.0</td>
+      <td>34.716343</td>
+      <td>-83.354611</td>
+      <td>MULTIPOLYGON (((-83.39605 34.78676, -83.39639 ...</td>
+    </tr>
+    <tr>
+      <th>6453</th>
+      <td>030601020108</td>
+      <td>2026-04-19</td>
+      <td>24.017823</td>
+      <td>109</td>
+      <td>109</td>
+      <td>10.909466</td>
+      <td>8.440803</td>
+      <td>2.468663</td>
+      <td>68530000.0</td>
+      <td>34.716343</td>
+      <td>-83.354611</td>
+      <td>MULTIPOLYGON (((-83.39605 34.78676, -83.39639 ...</td>
+    </tr>
+  </tbody>
+</table>
+<p>6454 rows × 12 columns</p>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Export to mappable GeoJSON. Modify this code to set custom color scales. These column</span>
+<span class="c1"># labels work with CalTopo.</span>
+<span class="n">fcjs</span> <span class="o">=</span> <span class="n">forecast</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">])[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">([</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">])</span>
+<span class="n">fcjs</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">fcjs</span><span class="p">,</span>
+                        <span class="n">geometry</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="n">shp</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fcjs</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()</span>
+                        <span class="p">],</span>
+                        <span class="n">crs</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+<span class="n">fcjs</span><span class="p">[</span><span class="s1">&#39;marker-size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">fcjs</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fcjs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+<span class="n">fcjs</span><span class="p">[</span><span class="s1">&#39;marker-color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0000FF&quot;</span>
+<span class="n">fcjs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fcjs</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;marker-color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;008080&quot;</span>
+<span class="n">fcjs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fcjs</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;marker-color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;00FF00&quot;</span>
+<span class="n">fcjs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fcjs</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;marker-color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;808000&quot;</span>
+<span class="n">fcjs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">fcjs</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;marker-color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;FF0000&quot;</span>
+<span class="n">fcjs</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="n">today</span> <span class="o">+</span> <span class="s1">&#39;_map.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="forecast-description">
+<h2>Forecast Description<a class="headerlink" href="#forecast-description" title="Link to this heading">¶</a></h2>
+<p>Warning: this is an experimental stream water temperature forecast for
+the upcoming week. Results are not guaranteed in any capacity. Typical
+errors are approximately 2.5 C (4 F); any given prediction may have
+considerably higher errors. For example, in the southern Rocky Mountains
+during the first forecast run (April 2026), the model, while it did
+predict high temperature anomalies, was unable to fully account for the
+unseasonal loss of snowpack and therefore underpredicted temperatures by
+several degrees.</p>
+<p>These data and related items of information have not been formally
+disseminated by NOAA, and do not represent any agency determination,
+view, or policy. This research is funded by the NOAA Cooperative
+Institute for Research to Operations in Hydrology.</p>
+<p>The code used to generate these forecasts is available on GitHub at
+<a class="reference external" href="https://github.com/mines-ciroh/natl-temp-forecast">https://github.com/mines-ciroh/natl-temp-forecast</a> (requires support for
+ecCodes, for which Linux is recommended). Additionally, required
+preliminary data for the 913 default forecast sites are available on the
+GitHub Releases page, so the only data retrieval required is the GFS
+forecast download. Actual weekly forecasts are made available on CUAHSI
+HydroShare at
+<a class="reference external" href="http://www.hydroshare.org/resource/b8852529788a437a8d697e9b0435b99a">http://www.hydroshare.org/resource/b8852529788a437a8d697e9b0435b99a</a>.</p>
+<p>The US states shapefile was retrieved from
+<a class="reference external" href="https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html">https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html</a>,
+and the large rivers shapefile from <a class="reference external" href="https://www.weather.gov/gis/Rivers">https://www.weather.gov/gis/Rivers</a>.
+Both were converted to GeoJSON.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forecast</span><span class="p">[[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">,</span> <span class="s1">&#39;anomaly&#39;</span><span class="p">,</span> <span class="s1">&#39;prediction&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seasonal</th>
+      <th>anomaly</th>
+      <th>prediction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>6454.000000</td>
+      <td>6454.000000</td>
+      <td>6454.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>12.242600</td>
+      <td>0.017864</td>
+      <td>12.260464</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>6.945637</td>
+      <td>1.836547</td>
+      <td>6.939229</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>-9.059694</td>
+      <td>-8.743582</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>7.109645</td>
+      <td>-0.788977</td>
+      <td>7.080628</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>11.700867</td>
+      <td>0.149350</td>
+      <td>12.294008</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>18.104874</td>
+      <td>1.022540</td>
+      <td>18.170668</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>33.877230</td>
+      <td>9.553768</td>
+      <td>34.791661</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">states</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;states.json&quot;</span><span class="p">)</span>
+<span class="n">states</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;STUSPS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;AK&quot;</span><span class="p">,</span> <span class="s2">&quot;HI&quot;</span><span class="p">,</span> <span class="s2">&quot;PR&quot;</span><span class="p">])]</span>  <span class="c1"># CONUS</span>
+<span class="n">rivers</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s2">&quot;rivers.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">signed_max_abs</span><span class="p">(</span><span class="n">series</span><span class="p">):</span>
+    <span class="c1"># Find the largest absolute value, preserving sign</span>
+    <span class="n">mx</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">mn</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mx</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mn</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mx</span>
+    <span class="k">return</span> <span class="n">mn</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">scale_size</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">mn</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ceiling</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+    <span class="n">series</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">series</span> <span class="o">&gt;</span> <span class="n">ceiling</span><span class="p">]</span> <span class="o">=</span> <span class="n">ceiling</span>
+    <span class="k">return</span> <span class="n">mn</span> <span class="o">+</span> <span class="p">(</span><span class="n">series</span> <span class="o">-</span> <span class="n">series</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="p">(</span><span class="n">mx</span> <span class="o">-</span> <span class="n">mn</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">series</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;compressed&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">axr</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axr</span><span class="p">:</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;#606060&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">forecast</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)[[</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="s1">&#39;prediction&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span>
+    <span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;prediction&#39;</span><span class="p">:</span> <span class="s1">&#39;Mean Temp [C]&#39;</span><span class="p">})</span><span class="o">.</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;Mean Temp [C]&#39;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Latitude (deg N)&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Longitude (deg E)&#39;</span><span class="p">))</span>
+<span class="n">rivers</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">rivers</span><span class="p">[</span><span class="s2">&quot;STRAHLER&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;teal&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">forecast</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;anomaly&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">})</span><span class="o">.</span>
+    <span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;anomaly&#39;</span><span class="p">:</span> <span class="s1">&#39;Mean Temp Anomaly [C]&#39;</span><span class="p">})</span><span class="o">.</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;Mean Temp Anomaly [C]&#39;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;berlin&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Latitude (deg N)&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Longitude (deg E)&#39;</span><span class="p">))</span>
+<span class="p">(</span><span class="n">forecast</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;anomaly&#39;</span><span class="p">:</span> <span class="n">signed_max_abs</span><span class="p">})</span><span class="o">.</span>
+    <span class="n">assign</span><span class="p">(</span><span class="n">anomsize</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">scale_size</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;anomaly&#39;</span><span class="p">],</span> <span class="n">mn</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mx</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span><span class="o">.</span>
+    <span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;anomaly&#39;</span><span class="p">:</span> <span class="s1">&#39;Largest Temp Anomaly [C]&#39;</span><span class="p">})</span><span class="o">.</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;Largest Temp Anomaly [C]&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s1">&#39;anomsize&#39;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;berlin&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Latitude (deg N)&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Longitude (deg E)&#39;</span><span class="p">))</span>
+<span class="c1"># Compute weekly *trend*</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">forecast</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">forecast</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+<span class="n">start</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;Temp Trend [C/wk]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">start</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]</span>
+<span class="n">start</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;Temp Trend [C/wk]&#39;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Latitude (deg N)&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Longitude (deg E)&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;TempEst-NEXT National Weekly Stream Water Temperature Forecast</span>
+<span class="s1">Dates: </span><span class="si">{</span><span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">forecast</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">dirs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;ForecastPlot_</span><span class="si">{</span><span class="n">today</span><span class="si">}</span><span class="s1">.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/forecast_32_0.png" src="../_images/forecast_32_0.png" />
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/TempEstNoNumberForDarkBackgrounds.png" alt="Logo of RiverTempest.org"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TempEst-NEXT Real-Time National Forecasting</a><ul>
+<li><a class="reference internal" href="#prepare-environment">Prepare Environment</a></li>
+<li><a class="reference internal" href="#identify-sites">Identify Sites</a></li>
+<li><a class="reference internal" href="#retrieve-historical-data">Retrieve Historical Data</a></li>
+<li><a class="reference internal" href="#retrieve-forecast-data-and-execute-forecasts">Retrieve Forecast Data and Execute Forecasts</a></li>
+<li><a class="reference internal" href="#analyze-the-forecast">Analyze The Forecast</a></li>
+<li><a class="reference internal" href="#forecast-description">Forecast Description</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Overviews:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyte2/readme.html">TempEst 2 Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full Examples/Demonstrations:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst-NEXT Real-Time National Forecasting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyte2/modules.html">TempEst 2 Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/modules.html">TempEst-NEWT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">TempEst-NEXT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/modules.html">LibSCHEMA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Full References:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyte2/tempest2.html">TempEst 2 Python Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NEXT.html">TempEst-NEXT Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../pyte2/modules.html" title="pyTE2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../libschema/libschema.html" title="libschema package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">RiverTempest.org</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TempEst-NEXT Real-Time National Forecasting</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>
