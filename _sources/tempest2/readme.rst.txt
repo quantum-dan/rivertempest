@@ -26,7 +26,7 @@ Quick Guide
 -----------
 
 Dependencies in R: ``tidyverse``, ``fields``. The validation notebook
-also requires ``terra``, ``sf,``\ ggspatial\ ``, and``\ hydroGOF`.
+also requires ``terra``, ``sf,``\ ggspatial\ ``, and``\ hydroGOF\`.
 Additional dependencies for Google Earth Engine data retrieval: Python
 with the GEE API configured.
 
@@ -43,29 +43,29 @@ A pre-trained model is available in the GitHub
 ``model.rda``. ``load("model.rda")`` will load a function called
 ``model``. The argument to ``model`` is a data frame with columns:
 
--  id (site ID; character)
--  lon (longitude; decimal degrees East)
--  lat (latitude; decimal degrees North)
--  day (Julian day; integer)
--  date (as an R Date)
--  elevation (mean in a 500-m radius about point of interest; meters)
--  water, shrubland, grassland, barren (land cover, abundance in a 500-m
-   radius about point of interest; unitless, m2/m2)
--  lst (land surface temperature, daily daytime mean in a 500-m radius
-   about point of interest; Celsius)
--  humidity (specific humidity, daily mean in a 500-m radius about point
-   of interest; unitless, kg/kg)
+- id (site ID; character)
+- lon (longitude; decimal degrees East)
+- lat (latitude; decimal degrees North)
+- day (Julian day; integer)
+- date (as an R Date)
+- elevation (mean in a 500-m radius about point of interest; meters)
+- water, shrubland, grassland, barren (land cover, abundance in a 500-m
+  radius about point of interest; unitless, m2/m2)
+- lst (land surface temperature, daily daytime mean in a 500-m radius
+  about point of interest; Celsius)
+- humidity (specific humidity, daily mean in a 500-m radius about point
+  of interest; unitless, kg/kg)
 
 Using this data frame as the argument to ``model``, the function will
 return the same data frame with three or five new columns:
 
--  temp.mod (modeled daily mean temperature; Celsius)
--  temp.doy (modeled day-of-year mean temperature; Celsius)
--  temp.anom (modeled temperature anomaly relative to day-of-year mean;
-   Celsius)
--  temp.plus (modeled maximum temperature relative to day-of-year mean;
-   Celsius)
--  temp.max (modeled maximum daily temperature; Celsius)
+- temp.mod (modeled daily mean temperature; Celsius)
+- temp.doy (modeled day-of-year mean temperature; Celsius)
+- temp.anom (modeled temperature anomaly relative to day-of-year mean;
+  Celsius)
+- temp.plus (modeled maximum temperature relative to day-of-year mean;
+  Celsius)
+- temp.max (modeled maximum daily temperature; Celsius)
 
 ``temp.mod`` = ``temp.doy`` + ``temp.anom``.
 
@@ -171,10 +171,10 @@ optionally specify the resolution; the default is 1,000).
 
 ID format:
 
--  USGS gage: ``"USGS-<ID>"`` with ``site_type="usgs"``
--  COMID: just the COMID string with ``site_type="comid"``
--  Coordinates: (lon, lat) in decimal degrees with
-   ``site_type="coordinates"``
+- USGS gage: ``"USGS-<ID>"`` with ``site_type="usgs"``
+- COMID: just the COMID string with ``site_type="comid"``
+- Coordinates: (lon, lat) in decimal degrees with
+  ``site_type="coordinates"``
 
 Then, just run
 ``points_above.points_above_all([<site ids>], <site type>, <max points per river>, <resolution>, [<base ids>])``

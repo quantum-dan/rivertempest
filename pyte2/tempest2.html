@@ -129,7 +129,7 @@ across sites and should be used only to optimize for a single site.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="tempest2.fit.full_fit">
-<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">full_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.fit.full_fit" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">tempest2.fit.</span></span><span class="sig-name descname"><span class="pre">full_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tempest2.fit.full_fit" title="Link to this definition">¶</a></dt>
 <dd><p>Generate a full, optimized SCHEMA fit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -137,6 +137,8 @@ across sites and should be used only to optimize for a single site.</p>
 <li><p><strong>data</strong> (<em>pl.DataFrame</em>) – DataFrame containing “date”, “temperature”, “LST”, “humidity”.</p></li>
 <li><p><strong>to_df</strong> (<em>bool</em><em>, </em><em>optional</em>) – Return results as a DataFrame instead of a dictionary. The default is
 false.</p></li>
+<li><p><strong>optimize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Iteratively optimize the solution rather than using a direct 3s fit.
+The default is True.</p></li>
 <li><p><strong>**kwargs</strong> – Passed to optimize. ‘sample’ and ‘iters’ likely relevant.</p></li>
 </ul>
 </dd>
@@ -554,7 +556,7 @@ cdd_10</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="tempest2.tests.test_data">
-<span class="sig-prename descclassname"><span class="pre">tempest2.tests.</span></span><span class="sig-name descname"><span class="pre">test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.tests.test_data" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">tempest2.tests.</span></span><span class="sig-name descname"><span class="pre">test_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../ExtData.csv'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tempest2.tests.test_data" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -856,7 +858,7 @@ grassland, shrubland, barren, water</p></li>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

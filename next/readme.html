@@ -78,14 +78,6 @@ dask</p>
 </section>
 <section id="data-preparation">
 <h3>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">¶</a></h3>
-<p><strong>NOTE: Data retrieval is currently a bit spotty because of API changes
-and other upstream chaos, as the Daymet API that was used is no longer
-available. NLDAS2 data retrieval (``weather=”nldas”``) may or may not
-work. HRRR data retrieval should work (argument: ``weather=”hrrr”``).
-The</strong> <a class="reference external" href="https://www.hydroshare.org/resource/abdb4e52147e408f9e328a5ba2a155f8/">HydroShare
-repository</a>
-<strong>includes data to replicate the analysis, so the automatic data
-retrieval tools are not required for testing.</strong></p>
 <p>TempEst-NEXT provides automatic tools for data retrieval, for example:
 <code class="docutils literal notranslate"><span class="pre">NEXT.data.full_data(&quot;-105.1235:40.5723&quot;,</span> <span class="pre">start=&quot;2020&quot;,</span> <span class="pre">end=&quot;2024&quot;,</span> <span class="pre">site_type=&quot;coordinates&quot;)</span></code>.
 You can also provide an input data frame. Required columns are
@@ -108,6 +100,28 @@ watershed as a proportion (e.g., wetland=0.2)</p></li>
 <li><p>canopy, ws_canopy: mean forest canopy cover as a proportion (e.g.,
 0.8) for the riparian zone and the whole watershed, respectively</p></li>
 </ul>
+<p>Note: Daymet and NLDAS2 data retrieval are currently not working due to
+upstream issues. Gridmet (now set to default) works. The analysis in the
+paper was carried out using Daymet, so results may not be identical.</p>
+<p>For forecast data, past and present HRRR works (except, in historical
+data, for humidity, which must be retrieved through Gridmet), but has
+become very slow for unknown reasons. It is quick enough for actual
+forecasting use, but for historical (coefficient estimation) data, I
+recommend using a shorter sample of HRRR data to adjust Gridmet
+climatology. Gridmet is far faster.</p>
+<p>For forecasting only (no long-term archives), GFS works well, but is
+rather memory-intensive, provided that your system supports <code class="docutils literal notranslate"><span class="pre">cfgrib</span></code>
+(which has experimental support for Windows, but mainly tagets Linux).
+Otherwise, it uses a native Python implementation which may work, but is
+slow and rather unreliable.</p>
+<p>If built-in solutions are not working or unsuitable, they are not
+essential to using TempEst-NEXT. Any method that produces the above
+input columns is suitable, and semi-bespoke techniques are often
+preferable for specific workflows. For example, while the <a class="reference external" href="https://github.com/mines-ciroh/natl-temp-forecast">national
+temperature forecasting
+demo</a> uses all
+TempEst-NEXT functions, it does <em>not</em> rely entirely on <code class="docutils literal notranslate"><span class="pre">full_data</span></code>,
+with direct calls to <code class="docutils literal notranslate"><span class="pre">weather_hrrr</span></code> and <code class="docutils literal notranslate"><span class="pre">get_gfs_downloaded</span></code>.</p>
 </section>
 <section id="model-generation-and-execution">
 <h3>Model Generation and Execution<a class="headerlink" href="#model-generation-and-execution" title="Link to this heading">¶</a></h3>
@@ -268,7 +282,7 @@ and Forecasting for Ungaged Watersheds at the CONUS Scale.” In review.</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, Daniel Philippus. Logos by Bert Philippus.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

@@ -110,13 +110,13 @@ except for the geometry and topo functions, which return a dictionary.</p>
 Prediction requirements: everything except temperature</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.all_data_gpkg">
-<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">all_data_gpkg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'daymet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cumulative</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.all_data_gpkg" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">all_data_gpkg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gridmet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cumulative</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.all_data_gpkg" title="Link to this definition">¶</a></dt>
 <dd><p>Wraps full_data to get everything for each site in a geopackage at path.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.all_data_reaches">
-<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">all_data_reaches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'daymet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.all_data_reaches" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">all_data_reaches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gridmet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.all_data_reaches" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -151,7 +151,7 @@ Shapely object.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.full_data">
-<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">full_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'usgs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'daymet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.full_data" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">full_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'usgs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gridmet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coastal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.full_data" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieves all required data for a given site, from start to end.  This
 high-level function allows the user to simply specify sources by name and
 handles the rest.</p>
@@ -174,6 +174,7 @@ They must both be in the same format.</p></li>
 <li><p><strong>weather</strong> (<em>str</em><em>, </em><em>optional</em>) – Specify the type of site and data sources for weather, land cover, and topography.</p></li>
 <li><p><strong>lc</strong> (<em>str</em><em>, </em><em>optional</em>) – Specify the type of site and data sources for weather, land cover, and topography.</p></li>
 <li><p><strong>topo</strong> (<em>str</em><em>, </em><em>optional</em>) – Specify the type of site and data sources for weather, land cover, and topography.</p></li>
+<li><p><strong>coastal</strong> (<em>bool</em><em>, </em><em>optional</em>) – Indicate that the location is coastal. Only works with “coordinates”.</p></li>
 <li><p><strong>**kwargs</strong> (<em>passed to geom_full_data</em>)</p></li>
 </ul>
 </dd>
@@ -211,7 +212,7 @@ topo: “3dep”</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.geom_full_data">
-<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">geom_full_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'daymet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_fallback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.geom_full_data" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">geom_full_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weather</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gridmet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nlcd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'3dep'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_fallback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.geom_full_data" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -293,11 +294,14 @@ Distance and buffer should be in km.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.get_watershed">
-<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">get_watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.get_watershed" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">get_watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coastal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.get_watershed" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve watershed shape for a given set of coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>coordinates</strong> (<em>(</em><em>float</em><em>, </em><em>float</em><em>)</em>) – lon, lat (in E, N)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<em>(</em><em>float</em><em>, </em><em>float</em><em>)</em>) – lon, lat (in E, N)</p></li>
+<li><p><strong>coastal</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, search for land and go from there.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Watershed boundary, lat, lon, area in m2.</p>
@@ -344,6 +348,23 @@ Uses ws area if not cumulative, otherwise total area.</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="NEXT.data.search_coast">
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">search_coast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.search_coast" title="Link to this definition">¶</a></dt>
+<dd><p>Use NLDI to find the nearest (crudely) land basin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<em>tuple</em>) – lon, lat (in E, N)</p></li>
+<li><p><strong>min_dist</strong> (<em>float</em>) – Starting search range in degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nearby inland basin geometry. May return a relatively far-inland basin.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.topo_3dep">
 <span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">topo_3dep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.topo_3dep" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -372,12 +393,15 @@ Uses ws area if not cumulative, otherwise total area.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.watershed_geom">
-<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">watershed_geom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.watershed_geom" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">watershed_geom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.watershed_geom" title="Link to this definition">¶</a></dt>
 <dd><p>Watershed retriever with appropriate syntax.  Uses a coordinate string
 which is ‘lon:lat’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>site</strong> (<em>str</em>) – ‘lon:lat’ in E/N, e.g. ‘-104.123:39.1235’.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<em>str</em>) – ‘lon:lat’ in E/N, e.g. ‘-104.123:39.1235’.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to get_watershed.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Watershed boundary, lat, lon, area in m2.</p>
@@ -387,6 +411,11 @@ which is ‘lon:lat’.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEXT.data.wbd">
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">wbd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.wbd" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.weather_daymet">
@@ -399,6 +428,11 @@ which is ‘lon:lat’.</p>
 <dd><p>The “downloaded” version works better, but may not work on Windows.
 Only retrieve tmax, since GFS is not suitable for the full timeseires.</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEXT.data.weather_gridmet">
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">weather_gridmet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.weather_gridmet" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.weather_hrrr">
@@ -754,8 +788,35 @@ so this is for true forecasts only.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.wforecast.get_gfs_downloaded">
-<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_gfs_downloaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'t2m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'instant'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_gfs_downloaded" title="Link to this definition">¶</a></dt>
-<dd><p>This works better than get_gfs, but it requires ecCodes and therefore won’t run on Windows.</p>
+<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_gfs_downloaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./gfs_cache/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'t2m'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'instant'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_gfs_downloaded" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieve GFS forecast data by downloading the entire forecast and subsetting
+it. This is relatively fast and reliable, but memory-intensive and requires
+support for cfgrib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basin</strong> (<em>GeoSeries</em><em> | </em><em>GeoDataFrame</em>) – Geometry/ies for which to retrieve GFS data. If there are multiple rows,
+there should be an <cite>id</cite> column.</p></li>
+<li><p><strong>start</strong> (<em>str</em><em> | </em><em>datetime</em>) – Start date; date on which forecast was run. Format: “YYYYMMDD”.
+Alternatively, may be a Pandas or Python datetime object or anything
+which can be converted to such (e.g., ‘today’).</p></li>
+<li><p><strong>basepath</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to which to download/find individual GFS outputs and compiled
+NetCDFs. The default is ‘./gfs_cache/’.</p></li>
+<li><p><strong>var</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable to retrieve (GFS name). The default is “t2m”.</p></li>
+<li><p><strong>new_name</strong> (<em>str</em><em>, </em><em>optional</em>) – Output variable name. The default is “tmax”.</p></li>
+<li><p><strong>op</strong> (<em>function series -&gt; number</em><em>, </em><em>optional</em>) – Temporal summary function. The default is lambda x: x.max().</p></li>
+<li><p><strong>step_type</strong> (<em>str</em><em>, </em><em>optional</em>) – GFS step type for variables other than air temp. The default is “instant”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>res</strong> – Series of output variable (new_name), indexed by date and (if applicable) ID.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This works better than get_gfs, but it requires ecCodes and therefore may not work on Windows.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -765,7 +826,7 @@ so this is for true forecasts only.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.wforecast.get_hrrr">
-<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_hrrr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TMP'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_hrrr" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_hrrr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TMP'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_hrrr" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve a full forecast run as an xarray.
 date: YYYYMMDD, using the 06z run (which should roughly correspond to day-of in US timezones)
 var: TMP, etc.  Variable to retrieve.</p>
@@ -783,12 +844,6 @@ var: TMP, etc.  Variable to retrieve.</p>
 <dt class="sig sig-object py" id="NEXT.wforecast.hrrr_series">
 <span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">hrrr_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.hrrr_series" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="NEXT.wforecast.hrrr_watershed_clip">
-<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">hrrr_watershed_clip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forecast</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basin</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.hrrr_watershed_clip" title="Link to this definition">¶</a></dt>
-<dd><p>Clip forecast output to a watershed.</p>
-</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.wforecast.sphum_to_vp">
@@ -849,12 +904,15 @@ var: TMP, etc.  Variable to retrieve.</p>
 <li><a class="reference internal" href="#NEXT.data.nhd_geom"><code class="docutils literal notranslate"><span class="pre">nhd_geom()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.nldi"><code class="docutils literal notranslate"><span class="pre">nldi()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.obs_usgs"><code class="docutils literal notranslate"><span class="pre">obs_usgs()</span></code></a></li>
+<li><a class="reference internal" href="#NEXT.data.search_coast"><code class="docutils literal notranslate"><span class="pre">search_coast()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.topo_3dep"><code class="docutils literal notranslate"><span class="pre">topo_3dep()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.topo_merit"><code class="docutils literal notranslate"><span class="pre">topo_merit()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.unroll_coords"><code class="docutils literal notranslate"><span class="pre">unroll_coords()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.watershed_geom"><code class="docutils literal notranslate"><span class="pre">watershed_geom()</span></code></a></li>
+<li><a class="reference internal" href="#NEXT.data.wbd"><code class="docutils literal notranslate"><span class="pre">wbd()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_daymet"><code class="docutils literal notranslate"><span class="pre">weather_daymet()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_gfs"><code class="docutils literal notranslate"><span class="pre">weather_gfs()</span></code></a></li>
+<li><a class="reference internal" href="#NEXT.data.weather_gridmet"><code class="docutils literal notranslate"><span class="pre">weather_gridmet()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_hrrr"><code class="docutils literal notranslate"><span class="pre">weather_hrrr()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_nldas"><code class="docutils literal notranslate"><span class="pre">weather_nldas()</span></code></a></li>
 </ul>
@@ -903,7 +961,6 @@ var: TMP, etc.  Variable to retrieve.</p>
 <li><a class="reference internal" href="#NEXT.wforecast.get_hrrr"><code class="docutils literal notranslate"><span class="pre">get_hrrr()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.hrrr_areal_summary"><code class="docutils literal notranslate"><span class="pre">hrrr_areal_summary()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.hrrr_series"><code class="docutils literal notranslate"><span class="pre">hrrr_series()</span></code></a></li>
-<li><a class="reference internal" href="#NEXT.wforecast.hrrr_watershed_clip"><code class="docutils literal notranslate"><span class="pre">hrrr_watershed_clip()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.sphum_to_vp"><code class="docutils literal notranslate"><span class="pre">sphum_to_vp()</span></code></a></li>
 </ul>
 </li>
@@ -917,13 +974,15 @@ var: TMP, etc.  Variable to retrieve.</p>
 <p class="caption" role="heading"><span class="caption-text">Overviews:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tempest1/readme.html">TempEst 1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tempest2/readme.html">TempEst 2 R</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyte2/readme.html">TempEst 2 Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../newt/readme.html">TempEst-NEWT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">TempEst-NEXT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libschema/readme.html">LibSCHEMA</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">References:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pyte2/modules.html">TempEst 2 Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../newt/modules.html">TempEst-NEWT</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">TempEst-NEXT</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">NEXT package</a><ul>
@@ -943,6 +1002,7 @@ var: TMP, etc.  Variable to retrieve.</p>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Full References:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pyte2/tempest2.html">TempEst 2 Python Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../newt/NEWT.html">TempEst-NEWT Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">TempEst-NEXT Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libschema/libschema.html">LibSCHEMA Reference</a></li>
