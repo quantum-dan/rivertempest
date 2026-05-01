@@ -97,7 +97,7 @@ TempEst 1 (monthly temperature estimation): https://github.com/mines-ciroh/tempe
 
 TempEst 2 (daily temperature estimation): https://github.com/mines-ciroh/tempest2, https://github.com/mines-ciroh/pyTE2 - Philippus, D., C. R. Corona, K. Schneider, A. Rust, and T. S. Hogue. 2025. “Satellite-based spatial-statistical modeling of daily stream water temperatures at the CONUS scale.” Journal of Hydrology, 661: 133321. https://doi.org/10.1016/j.jhydrol.2025.133321.
 
-TempEst-NEWT/NEXT (daily temperature forecasting): https://github.com/mines-ciroh/tempest-next, https://github.com/mines-ciroh/tempest-newt - Philippus, Corona and Hogue. "Daily Stream Water Temperature Modeling and Forecasting for Ungaged Watersheds at the CONUS Scale." In review.
+TempEst-NEWT/NEXT (daily temperature forecasting): https://github.com/mines-ciroh/tempest-next, https://github.com/mines-ciroh/tempest-newt - Philippus, Corona and Hogue. "Daily Stream Water Temperature Modeling and Forecasting for Ungaged Watersheds at the CONUS Scale." Accepted/in press.
 
 LibSCHEMA (generic SCHEMA library): https://pypi.org/project/libschema/ - cite TempEst 2.
 
@@ -112,6 +112,11 @@ Three-sine river temperature seasonality: https://pypi.org/project/rtseason/ - P
    TempEst-NEWT Reference <newt/NEWT>
    TempEst-NEXT Reference <next/NEXT>
    LibSCHEMA Reference <libschema/libschema>
+
+Contact
+=======
+
+Daniel Philippus, researcher and developer: daniel@rivertempest.org
 
 
 Indices and tables
