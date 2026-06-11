@@ -423,6 +423,12 @@ which is ‘lon:lat’.</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="NEXT.data.weather_gefs">
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">weather_gefs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_keep_going</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.weather_gefs" title="Link to this definition">¶</a></dt>
+<dd><p>Uses the mean over ensemble members, for now.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.weather_gfs">
 <span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">weather_gfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.weather_gfs" title="Link to this definition">¶</a></dt>
 <dd><p>The “downloaded” version works better, but may not work on Windows.
@@ -437,6 +443,11 @@ Only retrieve tmax, since GFS is not suitable for the full timeseires.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="NEXT.data.weather_hrrr">
 <span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">weather_hrrr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.weather_hrrr" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="NEXT.data.weather_hrrr_archive">
+<span class="sig-prename descclassname"><span class="pre">NEXT.data.</span></span><span class="sig-name descname"><span class="pre">weather_hrrr_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.data.weather_hrrr_archive" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -776,6 +787,11 @@ to clutter up data.py.</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="NEXT.wforecast.dpt_to_vp">
+<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">dpt_to_vp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dpt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.dpt_to_vp" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="NEXT.wforecast.get_gfs">
 <span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">get_gfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">basin,</span> <span class="pre">date,</span> <span class="pre">varbs=['tmp2m',</span> <span class="pre">'spfh2m',</span> <span class="pre">'dswrfsfc',</span> <span class="pre">'pratesfc'],</span> <span class="pre">new_names=['tmax',</span> <span class="pre">'vp',</span> <span class="pre">'srad',</span> <span class="pre">'prcp'],</span> <span class="pre">operators={'prcp':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'srad':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'tmax':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'vp':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.get_gfs" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve GFS forecast for the basin and date.  Summarize by day using operator.
@@ -850,6 +866,34 @@ var: TMP, etc.  Variable to retrieve.</p>
 <span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">sphum_to_vp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.sphum_to_vp" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="NEXT.wforecast.weather_dynamical">
+<span class="sig-prename descclassname"><span class="pre">NEXT.wforecast.</span></span><span class="sig-name descname"><span class="pre">weather_dynamical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxlead</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['x',</span> <span class="pre">'y']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#NEXT.wforecast.weather_dynamical" title="Link to this definition">¶</a></dt>
+<dd><p>Generic retriever for weather data from the dynamical.org catalog.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geom</strong> (<em>pd.GeoDataFrame</em><em> or </em><em>similar</em>) – Basin geometry</p></li>
+<li><p><strong>start</strong> (<em>str</em><em> | </em><em>np.datetime64</em>) – Start time recognizable by numpy.</p></li>
+<li><p><strong>end</strong> (<em>str</em><em> | </em><em>np.datetime64</em>) – End time recognizable by numpy.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name of the dataset in dynamical.org (<a class="reference external" href="https://dynamical.org/catalog">https://dynamical.org/catalog</a>).</p></li>
+<li><p><strong>items</strong> (<em>dict {str:</em><em> (</em><em>str</em><em>, </em><em>function</em><em>)</em><em>}</em>) – Variables to seek. Key is dynamical.org variable name. First value
+is the output name, e.g., “tmax”. Second value converts a NumPy timeseries
+to a single final value (e.g., mean, max, unit conversions).</p></li>
+<li><p><strong>proj</strong> (<em>str</em>) – Projection string.</p></li>
+<li><p><strong>maxlead</strong> (<em>int</em>) – Maximum lead time in days.</p></li>
+<li><p><strong>dims</strong> (<em>[</em><em>str</em><em>]</em>) – List of spatial (or other averaging) dimensions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Date and all variables specified by “items”.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-NEXT">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-NEXT" title="Link to this heading">¶</a></h2>
@@ -911,9 +955,11 @@ var: TMP, etc.  Variable to retrieve.</p>
 <li><a class="reference internal" href="#NEXT.data.watershed_geom"><code class="docutils literal notranslate"><span class="pre">watershed_geom()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.wbd"><code class="docutils literal notranslate"><span class="pre">wbd()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_daymet"><code class="docutils literal notranslate"><span class="pre">weather_daymet()</span></code></a></li>
+<li><a class="reference internal" href="#NEXT.data.weather_gefs"><code class="docutils literal notranslate"><span class="pre">weather_gefs()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_gfs"><code class="docutils literal notranslate"><span class="pre">weather_gfs()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_gridmet"><code class="docutils literal notranslate"><span class="pre">weather_gridmet()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_hrrr"><code class="docutils literal notranslate"><span class="pre">weather_hrrr()</span></code></a></li>
+<li><a class="reference internal" href="#NEXT.data.weather_hrrr_archive"><code class="docutils literal notranslate"><span class="pre">weather_hrrr_archive()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.data.weather_nldas"><code class="docutils literal notranslate"><span class="pre">weather_nldas()</span></code></a></li>
 </ul>
 </li>
@@ -955,6 +1001,7 @@ var: TMP, etc.  Variable to retrieve.</p>
 </li>
 <li><a class="reference internal" href="#module-NEXT.wforecast">NEXT.wforecast module</a><ul>
 <li><a class="reference internal" href="#NEXT.wforecast.download_gfs_gribs"><code class="docutils literal notranslate"><span class="pre">download_gfs_gribs()</span></code></a></li>
+<li><a class="reference internal" href="#NEXT.wforecast.dpt_to_vp"><code class="docutils literal notranslate"><span class="pre">dpt_to_vp()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.get_gfs"><code class="docutils literal notranslate"><span class="pre">get_gfs()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.get_gfs_downloaded"><code class="docutils literal notranslate"><span class="pre">get_gfs_downloaded()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.get_gfs_timestep"><code class="docutils literal notranslate"><span class="pre">get_gfs_timestep()</span></code></a></li>
@@ -962,6 +1009,7 @@ var: TMP, etc.  Variable to retrieve.</p>
 <li><a class="reference internal" href="#NEXT.wforecast.hrrr_areal_summary"><code class="docutils literal notranslate"><span class="pre">hrrr_areal_summary()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.hrrr_series"><code class="docutils literal notranslate"><span class="pre">hrrr_series()</span></code></a></li>
 <li><a class="reference internal" href="#NEXT.wforecast.sphum_to_vp"><code class="docutils literal notranslate"><span class="pre">sphum_to_vp()</span></code></a></li>
+<li><a class="reference internal" href="#NEXT.wforecast.weather_dynamical"><code class="docutils literal notranslate"><span class="pre">weather_dynamical()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-NEXT">Module contents</a></li>

@@ -67,11 +67,6 @@ time, as well as forecasting.</p>
 <a class="reference external" href="https://github.com/mines-ciroh/TempEst-NEXT">GitHub</a>.</p>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
-<p>A full example notebook for running real-time, contiguous US forecasts
-for 1-7 days is available on the RiverTempest website at
-<a class="reference external" href="https://rivertempest.org/next/forecast.html">https://rivertempest.org/next/forecast.html</a>, with source code and full
-description (plus links to outputs) on
-<a class="reference external" href="https://github.com/mines-ciroh/natl-temp-forecast">GitHub</a>.</p>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h3>
 <p>Install from PyPI: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tempest-next</span></code>. The installed module is
@@ -80,6 +75,24 @@ called NEXT: <code class="docutils literal notranslate"><span class="pre">import
 pydaymet&gt;=0.19, pynldas2, dataretrieval, geopandas, pynhd&gt;=0.19,
 pygeohydro, py3dep, xarray-spatial, s3fs, zarr, cartopy, metpy, getgfs,
 dask</p>
+</section>
+<section id="instant-command-line-use">
+<h3>Instant Command Line Use<a class="headerlink" href="#instant-command-line-use" title="Link to this heading">¶</a></h3>
+<p>All of the below requirements are automated under certain assumptions
+and can be used directly through the command line or interactive use.
+After installing TempEst-NEXT as above, just open a terminal/command
+line and run: <code class="docutils literal notranslate"><span class="pre">tempest-next</span></code> (or <code class="docutils literal notranslate"><span class="pre">NEXT</span></code>, or, if those aren’t on your
+path, <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">NEXT</span></code>). This will interactively request all required
+information to automatically run the model for a given site (currently,
+pour point coordinates or a USGS gage ID), including forecasts. (Note
+that forecast data retrieval is rather slow, and the model does need at
+least a few years of data to predict well. Future updates will include
+the option to combine forecast data with climatology-adjusted historical
+estimates, which are much faster to retrieve.)</p>
+<p>You can also pre-specify arguments instead of providing them
+interactively, which also means you can automate large-scale NEXT runs
+through the command line (or high-performance computing jobs, etc). To
+see all arguments, run <code class="docutils literal notranslate"><span class="pre">tempest-next</span> <span class="pre">--help</span></code>.</p>
 </section>
 <section id="data-preparation">
 <h3>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">¶</a></h3>
@@ -108,12 +121,12 @@ watershed as a proportion (e.g., wetland=0.2)</p></li>
 <p>Note: Daymet and NLDAS2 data retrieval are currently not working due to
 upstream issues. Gridmet (now set to default) works. The analysis in the
 paper was carried out using Daymet, so results may not be identical.</p>
-<p>For forecast data, past and present HRRR works (except, in historical
-data, for humidity, which must be retrieved through Gridmet), but has
-become very slow for unknown reasons. It is quick enough for actual
-forecasting use, but for historical (coefficient estimation) data, I
-recommend using a shorter sample of HRRR data to adjust Gridmet
-climatology. Gridmet is far faster.</p>
+<p>For forecast data, past and present HRRR works, but is relatively slow.
+It is quick enough for actual forecasting use, but for historical
+(coefficient estimation) data, I recommend using a shorter sample of
+HRRR data to adjust Gridmet climatology. Gridmet is far faster. (HRRR is
+now quite a bit faster using the Dynamical.org catalog, but Gridmet is
+still the faster option.)</p>
 <p>For forecasting only (no long-term archives), GFS works well, but is
 rather memory-intensive, provided that your system supports <code class="docutils literal notranslate"><span class="pre">cfgrib</span></code>
 (which has experimental support for Windows, but mainly tagets Linux).
@@ -209,6 +222,7 @@ and Forecasting for Ungaged Watersheds at the CONUS Scale.” In review.</p>
 <li><a class="reference internal" href="#">TempEst-NEXT</a><ul>
 <li><a class="reference internal" href="#quick-start">Quick Start</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#instant-command-line-use">Instant Command Line Use</a></li>
 <li><a class="reference internal" href="#data-preparation">Data Preparation</a></li>
 <li><a class="reference internal" href="#model-generation-and-execution">Model Generation and Execution</a></li>
 </ul>
