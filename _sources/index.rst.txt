@@ -29,7 +29,8 @@ I am willing to consider minor feature requests via the projects' respective Iss
    :maxdepth: 1
    :caption: Full Examples/Demonstrations:
 
-   TempEst-NEXT Real-Time National Forecasting <next/forecast>
+   TempEst-NEXT Real-Time National Forecasts Dashboard <https://dash.rivertempest.org>
+   TempEst-NEXT Real-Time National Forecasting Code <next/forecast>
 
 
 .. toctree::
